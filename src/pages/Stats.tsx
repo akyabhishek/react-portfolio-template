@@ -154,17 +154,20 @@ export default function Stats(): JSX.Element {
     ? [
         {
           name: "easy",
-          value: solvedProblems.easySolved,
+          // value: solvedProblems.easySolved,
+          value: 10,
           fill: "var(--color-easy)",
         },
         {
           name: "medium",
-          value: solvedProblems.mediumSolved,
+          value: 20,
+          // value: solvedProblems.mediumSolved,
           fill: "var(--color-medium",
         },
         {
           name: "hard",
-          value: solvedProblems.hardSolved,
+          // value: solvedProblems.hardSolved,
+          value: 30,
           fill: "var(--color-hard)",
         },
       ]
