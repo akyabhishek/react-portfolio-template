@@ -21,9 +21,8 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <Link href="/" passHref>
                   <NavigationMenuLink className="flex items-center space-x-2 mr-2">
-                    <span className="text-xl font-semibold">
-                      Abhishek Kr. Yadav
-                    </span>
+                    <span className="text-xl text-green-500">Abhishek</span>
+                    <span className="text-xl"> Kr. Yadav</span>
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>

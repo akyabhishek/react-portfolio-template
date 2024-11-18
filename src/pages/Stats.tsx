@@ -13,11 +13,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { ChartConfig } from "@/components/ui/chart";
 import ChartComponent from "../components/LeetCodeChart";
-import { calculateAge } from "@/utils/utils";
+import { calculateAge, formatDate } from "@/utils/utils";
 import {
   ProfileResponse,
   SolvedProblemsResponse,
 } from "@/types/LeetCodeAPIProps";
+import { GitHubRepo } from "@/types/GitHubApiProps";
 
 const colors = [
   "bg-red-500",
@@ -34,6 +35,7 @@ const colors = [
 export default function Stats(): JSX.Element {
   const [ranking, setRanking] = useState<number | null>(null);
   const [skillTags, setSkillTags] = useState<string[]>([]);
+  const [gitHubData, setGitHubData] = useState<GitHubRepo>();
   const [solvedProblems, setSolvedProblems] =
     useState<SolvedProblemsResponse | null>(null);
 
@@ -80,6 +82,17 @@ export default function Stats(): JSX.Element {
         console.error("Error fetching solved problems:", error);
       }
     };
+    const fetchGithub = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.github.com/repos/akyabhishek/react-portfolio-template"
+        );
+        setGitHubData(response.data);
+      } catch (error) {
+        console.error("Error fetching repository data:", error);
+      }
+    };
+    fetchGithub();
     fetchRanking();
     fetchSolvedProblems();
   }, []);
@@ -103,7 +116,7 @@ export default function Stats(): JSX.Element {
 
   return (
     <>
-      <TracingBeam>
+      <TracingBeam className="min-h-screen">
         <div className="min-h-min flex flex-col justify-center items-center p-4 space-x-4">
           <h1 className="text-3xl mt-5">STATS</h1>
           <br />
@@ -138,96 +151,123 @@ export default function Stats(): JSX.Element {
                     </TableCell>
                     <TableCell className="text-left">02</TableCell>
                   </TableRow>
+                  <TableRow className="min-w-full">
+                    <TableCell className="font-medium text-left">
+                      Nationality
+                    </TableCell>
+                    <TableCell className="text-left">Indian</TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </div>
+            {solvedProblems && (
+              <div className="mt-8">
+                <h2 className="text-lg mb-4 font-bold uppercase tracking-widest">
+                  LeetCode Stats
+                </h2>
 
-            <div className="mt-8">
-              <h2 className="text-lg mb-4 font-bold uppercase tracking-widest">
-                LeetCode Stats
-              </h2>
+                <div>
+                  <ChartComponent
+                    description="Problems solved on LeetCode by difficulty."
+                    data={[
+                      { name: "Easy", value: solvedProblems?.easySolved ?? 0 },
+                      {
+                        name: "Medium",
+                        value: solvedProblems?.mediumSolved ?? 0,
+                      },
+                      { name: "Hard", value: solvedProblems?.hardSolved ?? 0 },
+                    ]}
+                    config={leetcodeChartConfig}
+                  />
+                </div>
 
-              <div>
-                <ChartComponent
-                  description="Problems solved on LeetCode by difficulty."
-                  data={[
-                    { name: "Easy", value: solvedProblems?.easySolved ?? 0 },
-                    {
-                      name: "Medium",
-                      value: solvedProblems?.mediumSolved ?? 0,
-                    },
-                    { name: "Hard", value: solvedProblems?.hardSolved ?? 0 },
-                  ]}
-                  config={leetcodeChartConfig}
-                />
+                <Table className="w-full">
+                  <TableBody>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Problems Solved
+                      </TableCell>
+                      <TableCell className="text-left">
+                        {solvedProblems?.solvedProblem}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Ranking
+                      </TableCell>
+                      <TableCell className="text-left">{ranking}</TableCell>
+                    </TableRow>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Skill tags
+                      </TableCell>
+                      <TableCell className="text-left">
+                        {skillTags.map((skill, index) => (
+                          <Badge
+                            className={`inline-block mx-1 my-1 rounded-full text-white hover:text-black ${colorMap.get(
+                              skill
+                            )}`}
+                          >
+                            {skill}
+                          </Badge>
+                        ))}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
+            )}
 
-              <Table className="w-full">
-                <TableBody>
-                  <TableRow className="min-w-full">
-                    <TableCell className="font-medium text-left">
-                      Problems Solved
-                    </TableCell>
-                    <TableCell className="text-left">
-                      {solvedProblems?.solvedProblem}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow className="min-w-full">
-                    <TableCell className="font-medium text-left">
-                      Ranking
-                    </TableCell>
-                    <TableCell className="text-left">{ranking}</TableCell>
-                  </TableRow>
-                  <TableRow className="min-w-full">
-                    <TableCell className="font-medium text-left">
-                      Skill tags
-                    </TableCell>
-                    <TableCell className="text-left">
-                      {skillTags.map((skill, index) => (
-                        <Badge
-                          className={`inline-block mx-1 my-1 rounded-full text-white hover:text-black ${colorMap.get(
-                            skill
-                          )}`}
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
-
-            <div className="mt-8">
-              <h2 className="text-lg mb-4 font-bold uppercase tracking-widest">
-                Some stats about this site
-              </h2>
-              <Table className="w-full">
-                <TableBody>
-                  <TableRow className="min-w-full">
-                    <TableCell className="font-medium text-left">
-                      Lines of Typescript powering this website
-                    </TableCell>
-                    <TableCell className="text-left">1002</TableCell>
-                  </TableRow>
-                  <TableRow className="min-w-full">
-                    <TableCell className="font-medium text-left">
-                      Stars this repository has on github
-                    </TableCell>
-                    <TableCell className="text-left">0</TableCell>
-                  </TableRow>
-                  <TableRow className="min-w-full">
-                    <TableCell className="font-medium text-left">
-                      Last updated at
-                    </TableCell>
-                    <TableCell className="text-left">
-                      {" "}
-                      10 November 2024
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
+            {/* Stats about site */}
+            {gitHubData && (
+              <div className="mt-8">
+                <h2 className="text-lg mb-4 font-bold uppercase tracking-widest">
+                  Some stats about this site
+                </h2>
+                <Table className="w-full">
+                  <TableBody>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Lines of code powering this website
+                      </TableCell>
+                      <TableCell className="text-left">24950</TableCell>
+                    </TableRow>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Open issues
+                      </TableCell>
+                      <TableCell className="text-left">
+                        {gitHubData.open_issues}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Stars this repository has on github
+                      </TableCell>
+                      <TableCell className="text-left">
+                        {gitHubData.stargazers_count}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Number of forks
+                      </TableCell>
+                      <TableCell className="text-left">
+                        {gitHubData.network_count}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="min-w-full">
+                      <TableCell className="font-medium text-left">
+                        Last updated at
+                      </TableCell>
+                      <TableCell className="text-left">
+                        {formatDate(gitHubData?.updated_at ?? "")}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+            )}
           </div>
         </div>
       </TracingBeam>

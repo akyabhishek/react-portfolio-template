@@ -13,14 +13,33 @@ export default function Links(): JSX.Element {
     // Add more links as needed
   ];
   return (
-    <>
-      <BackgroundBeamsWithCollision className="min-h-screen">
-        <TracingBeam className="min-h-screen">
+    <div className="min-h-screen">
+      <BackgroundBeamsWithCollision>
+        <TracingBeam>
           <div className="flex flex-col lg:flex-row justify-center items-center px-4  z-20 w-full">
-            <div className="w-full">
-              <span className="text-sm font-bold text-center dark:text-neutral-100">
-                Links{" "}
-              </span>
+            <div className="w-full text-center">
+              <div className="my-3">
+                <span className="text-sm font-bold text-center dark:text-neutral-100">
+                  Links
+                </span>
+              </div>
+              {links.map((element, index) => (
+                <LinkCard
+                  key={index}
+                  title={element.title}
+                  url={element.url}
+                  icon={element.icon}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col lg:flex-row justify-center items-center px-4  z-20 w-full">
+            <div className="w-full text-center">
+              <div className="my-3">
+                <span className="text-sm font-bold text-center dark:text-neutral-100">
+                  Links
+                </span>
+              </div>
               {links.map((element, index) => (
                 <LinkCard
                   key={index}
@@ -33,6 +52,6 @@ export default function Links(): JSX.Element {
           </div>
         </TracingBeam>
       </BackgroundBeamsWithCollision>
-    </>
+    </div>
   );
 }
