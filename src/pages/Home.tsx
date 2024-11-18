@@ -1,6 +1,6 @@
 import { FlipWords } from "@/components/ui/flip-words";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import mainImage from "../../public/assets/profile.png";
+import mainImage from "../../public/assets/abhishekkumaryadav.png";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 export default function Home(): JSX.Element {
   const greetings: string[] = [
