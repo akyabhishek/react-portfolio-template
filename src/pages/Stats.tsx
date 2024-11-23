@@ -18,7 +18,7 @@ import {
   ProfileResponse,
   SolvedProblemsResponse,
 } from "@/types/LeetCodeAPIProps";
-import { GitHubRepo } from "@/types/GitHubApiProps";
+import { GitHubRepo } from "@/types/GitHubAPIProps";
 
 const colors = [
   "bg-red-500",
