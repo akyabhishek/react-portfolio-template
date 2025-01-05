@@ -10,8 +10,18 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Outlet } from "react-router-dom";
+import { useTheme } from "@/components/theme-provider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Sun, Moon } from "lucide-react";
+import { Button } from "./ui/moving-border";
 
 export default function Navbar() {
+  const { setTheme } = useTheme();
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
@@ -22,19 +32,19 @@ export default function Navbar() {
                 <Link href="/" passHref>
                   <NavigationMenuLink className="flex items-center space-x-2 mr-2">
                     <span className="text-xl text-green-500">Abhishek</span>
-                    <span className="text-xl"> Kr. Yadav</span>
+                    <span className="text-xl hidden md:block"> Kr. Yadav</span>
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="#" legacyBehavior passHref>
+                <Link href="/about" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     About
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="#" legacyBehavior passHref>
+                <Link href="/resume" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Resume
                   </NavigationMenuLink>
@@ -55,16 +65,9 @@ export default function Navbar() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="#" legacyBehavior passHref>
+                <Link href="/contact" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Contact
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link href="/links" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Links
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -72,7 +75,9 @@ export default function Navbar() {
           </NavigationMenu>
         </div>
       </header>
-      <Outlet />
+      <div className="min-h-screen pt-4">
+        <Outlet />
+      </div>
     </>
   );
 }

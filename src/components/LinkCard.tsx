@@ -11,17 +11,12 @@ interface Link {
 
 const LinkCard: React.FC<Link> = (ele) => {
   return (
-    <Link
-      to={ele.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block w-full"
-    >
-      <Card className="w-full p-4 mb-4 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg rounded-lg flex items-center cursor-pointer">
-        <CardContent className="flex items-center p-0 w-full">
+    <Link to={ele.url} target="_blank" rel="noopener noreferrer">
+      <Card className="w-full sm:w-auto p-4 mb-2 shadow-lg rounded-lg items-center cursor-pointer">
+        <CardContent className="flex items-center p-0 w-full sm:w-auto">
           {/* Icon */}
           {ele.icon && (
-            <span className="mr-3 text-neutral-600 dark:text-neutral-300">
+            <span className="mr-3 0">
               {React.createElement(ele.icon, { size: 24 })}
             </span>
           )}
