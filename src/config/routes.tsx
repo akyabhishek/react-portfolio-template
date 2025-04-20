@@ -2,9 +2,8 @@ import Navbar from "@/components/navbar";
 import { createBrowserRouter } from "react-router-dom";
 import Home from "@/pages/Home";
 import Stats from "@/pages/Stats";
-import Resume from "@/pages/Resume";
 import Contact from "@/pages/Contact";
-import About from "@/pages/About";
+import Resume from "@/pages/Resume";
 const router = createBrowserRouter([
   {
     element: (
