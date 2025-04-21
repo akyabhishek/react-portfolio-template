@@ -15,10 +15,10 @@ const FloatingImage: React.FC<FloatingImageProps> = ({ mainImage }) => {
         <div className="relative h-full rounded-2xl border-3 md:rounded-3xl">
             <GlowingEffect
             borderWidth={3}
-                spread={40}
+                spread={50}
                 glow={true}
                 disabled={false}
-                proximity={64}
+                proximity={150}
                 inactiveZone={0.01}
             />
             <img
