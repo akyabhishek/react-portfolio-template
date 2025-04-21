@@ -49,7 +49,7 @@ export default function Contact(): JSX.Element {
   ];
 
   return (
-    <div className="flex justify-center items-center ">
+    <div className="flex justify-center items-center mt-10">
       <Card className="flex flex-col items-center sm:my-5">
         <BackgroundBeamsWithCollision className="h-full">
           <CardBody className="w-full p-8 h-auto sm:mx-10  z-20 ">

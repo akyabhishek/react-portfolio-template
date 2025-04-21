@@ -1,0 +1,27 @@
+
+
+import { HeroHighlight,Highlight } from "@/components/ui/hero-highlight";
+export default function AboutMe(){
+    return(
+        <div className="pt-10 mb-10" id="about">
+        <h1 className="text-3xl my-5">ABOUT ME</h1>
+        <HeroHighlight className="max-w-3xl mx-auto p-6 text-justify text-gray-800 dark:text-gray-200 leading-loose">
+          
+          <p className="mb-4">
+            I'm a <Highlight>Software Developer at Cognizant</Highlight> with over <Highlight>1.6 years of experience</Highlight>, having contributed to <Highlight>American Airlines</Highlight> projects using Java, Spring Boot, TypeScript, Playwright, Selenium, and more. I graduated from <Highlight>Shri Ramswaroop Memorial College</Highlight> (AKTU) and also hold a diploma from <Highlight>Hewett Polytechnic</Highlight>. Through personal projects, I’ve explored React, Tailwind, Axios, and Spring Security.
+          </p>
+          <p className="mb-4">
+            I enjoy <Highlight>collaborating in agile teams</Highlight>, solving real-world problems, and always learning something new.
+          </p>
+          <p className="mb-4">
+            My journey so far includes reaching the <Highlight>Grand Finale of the Smart India Hackathon 2022</Highlight>,
+            winning <Highlight>India’s Biggest Entrepreneurship Conclave 2022</Highlight>,
+            securing <Highlight>1st prize at Start UP Conclave 2k22</Highlight> and <Highlight>SRMU’s Awasar</Highlight>,
+            and participating in the <Highlight>G20 platform</Highlight>.
+          </p>
+          <p>
+            I'm always open to new opportunities that challenge me and help me grow.
+          </p>
+         </HeroHighlight> </div>
+    );
+}

@@ -118,7 +118,7 @@ export default function Stats(): JSX.Element {
   return (
     <>
       <TracingBeam className="min-h-screen">
-        <div className="min-h-min flex flex-col justify-center items-center p-4 space-x-4">
+        <div className="min-h-min flex flex-col justify-center items-center p-4 space-x-4 mt-10">
           <h1 className="text-3xl mt-5">STATS</h1>
           <br />
           <div className="container w-full my-2">

@@ -136,28 +136,30 @@ const skills = [
 
 export default function SkillsSection() {
     return (
-        <section className="p-6 md:p-12 bg-gradient-to-b shadow-md max-w-4xl mx-auto transition-colors duration-300">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {skills.map((skill, idx) => (
-                    <CardSpotlight
-                        key={idx}
-                        className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm hover:shadow-md transition-colors"
-                    >
-                        <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100 relative z-20">{skill.category}</h3>
-                        <ul className="flex flex-wrap gap-2">
-                            {skill.items.map((item, i) => (
-                                <li
-                                    key={i}
-                                    className={`relative z-20 flex items-center gap-2 px-3 py-1 rounded-full text-sm transition-colors duration-300 bg-slate-100 dark:bg-gray-700 text-slate-800 dark:text-gray-200 ${randomGradient()}`}       >
-                                    <span className="text-lg">{iconMap[item] ?? ""}</span>
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
-                    </CardSpotlight>
-                ))}
-            </div>
-        </section>
+        <div className="pt-5" id='skills'>
+            <h1 className="text-3xl">MY DEVELOPER DNA</h1>
+            <section className="p-6 md:p-12 bg-gradient-to-b shadow-md max-w-4xl mx-auto transition-colors duration-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {skills.map((skill, idx) => (
+                        <CardSpotlight
+                            key={idx}
+                            className=" p-4 rounded-xl shadow-sm hover:shadow-md transition-colors"
+                        >
+                            <h3 className="text-xl font-semibold mb-3 text-gray-100 dark:text-gray-100 relative z-20">{skill.category}</h3>
+                            <ul className="flex flex-wrap gap-2">
+                                {skill.items.map((item, i) => (
+                                    <li
+                                        key={i}
+                                        className={`relative z-20 flex items-center gap-2 px-3 py-1 rounded-full text-sm transition-colors duration-300 bg-slate-100 dark:bg-gray-900 text-slate-900 dark:text-gray-200 ${randomGradient()}`}       >
+                                        <span className="text-lg">{iconMap[item] ?? ""}</span>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </CardSpotlight>
+                    ))}
+                </div>
+            </section></div>
     );
 }
 
