@@ -12,6 +12,10 @@ import CodeQuote from "@/components/CodeQuote";
 import FloatingImage from "@/components/MyImage";
 import ResumeButton from "@/components/DownloadResumeBtn";
 import AboutMe from "@/components/AboutMe";
+import ProjectsSection from "@/components/ProjectSection";
+import { TextReveal } from "@/components/magicui/text-reveal";
+import ExperienceSection from "@/components/Experience";
+import Contact from "./Contact";
 export default function Home(): JSX.Element {
   const greetings: string[] = [
     "Hi,",
@@ -46,22 +50,21 @@ export default function Home(): JSX.Element {
         <div className="min-h-screen h-auto flex flex-col lg:flex-row justify-center items-center px-4 space-x-2 mt-10 ">
           <div className="text-2xl mx-auto font-normal text-neutral-600 dark:text-neutral-400 lg:w-1/2 lg:pl-3">
             <FlipWords words={greetings} duration={3000} /><br />
-            <span>I am Abhishek</span>
-            <br /> I am a{" "}
+            <span className="text-base">I am Abhishek. I am a{" "}</span>
             <FlipWords
-              words={["<Developer>", "Frontend Dev", "Backend Dev", "Full-stack Dev"]}
+              words={["<Developer>", "Problem Solver", "Coder", "Programmer"]}
               duration={15000}
-              className="dark:text-green-500 text-green-600"
+              className="dark:text-green-500 text-green-600 text-base"
             />
             <TextGenerateEffect
-              words={"Welcome to my website."}
-              className="text-2xl"
+              words={"Welcome to my over-engineered portfolio site."}
+              className="text-base"
             />
             <div>
             </div>
           </div>
           <div className="lg:w-1/2 p-10 flex justify-center">
-
+            
             <FloatingImage mainImage={mainImage} />
           </div>
         </div>
@@ -70,12 +73,20 @@ export default function Home(): JSX.Element {
           resume, projects, view site statistics, or contact me.
         </span>
         <AboutMe />
+
+        <ExperienceSection />
         <SkillsSection />
+        {/* <ProjectsSection /> */}
 
         <div className="pt-10 mb-10">
           <h1 className="text-3xl my-5">Developer's Journey Algorithm</h1>
           <CodeQuote />
-        </div></div>
+
+        </div>
+        <TextReveal>I learn fast—mostly because I break things faster.</TextReveal>
+
+        <Contact />
+      </div>
     </TracingBeam>
   );
 }

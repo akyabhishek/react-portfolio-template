@@ -8,6 +8,7 @@ import {
 } from "motion/react";
 
 import React, { useRef, useState } from "react";
+import { ScrollProgress } from "../magicui/scroll-progress";
 
 
 interface NavbarProps {
@@ -78,6 +79,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
             )
           : child,
       )}
+      
     </motion.div>
   );
 };
@@ -110,7 +112,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         visible && "bg-white/80 dark:bg-neutral-950/80",
         className,
       )}
-    >
+    ><ScrollProgress className={visible?`top-[79.6px] mx-9`:'top-[59.6px] mx-9'} />
       {children}
     </motion.div>
   );
@@ -172,7 +174,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         visible && "bg-white/80 dark:bg-neutral-950/80",
         className,
       )}
-    >
+    ><ScrollProgress className={'top-[52px]'} />
       {children}
     </motion.div>
   );
