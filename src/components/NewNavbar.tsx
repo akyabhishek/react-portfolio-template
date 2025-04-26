@@ -9,7 +9,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ResumeButton from "./DownloadResumeBtn";
 
@@ -17,25 +17,35 @@ export function NewNavbar() {
   const navItems = [
     {
       name: "About",
-      link: "#about",
+      link: "/#about",
     },
     {
       name:"Skills",
-      link:"#skills"
+      link:"/#skills"
     },
     {
       name: "Projects",
-      link: "#projects",
+      link: "/#projects",
     },
     {
       name: "Stats",
       link: "/stats",
     }, {
       name: "Contact",
-      link: "#contact",
+      link: "/#contact",
     },
   ];
-
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100); // small delay after route loads
+      }
+    }
+  }, [location]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
