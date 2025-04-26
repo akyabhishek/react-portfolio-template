@@ -88,7 +88,7 @@ const timelineData: TimelineData[] = [
 
 // Main Timeline component
 const ExperienceSection: React.FC = () => (
-    <div className="pt-5" id='projects'>
+    <div className="pt-5" id='experience'>
         <h1 className="text-3xl">EXPERIENCE</h1>
         <section className="p-3 md:p-6 bg-gradient-to-b shadow-md max-w-4xl mx-auto transition-colors duration-300">
             <div className="space-y-6 border-l-2 border-dotted pl-6 py-3 rounded-3xl">

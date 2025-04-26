@@ -272,7 +272,8 @@ export default function Stats(): JSX.Element {
             <div className="mt-10">
               <h2 className="text-lg mb-4 font-bold uppercase tracking-widest">
                 GitHub Contribution Calendar</h2>
-              <GitHubCalendar username="akyabhishek" blockSize={11} blockRadius={4} colorScheme="dark"/></div>
+              <GitHubCalendar username="akyabhishek" blockSize={11} blockRadius={4} colorScheme="dark"/>
+              </div>
           </div>
         </div>
       </TracingBeam>

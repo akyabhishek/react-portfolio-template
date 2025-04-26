@@ -28,7 +28,8 @@ import {
     SiMysql,
     SiVercel,
     SiAndroidstudio,
-    SiVite
+    SiVite,
+    SiGithub
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 import { VscVscode } from "react-icons/vsc";
@@ -45,7 +46,7 @@ const iconMap: Record<string, JSX.Element> = {
     TypeScript: <SiTypescript />,
     JavaScript: <SiJavascript />,
     "Spring Boot": <SiSpringboot />,
-    React: <SiReact />,
+    ReactJs: <SiReact />,
     "Next.js": <SiNextdotjs />,
     "Tailwind CSS": <SiTailwindcss />,
     Figma: <SiFigma />,
@@ -75,7 +76,9 @@ const iconMap: Record<string, JSX.Element> = {
     Vercel: <SiVercel />,
     "Android Studio": <SiAndroidstudio />,
     Vite: <SiVite />,
-    "GitHub Copilot": <GoCopilot />
+    "GitHub Copilot": <GoCopilot />,
+    "GitHub": <SiGithub />
+    
 };
 const randomGradient = () => {
     const colors = [
@@ -103,7 +106,7 @@ const skills = [
     },
     {
         category: "Frameworks",
-        items: ["Spring Boot", "React", "Node.js"]
+        items: ["Spring Boot", "ReactJs", "Node.js"]
     },
     {
         category: "AI / Automation",
@@ -131,7 +134,7 @@ const skills = [
         items: ["YAML", "XML"]
     }, {
         category: "Tools",
-        items: ["Git", "Postman", "VSCode", "IntelliJ", "Swagger", "Maven", "Gradle", "Android Studio", "Vite"]
+        items: ["Git", "GitHub","Postman", "VSCode", "IntelliJ", "Swagger", "Maven", "Gradle", "Android Studio", "Vite"]
     },
 ];
 

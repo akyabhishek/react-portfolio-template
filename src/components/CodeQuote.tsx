@@ -34,6 +34,9 @@ function cultivateGrowth<T extends Developer>(person: T): Promise<Success> {
   });
 } `;
     return (
+      <div className="pt-10 mb-10">
+          <h1 className="text-3xl my-5">Developer's Journey Algorithm</h1>
+          
         <div>
             <CodeBlock
                 language="tsx"
@@ -42,5 +45,7 @@ function cultivateGrowth<T extends Developer>(person: T): Promise<Success> {
             />
 
         </div>
+
+</div>
     );
 }

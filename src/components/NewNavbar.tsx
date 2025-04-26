@@ -24,15 +24,15 @@ export function NewNavbar() {
       link:"#skills"
     },
     {
-      name: "Resume",
-      link: "/resume",
+      name: "Projects",
+      link: "#projects",
     },
     {
       name: "Stats",
       link: "/stats",
     }, {
       name: "Contact",
-      link: "/contact",
+      link: "#contact",
     },
   ];
 
