@@ -1,6 +1,5 @@
+import {HeroHighlight, Highlight} from "@/components/ui/hero-highlight";
 
-
-import { HeroHighlight,Highlight } from "@/components/ui/hero-highlight";
 export default function AboutMe(){
     return(
         <div className="pt-10 mb-10" id="about">

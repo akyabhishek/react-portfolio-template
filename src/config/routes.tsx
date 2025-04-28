@@ -1,10 +1,10 @@
-import Navbar from "@/components/navbar";
-import { createBrowserRouter } from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import Home from "@/pages/Home";
 import Stats from "@/pages/Stats";
 import Contact from "@/pages/Contact";
 import Resume from "@/pages/Resume";
-import { NewNavbar } from "@/components/NewNavbar";
+import {NewNavbar} from "@/components/NewNavbar";
+
 const router = createBrowserRouter([
   {
     element: (

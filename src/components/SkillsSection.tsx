@@ -1,44 +1,42 @@
 import {
-    SiTypescript,
-    SiJavascript,
-    SiSpringboot,
-    SiReact,
-    SiNextdotjs,
-    SiTailwindcss,
-    SiFigma,
-    SiDocker,
-    SiGooglecloud,
-    SiGithubactions,
-    SiGit,
-    SiPostman,
-    SiIntellijidea,
-    SiLangchain,
-    SiPython,
-    SiYaml,
-    SiNodedotjs,
-    SiHtml5,
-    SiCss3,
-    SiAxios,
-    SiSwagger,
-    SiApachemaven,
-    SiFirebase,
-    SiGradle,
-    SiTensorflow,
-    SiSelenium,
-    SiMysql,
-    SiVercel,
     SiAndroidstudio,
+    SiApachemaven,
+    SiAxios,
+    SiCss3,
+    SiDocker,
+    SiFigma,
+    SiFirebase,
+    SiGit,
+    SiGithub,
+    SiGithubactions,
+    SiGooglecloud,
+    SiGradle,
+    SiHtml5,
+    SiIntellijidea,
+    SiJavascript,
+    SiLangchain,
+    SiMysql,
+    SiNextdotjs,
+    SiNodedotjs,
+    SiPostman,
+    SiPython,
+    SiReact,
+    SiSelenium,
+    SiSpringboot,
+    SiSwagger,
+    SiTailwindcss,
+    SiTensorflow,
+    SiTypescript,
+    SiVercel,
     SiVite,
-    SiGithub
+    SiYaml
 } from "react-icons/si";
-import { FaJava } from "react-icons/fa";
-import { VscVscode } from "react-icons/vsc";
-import { BsFiletypeXml } from "react-icons/bs";
-import { DiMsqlServer } from "react-icons/di";
-import { GoCopilot } from "react-icons/go";
-import { CardSpotlight } from "./ui/card-spotlight";
-import { BorderBeam } from "./magicui/border-beam";
-
+import {FaJava} from "react-icons/fa";
+import {VscVscode} from "react-icons/vsc";
+import {BsFiletypeXml} from "react-icons/bs";
+import {DiMsqlServer} from "react-icons/di";
+import {GoCopilot} from "react-icons/go";
+import {CardSpotlight} from "./ui/card-spotlight";
 
 
 const iconMap: Record<string, JSX.Element> = {

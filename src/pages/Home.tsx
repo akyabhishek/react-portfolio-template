@@ -1,21 +1,15 @@
-import { FlipWords } from "@/components/ui/flip-words";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import {FlipWords} from "@/components/ui/flip-words";
+import {TextGenerateEffect} from "@/components/ui/text-generate-effect";
 import mainImage from "../../public/assets/abhishekkumaryadav-ghibli.png";
-import { TracingBeam } from "@/components/ui/tracing-beam";
-import {
-  TextRevealCard,
-  TextRevealCardDescription,
-  TextRevealCardTitle,
-} from "@/components/ui/text-reveal-card";
+import {TracingBeam} from "@/components/ui/tracing-beam";
 import SkillsSection from "@/components/SkillsSection";
-import CodeQuote from "@/components/CodeQuote";
 import FloatingImage from "@/components/MyImage";
-import ResumeButton from "@/components/DownloadResumeBtn";
 import AboutMe from "@/components/AboutMe";
 import ProjectsSection from "@/components/ProjectSection";
-import { TextReveal } from "@/components/magicui/text-reveal";
+import {TextReveal} from "@/components/magicui/text-reveal";
 import ExperienceSection from "@/components/Experience";
 import Contact from "./Contact";
+
 export default function Home(): JSX.Element {
   const greetings: string[] = [
     "Hi,",

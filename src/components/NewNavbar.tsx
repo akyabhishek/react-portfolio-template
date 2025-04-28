@@ -1,16 +1,16 @@
 import {
+  MobileNav,
+  MobileNavHeader,
+  MobileNavMenu,
+  MobileNavToggle,
   Navbar,
+  NavbarButton,
+  NavbarLogo,
   NavBody,
   NavItems,
-  MobileNav,
-  NavbarLogo,
-  NavbarButton,
-  MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Outlet} from "react-router-dom";
 import ResumeButton from "./DownloadResumeBtn";
 
 export function NewNavbar() {

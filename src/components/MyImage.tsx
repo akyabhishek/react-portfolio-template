@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import { GlowingEffect } from "./ui/glowing-effect";
+import React from "react";
+import {GlowingEffect} from "./ui/glowing-effect";
 
 interface FloatingImageProps {
     mainImage: string;

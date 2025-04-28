@@ -1,23 +1,21 @@
 import React from "react";
-import { FlipWords } from "@/components/ui/flip-words";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { TracingBeam } from "@/components/ui/tracing-beam";
-import {
-  Facebook,
-  Github,
-  Instagram,
-  Linkedin,
-  Twitter,
-  Youtube,
-} from "lucide-react";
+import {FlipWords} from "@/components/ui/flip-words";
 import LinkCard from "@/components/LinkCard";
-import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { CardBody } from "@/components/ui/3d-card";
-import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router-dom";
-import { SiFacebook, SiGeeksforgeeks, SiGithub, SiInstagram, SiLeetcode, SiLinkedin, SiSnapchat, SiX, SiYoutube } from "react-icons/si";
-import { title } from "process";
+import {BackgroundBeamsWithCollision} from "@/components/ui/background-beams-with-collision";
+import {Card} from "@/components/ui/card";
+import {CardBody} from "@/components/ui/3d-card";
+import {Link} from "react-router-dom";
+import {
+    SiFacebook,
+    SiGeeksforgeeks,
+    SiGithub,
+    SiInstagram,
+    SiLeetcode,
+    SiLinkedin,
+    SiSnapchat,
+    SiX,
+    SiYoutube
+} from "react-icons/si";
 
 export default function Contact(): JSX.Element {
   const links = [

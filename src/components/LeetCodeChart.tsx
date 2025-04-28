@@ -1,21 +1,8 @@
 "use client";
-import { useMemo } from "react";
-import { Label, Pie, PieChart, Cell } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Github } from "lucide-react";
+import {useMemo} from "react";
+import {Cell, Label, Pie, PieChart} from "recharts";
+import {Card, CardContent, CardDescription, CardHeader,} from "@/components/ui/card";
+import {ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent,} from "@/components/ui/chart";
 
 interface ChartData {
   name: string;

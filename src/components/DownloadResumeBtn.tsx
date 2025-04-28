@@ -1,4 +1,4 @@
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import {HoverBorderGradient} from "./ui/hover-border-gradient";
 
 export default function ResumeButton() {
     const pdfUrl = "/ABHISHEK_KUMAR_YADAV_RESUME_2025.pdf";

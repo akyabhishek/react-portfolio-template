@@ -1,7 +1,6 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+import {Link} from "react-router-dom";
+import {Button} from "./ui/button";
 
 interface Link {
   title: string;

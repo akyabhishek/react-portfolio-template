@@ -1,5 +1,5 @@
-import { TracingBeam } from "@/components/ui/tracing-beam";
-import { Separator } from "@/components/ui/separator";
+import {TracingBeam} from "@/components/ui/tracing-beam";
+import {Separator} from "@/components/ui/separator";
 
 export default function OldResume(): JSX.Element {
   return (

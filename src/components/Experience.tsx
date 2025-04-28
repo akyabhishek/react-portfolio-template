@@ -1,7 +1,7 @@
 // Timeline.tsx
 import React from 'react';
-import { TextAnimate } from './magicui/text-animate';
-import { GlowingEffect } from './ui/glowing-effect';
+import {TextAnimate} from './magicui/text-animate';
+import {GlowingEffect} from './ui/glowing-effect';
 
 // Define the type for each timeline entry
 interface TimelineItemProps {

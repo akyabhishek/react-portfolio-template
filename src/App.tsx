@@ -1,5 +1,5 @@
-import { BrowserRouter, RouterProvider } from "react-router-dom";
-import { ThemeProvider } from "./components/theme-provider";
+import {RouterProvider} from "react-router-dom";
+import {ThemeProvider} from "./components/theme-provider";
 import router from "./config/routes";
 
 function App() {

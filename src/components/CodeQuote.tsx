@@ -1,6 +1,5 @@
 import React from "react";
-import { CodeBlock } from "./ui/code-block";
-
+import {CodeBlock} from "./ui/code-block";
 
 
 export default function CodeQuote() {

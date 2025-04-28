@@ -1,24 +1,16 @@
 import * as React from "react";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
+import {cn} from "@/lib/utils";
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Outlet } from "react-router-dom";
-import { useTheme } from "@/components/theme-provider";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Sun, Moon } from "lucide-react";
-import { Button } from "./ui/moving-border";
+import {Outlet} from "react-router-dom";
+import {useTheme} from "@/components/theme-provider";
 
 export default function Navbar() {
   const { setTheme } = useTheme();

@@ -1,24 +1,13 @@
-import { TracingBeam } from "@/components/ui/tracing-beam";
+import {TracingBeam} from "@/components/ui/tracing-beam";
 import axios from "axios";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useEffect, useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { ChartConfig } from "@/components/ui/chart";
+import {Table, TableBody, TableCell, TableRow,} from "@/components/ui/table";
+import {useEffect, useMemo, useState} from "react";
+import {Badge} from "@/components/ui/badge";
+import {ChartConfig} from "@/components/ui/chart";
 import ChartComponent from "../components/LeetCodeChart";
-import { calculateAge, formatDate } from "@/utils/utils";
-import {
-  ProfileResponse,
-  SolvedProblemsResponse,
-} from "@/types/LeetCodeAPIProps";
-import { GitHubRepo } from "@/types/GitHubAPIProps";
+import {calculateAge, formatDate} from "@/utils/utils";
+import {ProfileResponse, SolvedProblemsResponse,} from "@/types/LeetCodeAPIProps";
+import {GitHubRepo} from "@/types/GitHubAPIProps";
 import GitHubCalendar from 'react-github-calendar'
 
 const colors = [

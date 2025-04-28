@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-import { Linter } from "eslint";
+import {Linter} from "eslint";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
