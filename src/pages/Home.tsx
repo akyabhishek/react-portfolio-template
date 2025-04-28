@@ -53,7 +53,7 @@ export default function Home(): JSX.Element {
           <FlipWords
             words={["<Developer>", "Problem Solver", "Coder", "Programmer"]}
             duration={15000}
-            className="dark:text-green-500 text-green-600 text-base"
+            className="dark:text-emerald-500 text-emerald-600 text-base"
           />
           <TextGenerateEffect
             words={"Welcome to my over-engineered portfolio site."}

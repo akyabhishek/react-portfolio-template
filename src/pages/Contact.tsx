@@ -16,7 +16,8 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { CardBody } from "@/components/ui/3d-card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
-import { SiFacebook, SiGithub, SiInstagram, SiLinkedin, SiSnapchat, SiX, SiYoutube } from "react-icons/si";
+import { SiFacebook, SiGeeksforgeeks, SiGithub, SiInstagram, SiLeetcode, SiLinkedin, SiSnapchat, SiX, SiYoutube } from "react-icons/si";
+import { title } from "process";
 
 export default function Contact(): JSX.Element {
   const links = [
@@ -24,6 +25,17 @@ export default function Contact(): JSX.Element {
       title: "LinkedIn",
       url: "https://www.linkedin.com/in/abhishekkumaryadav/",
       icon: <SiLinkedin />,
+    },
+    { title: "GitHub", url: "https://github.com/akyabhishek", icon: <SiGithub /> },
+    {
+      title: "LeetCode",
+      url: "https://leetcode.com/mrabk121/",
+      icon: <SiLeetcode />
+    },
+    {
+      title: "GeeksforGeeks",
+      url: "https://www.geeksforgeeks.org/user/akyabhishek/",
+      icon: <SiGeeksforgeeks />
     },
     {
       title: "Instagram",
@@ -35,29 +47,29 @@ export default function Contact(): JSX.Element {
       url: "https://www.youtube.com/@abhishekaky",
       icon: <SiYoutube />,
     },
-    { title: "Twitter", url: "https://x.com/akyabhishek", icon: <SiX/> },
+    { title: "Twitter", url: "https://x.com/akyabhishek", icon: <SiX /> },
     {
       title: "Facebook",
       url: "https://www.facebook.com/abhishekkumaryadav.aky",
       icon: <SiFacebook />,
     },
-    { title: "GitHub", url: "https://github.com/akyabhishek", icon: <SiGithub /> },
     {
       title: "Snapchat",
       url: "https://www.snapchat.com/add/mrabk121",
-      icon:<SiSnapchat/>,
+      icon: <SiSnapchat />,
     },
   ];
 
   return (
     <div id="contact">
-          <h1 className="text-3xl my-5">CONTACT</h1>
-          <BackgroundBeamsWithCollision className="w-full h-auto z-10 translate-y-7">
-      <Card className="border-none py-28">
+      <h1 className="text-3xl my-5">CONTACT</h1>
+      <BackgroundBeamsWithCollision className="w-full h-auto z-10 translate-y-7">
+        <Card className="border-none py-28">
           <CardBody className="w-full h-auto  z-20 ">
             <p className="leading-9 text-center">
               Feel free to get in touch at:{" "}
-              <Link to="mailto:aky.abhishekkumaryadav@gmail.com">
+              <Link to="mailto:aky.abhishekkumaryadav@gmail.com" className="font-medium underline underline-offset-4 und hover:text-primary transition-colors hover:text-emerald-500"
+              >
                 aky.abhishekkumaryadav@gmail.com
               </Link>
               <br />
@@ -77,25 +89,56 @@ export default function Contact(): JSX.Element {
                 duration={2000}
               />
             </p>
-   
-                <div className="flex flex-wrap justify-center gap-4 py-20">
-                  {links.map(
-                    (element, index) =>
-                      element && (
-                        <div key={index}>
-                          <LinkCard
-                            key={index}
-                            title={element.title}
-                            url={element.url}
-                            icon={element.icon}
-                          />
-                        </div>
-                      )
-                  )}
+
+            <div className="flex flex-wrap justify-center gap-4 py-20">
+              {links.map(
+                (element, index) =>
+                  element && (
+                    <div key={index}>
+                      <LinkCard
+                        key={index}
+                        title={element.title}
+                        url={element.url}
+                        icon={element.icon}
+                      />
+                    </div>
+                  )
+              )}
             </div>
+            <div className="text-center text-xs text-muted-foreground pt-10">
+              Built (because why reinvent the wheel?) with{" "}
+              <a
+                href="https://ui.shadcn.com/"
+                className="text-sm font-medium underline underline-offset-4 text-muted-foreground hover:text-primary transition-colors hover:text-emerald-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                shadcn/ui
+              </a>
+              ,{" "}
+              <a
+                href="https://magicui.design/"
+                className="text-sm font-medium underline underline-offset-4 text-muted-foreground hover:text-primary transition-colors hover:text-emerald-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                magicui
+              </a>
+              , and{" "}
+              <a
+                href="https://ui.aceternity.com/"
+                className="text-sm font-medium underline underline-offset-4 text-muted-foreground hover:text-primary transition-colors hover:text-emerald-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                acernity.dev
+              </a>
+              .
+            </div>
+
           </CardBody></Card>
-        </BackgroundBeamsWithCollision>
-      
+      </BackgroundBeamsWithCollision>
+
     </div>
   );
 }

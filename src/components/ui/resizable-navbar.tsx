@@ -133,17 +133,17 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-emerald-500 dark:hover:text-emerald-500 transition-all duration-500 ease-in-out"
           key={`link-${idx}`}
           href={item.link}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800 "
             />
           )}
-          <span className="relative z-20">{item.name}</span>
+          <span className="relative z-20 ">{item.name}</span>
         </a>
       ))}
     </motion.div>
@@ -241,7 +241,7 @@ export const NavbarLogo = () => {
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-    <span className="text-xl text-green-500">Abhishek</span>
+    <span className="text-xl text-emerald-500">Abhishek</span>
     <span className="text-xl text-white hidden md:block"> Kr. Yadav</span>
     </a>
   );
