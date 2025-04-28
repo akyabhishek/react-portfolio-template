@@ -88,8 +88,8 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
         width: visible ? "90%" : "100%",
-        paddingTop:visible?"20px":"10px",
-        paddingBottom:visible?"20px":"10px",
+        paddingTop:visible?"15px":"10px",
+        paddingBottom:visible?"15px":"10px",
         paddingRight: visible ? "40px" : "0px",
         paddingLeft: visible ? "40px" : "0px",
         y: visible ? 0 : 0,
@@ -107,7 +107,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         visible && "bg-white/80 dark:bg-neutral-950/80",
         className,
       )}
-    ><ScrollProgress className={visible?`top-[79.6px] mx-9`:'top-[59.6px] mx-9'} />
+    ><ScrollProgress className={visible?`top-[72.8px] mx-9`:'top-[59.6px] mx-9'} />
       {children}
     </motion.div>
   );
@@ -154,9 +154,8 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
         width: visible ? "100%" : "100%",
-        paddingRight: visible ? "12px" : "0px",
-        paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
+        paddingRight: visible ? "10px" : "0px",
+        paddingLeft: visible ? "10px" : "0px",
         y: visible ? 0 : 0,
       }}
       transition={{
@@ -165,7 +164,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between px-0 py-2 lg:hidden bg-white/80 dark:bg-neutral-950/80",
+        "relative z-50 mx-auto flex w-full max-w-full flex-col items-center justify-between px-0 py-2 lg:hidden bg-white/80 dark:bg-neutral-950/80",
         visible && "bg-white/80 dark:bg-neutral-950/80",
         className,
       )}
@@ -237,7 +236,7 @@ export const NavbarLogo = () => {
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
     <span className="text-xl text-emerald-500">Abhishek</span>
-    <span className="text-xl text-white hidden md:block"> Kr. Yadav</span>
+    <span className="text-xl text-gray-900 dark:text-white hidden md:block"> Kr. Yadav</span>
     </a>
   );
 };

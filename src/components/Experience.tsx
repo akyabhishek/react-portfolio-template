@@ -46,7 +46,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, company, description
         <div className="border-0.75 relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl p-6 md:p-6 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
             <div className="relative flex flex-1 flex-col justify-between gap-3">
                     <div><div className="flex items-center">
-                        <p className="text-xl text-gray-400 mb-1">{company}</p>
+                        <p className="text-xl text-gray-700 dark:text-gray-400 mb-1">{company}</p>
                     </div>
                         <h4 className="font-bold text-green-600"><TextAnimate animation="blurInUp" by="character" once >{title}</TextAnimate></h4>
                         <p className="mt-1 max-w-screen-sm text-sm text-gray-500">{description}</p>
@@ -90,7 +90,7 @@ const timelineData: TimelineData[] = [
 const ExperienceSection: React.FC = () => (
     <div className="pt-5" id='experience'>
         <h1 className="text-3xl">EXPERIENCE</h1>
-        <section className="p-3 md:p-6 bg-gradient-to-b shadow-md max-w-4xl mx-auto transition-colors duration-300">
+        <section className="p-3 md:p-6 bg-gradient-to-b max-w-4xl mx-auto transition-colors duration-300">
             <div className="space-y-6 border-l-2 border-dotted pl-6 py-3 rounded-3xl">
                 {timelineData.map((item, index) => (
                     <TimelineItem key={index} {...item} />

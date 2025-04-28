@@ -106,8 +106,9 @@ export default function Stats(): JSX.Element {
 
   return (
     <>
-      <TracingBeam className="min-h-screen">
         <div className="min-h-min flex flex-col justify-center items-center p-4 space-x-4 mt-10">
+          
+      <TracingBeam >
           <h1 className="text-3xl mt-5">STATS</h1>
           <br />
           <div className="container w-full my-2">
@@ -264,8 +265,8 @@ export default function Stats(): JSX.Element {
               <GitHubCalendar username="akyabhishek" blockSize={11} blockRadius={4} colorScheme="dark"/>
               </div>
           </div>
+          </TracingBeam>
         </div>
-      </TracingBeam>
     </>
   );
 }

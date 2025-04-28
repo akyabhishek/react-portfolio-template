@@ -66,7 +66,7 @@ export default function Contact(): JSX.Element {
           <CardBody className="w-full h-auto  z-20 ">
             <p className="leading-9 text-center">
               Feel free to get in touch at:{" "}
-              <Link to="mailto:aky.abhishekkumaryadav@gmail.com" className="font-medium underline underline-offset-4 und hover:text-primary transition-colors hover:text-emerald-500"
+              <Link to="mailto:aky.abhishekkumaryadav@gmail.com" className="font-medium underline underline-offset-4 transition-colors hover:text-emerald-500"
               >
                 aky.abhishekkumaryadav@gmail.com
               </Link>
@@ -107,7 +107,7 @@ export default function Contact(): JSX.Element {
               Built (because why reinvent the wheel?) with{" "}
               <a
                 href="https://ui.shadcn.com/"
-                className="text-sm font-medium underline underline-offset-4 text-muted-foreground hover:text-primary transition-colors hover:text-emerald-500"
+                className="text-sm font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -116,7 +116,7 @@ export default function Contact(): JSX.Element {
               ,{" "}
               <a
                 href="https://magicui.design/"
-                className="text-sm font-medium underline underline-offset-4 text-muted-foreground hover:text-primary transition-colors hover:text-emerald-500"
+                className="text-sm font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -125,7 +125,7 @@ export default function Contact(): JSX.Element {
               , and{" "}
               <a
                 href="https://ui.aceternity.com/"
-                className="text-sm font-medium underline underline-offset-4 text-muted-foreground hover:text-primary transition-colors hover:text-emerald-500"
+                className="text-sm font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >

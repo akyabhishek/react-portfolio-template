@@ -12,8 +12,17 @@ import {
 import {useEffect, useState} from "react";
 import {Outlet} from "react-router-dom";
 import ResumeButton from "./DownloadResumeBtn";
+import { Switch } from "./ui/switch";
+import { useTheme } from "./theme-provider";
 
 export function NewNavbar() {
+  const { theme, setTheme } = useTheme();
+
+  const isDark = theme === "dark";
+
+  const toggleTheme = (checked: boolean) => {
+    setTheme(checked ? "dark" : "light");
+  };
   const navItems = [
     {
       name: "About",
@@ -56,7 +65,7 @@ export function NewNavbar() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            {/* <NavbarButton variant="secondary">Login</NavbarButton> */}
+            <NavbarButton variant="secondary" className="space-x-2"><Switch checked={isDark} onCheckedChange={toggleTheme}  /></NavbarButton>
             <NavbarButton variant="secondary" className="p-0"><ResumeButton/></NavbarButton>
           </div>
         </NavBody>
