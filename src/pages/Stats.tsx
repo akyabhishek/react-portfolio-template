@@ -218,9 +218,9 @@ export default function Stats(): JSX.Element {
                   <TableBody>
                     <TableRow className="min-w-full">
                       <TableCell className="font-medium text-left">
-                        Lines of code powering this website
+                        Lines of code powering this website (includes components)
                       </TableCell>
-                      <TableCell className="text-left">24950</TableCell>
+                      <TableCell className="text-left">16500(approx.)</TableCell>
                     </TableRow>
                     <TableRow className="min-w-full">
                       <TableCell className="font-medium text-left">
