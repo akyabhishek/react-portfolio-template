@@ -36,7 +36,7 @@ export default function ProjectCard(props: ProjectCardProps) {
           <CardTitle className="flex items-center gap-2">
             {title}
             {live && (
-              <span className="inline-block h-2 w-2 rounded-full bg-green-500 -translate-y-0.5"></span>
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 -translate-y-0.5"></span>
             )}
           </CardTitle>
           <CardDescription>{description}
@@ -70,7 +70,7 @@ export default function ProjectCard(props: ProjectCardProps) {
             </Button>
           )}
           {liveUrl && (
-            <Button variant="ghost" size="sm" className="text-green-500" asChild>
+            <Button variant="ghost" size="sm" className="text-emerald-500" asChild>
               <a href={liveUrl} target="_blank" rel="noopener noreferrer">
                 <GoLinkExternal />
               </a>

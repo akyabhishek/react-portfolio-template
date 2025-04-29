@@ -45,7 +45,7 @@ export default function Home(): JSX.Element {
           <FlipWords words={greetings} duration={3000} /><br />
           <span className="text-base">I am Abhishek. I am a{" "}</span>
           <FlipWords
-            words={["<Developer>", "Problem Solver", "Coder", "Programmer"]}
+            words={["<Developer/>", "Learner", "<Coder/>", "Programmer"]}
             duration={15000}
             className="dark:text-emerald-500 text-emerald-600 text-base"
           />

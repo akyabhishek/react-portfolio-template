@@ -23,7 +23,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <Link href="/" passHref>
                   <NavigationMenuLink className="flex items-center space-x-2 mr-2">
-                    <span className="text-xl text-green-500">Abhishek</span>
+                    <span className="text-xl text-emerald-500">Abhishek</span>
                     <span className="text-xl hidden md:block"> Kr. Yadav</span>
                   </NavigationMenuLink>
                 </Link>

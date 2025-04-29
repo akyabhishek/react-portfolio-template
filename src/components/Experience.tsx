@@ -32,7 +32,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, company, description
         <div className="absolute -left-[1.95rem] top-10 transition-none">
             <span className="relative flex h-3 w-3">
                 <span className="absolute inline-flex h-3 w-3 animate-ping rounded-full bg-gray-400 opacity-75"></span>
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500"></span>
             </span>
         </div>
         <div className="relative h-full rounded-2xl border p-2 md:rounded-3xl md:p-3">
@@ -48,7 +48,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ title, company, description
                     <div><div className="flex items-center">
                         <p className="text-xl text-gray-700 dark:text-gray-400 mb-1">{company}</p>
                     </div>
-                        <h4 className="font-bold text-green-600"><TextAnimate animation="blurInUp" by="character" once >{title}</TextAnimate></h4>
+                        <h4 className="font-bold text-emerald-600"><TextAnimate animation="blurInUp" by="character" once >{title}</TextAnimate></h4>
                         <p className="mt-1 max-w-screen-sm text-sm text-gray-500">{description}</p>
                         <span className="mt-1 block text-sm  text-gray-400">
                             {from} — {to} · {calculateDuration(from, to)}

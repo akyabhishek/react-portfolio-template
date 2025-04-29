@@ -9,8 +9,8 @@ import {
   NavBody,
   NavItems,
 } from "@/components/ui/resizable-navbar";
-import {useEffect, useState} from "react";
-import {Outlet} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import ResumeButton from "./DownloadResumeBtn";
 import { Switch } from "./ui/switch";
 import { useTheme } from "./theme-provider";
@@ -29,8 +29,8 @@ export function NewNavbar() {
       link: "/#about",
     },
     {
-      name:"Skills",
-      link:"/#skills"
+      name: "Skills",
+      link: "/#skills"
     },
     {
       name: "Projects",
@@ -65,8 +65,8 @@ export function NewNavbar() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary" className="space-x-2"><Switch checked={isDark} onCheckedChange={toggleTheme}  /></NavbarButton>
-            <NavbarButton variant="secondary" className="p-0"><ResumeButton/></NavbarButton>
+            <NavbarButton variant="secondary" className="space-x-2"><Switch checked={isDark} onCheckedChange={toggleTheme} /></NavbarButton>
+            <NavbarButton variant="secondary" className="p-0"><ResumeButton /></NavbarButton>
           </div>
         </NavBody>
 
@@ -95,18 +95,17 @@ export function NewNavbar() {
               </a>
             ))}
             <div className="flex w-full flex-col gap-4">
-              {/* <NavbarButton
+              <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
+                variant="secondary"
                 className="w-full"
               >
-                Login
-              </NavbarButton> */}
+                <Switch checked={isDark} onCheckedChange={toggleTheme} className="float-left"/></NavbarButton>
               <NavbarButton
                 variant="secondary"
                 className="w-full"
               >
-                <ResumeButton/>
+                <ResumeButton />
               </NavbarButton>
             </div>
           </MobileNavMenu>

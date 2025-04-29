@@ -107,7 +107,7 @@ export default function Contact(): JSX.Element {
               Built (because why reinvent the wheel?) with{" "}
               <a
                 href="https://ui.shadcn.com/"
-                className="text-sm font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
+                className="text-xs font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -116,7 +116,7 @@ export default function Contact(): JSX.Element {
               ,{" "}
               <a
                 href="https://magicui.design/"
-                className="text-sm font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
+                className="text-xs font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -125,7 +125,7 @@ export default function Contact(): JSX.Element {
               , and{" "}
               <a
                 href="https://ui.aceternity.com/"
-                className="text-sm font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
+                className="text-xs font-medium underline underline-offset-4 text-muted-foreground transition-colors hover:text-emerald-500"
                 target="_blank"
                 rel="noopener noreferrer"
               >
