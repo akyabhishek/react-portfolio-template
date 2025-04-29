@@ -2,6 +2,8 @@
 
 Welcome to the personal portfolio of Abhishek Kumar Yadav (AKY). This website showcases my projects, skills, and experience in software development. You can explore my work and learn more about my professional background.
 
+![Portfolio Preview](public/assets/portfolio-thumb.png)
+
 ## Live Demo
 
 Check out the live demo of the portfolio at [https://akyabhishek.vercel.app/](https://akyabhishek.vercel.app/).
