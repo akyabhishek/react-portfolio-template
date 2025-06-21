@@ -4,6 +4,7 @@ import Stats from "@/pages/Stats";
 import Contact from "@/pages/Contact";
 import Resume from "@/pages/Resume";
 import {NewNavbar} from "@/components/NewNavbar";
+import JavaQA from "@/pages/JavaQA";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/resume",
         element: <Resume />,
+      },
+      {
+        path: "/java-interview-question-answers",
+        element: <JavaQA />,
       },
     ],
   },
