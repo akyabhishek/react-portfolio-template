@@ -1,6 +1,7 @@
 import {FlipWords} from "@/components/ui/flip-words";
 import {TextGenerateEffect} from "@/components/ui/text-generate-effect";
 import mainImage from "../../public/assets/abhishekkumaryadav-ghibli.png";
+import altMainImage from "../../public/assets/abhishekkumaryadav.png";
 import {TracingBeam} from "@/components/ui/tracing-beam";
 import SkillsSection from "@/components/SkillsSection";
 import FloatingImage from "@/components/MyImage";
@@ -58,7 +59,7 @@ export default function Home(): JSX.Element {
         </div>
         <div className="lg:w-1/2 p-10 flex justify-center">
 
-          <FloatingImage mainImage={mainImage} />
+          <FloatingImage mainImage={mainImage} altImage={altMainImage} />
         </div>
       </div>
       <TracingBeam className="px-6">

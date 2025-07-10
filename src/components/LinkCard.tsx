@@ -10,17 +10,17 @@ interface Link {
 
 const LinkCard: React.FC<Link> = (ele) => {
   return (
-    <Link to={ele.url} target="_blank" rel="noopener noreferrer">
-      <Button variant="outline">
-        {/* Icon */}
+    <a href={ele.url} target="_blank" rel="noopener noreferrer" aria-label={ele.title} title={ele.title}>
+      <Button variant="outline" asChild><div>
+        {/* Icon and accessible text for SEO */}
         {ele.icon && (
-          <span >
+          <span aria-hidden="true">
             {ele.icon}
-
           </span>
         )}
+        <span className="sr-only">{ele.title}</span></div>
       </Button>
-    </Link>
+    </a>
   );
 };
 

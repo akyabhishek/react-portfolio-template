@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {GlowingEffect} from "./ui/glowing-effect";
 
 interface FloatingImageProps {
     mainImage: string;
+    altImage?: string;
 }
 
-const FloatingImage: React.FC<FloatingImageProps> = ({ mainImage }) => {
+const FloatingImage: React.FC<FloatingImageProps> = ({ mainImage, altImage }) => {
+    const [currentSrc, setCurrentSrc] = useState(mainImage);
+    const [fade, setFade] = useState(false);
+    const [showAlt, setShowAlt] = useState(false);
 
+    useEffect(() => {
+        if (altImage) {
+            const interval = setInterval(() => {
+                setFade(true);
+                setTimeout(() => {
+                    setShowAlt(prev => !prev);
+                    setCurrentSrc(showAlt ? mainImage : altImage);
+                    setFade(false);
+                }, 500); // fade duration
+            }, 10000); // 10 seconds
+            return () => clearInterval(interval);
+        }
+    }, [mainImage, altImage, showAlt]);
 
     return (
         <div
@@ -22,9 +39,12 @@ const FloatingImage: React.FC<FloatingImageProps> = ({ mainImage }) => {
                 inactiveZone={0.01}
             />
             <img
-                src={mainImage}
-                alt="Abhishek"
-                className="w-96 h-96 object-cover rounded-2xl shadow-2xl md:rounded-3xl"
+                src={currentSrc}
+                alt="Abhishek Kumar Yadav - Software Developer"
+                width={384}
+                height={384}
+                loading="lazy"
+                className={`w-96 h-96 object-cover rounded-2xl shadow-2xl md:rounded-3xl transition-all duration-500 ${fade ? 'blur-md grayscale' : 'blur-0 grayscale-0'}`}
             />
         </div></div>
     );

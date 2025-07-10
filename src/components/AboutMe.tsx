@@ -1,13 +1,24 @@
 import {HeroHighlight, Highlight} from "@/components/ui/hero-highlight";
+import { useMemo } from "react";
 
 export default function AboutMe(){
+    // Calculate experience dynamically
+    const experience = useMemo(() => {
+        const start = new Date("2023-09-14");
+        const now = new Date();
+        let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+        if (now.getDate() < start.getDate()) months--;
+        const years = Math.floor(months / 12);
+        const remMonths = months % 12;
+        return years > 0 ? `${years}.${remMonths} years` : `${remMonths} months`;
+    }, []);
     return(
         <div className="pt-10 mb-10" id="about">
         <h1 className="text-3xl my-5">ABOUT ME</h1>
         <HeroHighlight className="max-w-3xl mx-auto p-6 text-justify text-gray-800 dark:text-gray-200 leading-loose">
           
           <p className="mb-4">
-            I'm a <Highlight>Software Developer at Cognizant</Highlight> with over <Highlight>1.6 years of experience</Highlight>, having contributed to <Highlight>American Airlines</Highlight> projects using Java, Spring Boot, TypeScript, Playwright, Selenium, and more. I graduated from <Highlight>Shri Ramswaroop Memorial College</Highlight> (AKTU) and also hold a diploma from <Highlight>Hewett Polytechnic</Highlight>. Through personal projects, I’ve explored React, Tailwind, Axios, and Spring Security.
+            I'm a <Highlight>Software Developer at Cognizant</Highlight> with over <Highlight>{experience} of experience</Highlight>, having contributed to <Highlight>American Airlines</Highlight> projects using Java, Spring Boot, TypeScript, Playwright, Selenium, and more. I graduated from <Highlight>Shri Ramswaroop Memorial College</Highlight> (AKTU) and also hold a diploma from <Highlight>Hewett Polytechnic</Highlight>. Through personal projects, I’ve explored React, Tailwind, Axios, and Spring Security.
           </p>
           <p className="mb-4">
             I enjoy <Highlight>collaborating in agile teams</Highlight>, solving real-world problems, and always learning something new.
