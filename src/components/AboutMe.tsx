@@ -10,7 +10,13 @@ export default function AboutMe(){
         if (now.getDate() < start.getDate()) months--;
         const years = Math.floor(months / 12);
         const remMonths = months % 12;
-        return years > 0 ? `${years}.${remMonths} years` : `${remMonths} months`;
+        if (years > 0 && remMonths > 0) {
+            return `${years} year${years > 1 ? 's' : ''} ${remMonths} month${remMonths > 1 ? 's' : ''}`;
+        } else if (years > 0) {
+            return `${years} year${years > 1 ? 's' : ''}`;
+        } else {
+            return `${remMonths} month${remMonths > 1 ? 's' : ''}`;
+        }
     }, []);
     return(
         <div className="pt-10 mb-10" id="about">
