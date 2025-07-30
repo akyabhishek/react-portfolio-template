@@ -5,6 +5,7 @@ import Contact from "@/pages/Contact";
 import Resume from "@/pages/Resume";
 import {NewNavbar} from "@/components/NewNavbar";
 import JavaQA from "@/pages/JavaQA";
+import Base64Page from "@/pages/Base64page";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
         path: "/java-interview-question-answers",
         element: <JavaQA />,
       },
+      {
+        path: "/base64-tool",
+        element: <Base64Page />,
+      }
     ],
   },
 ]);
