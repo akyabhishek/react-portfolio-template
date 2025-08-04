@@ -4,18 +4,23 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { FiCode } from "react-icons/fi";
 import { GiLogicGateXor } from "react-icons/gi";
-
+import { PiHashStraightFill } from "react-icons/pi";
 
 const tools = [
   {
     name: "Base64 Encoder/Decoder",
     link: "/base64-tool",
     icon: <FiCode className="inline-block text-3xl text-emerald-600" />,
-  },{
+  },
+  {
     name: "Bitwise Visualizer",
     link: "/bitwise-visualizer",
-    icon: <GiLogicGateXor className="inline-block text-3xl text-emerald-600"/>
-,
+    icon: <GiLogicGateXor className="inline-block text-3xl text-emerald-600" />,
+  },
+  {
+    name: "Hash Generator",
+    link: "/hash-generator",
+    icon: <PiHashStraightFill className="inline-block text-3xl text-emerald-600" />,
   },
   // Add more tools here as needed
   // { name: "JSON Formatter", link: "/json-formatter", icon: <FiFileText className="inline-block mr-2 text-xl text-blue-600" />
@@ -50,7 +55,7 @@ export default function ToolsForDev() {
               </Card>
             ))}
           </div>
-        </div>  
+        </div>
       </section>
     </div>
   );

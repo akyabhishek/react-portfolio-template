@@ -1,13 +1,15 @@
-import {createBrowserRouter} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Home from "@/pages/Home";
 import Stats from "@/pages/Stats";
 import Contact from "@/pages/Contact";
 import Resume from "@/pages/Resume";
-import {NewNavbar} from "@/components/NewNavbar";
+import { NewNavbar } from "@/components/NewNavbar";
 import JavaQA from "@/pages/JavaQA";
 import Base64Page from "@/pages/Base64page";
 import BitwiseVisualizer from "@/components/BitwiseVisualizer";
 import BitwiseVisualizerPage from "@/pages/BitwiseVisualizerPage";
+import HashGenerator from "@/components/HashGenerator";
+import HashGeneratorPage from "@/pages/HashGeneratorPage";
 
 const router = createBrowserRouter([
   {
@@ -46,9 +48,13 @@ const router = createBrowserRouter([
         element: <Base64Page />,
       },
       {
-        path:"/bitwise-visualizer",
+        path: "/bitwise-visualizer",
         element: <BitwiseVisualizerPage />,
-      }
+      },
+      {
+        path: "/hash-generator",
+        element: <HashGeneratorPage />,
+      },
     ],
   },
 ]);
