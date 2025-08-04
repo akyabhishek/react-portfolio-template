@@ -6,6 +6,8 @@ import Resume from "@/pages/Resume";
 import {NewNavbar} from "@/components/NewNavbar";
 import JavaQA from "@/pages/JavaQA";
 import Base64Page from "@/pages/Base64page";
+import BitwiseVisualizer from "@/components/BitwiseVisualizer";
+import BitwiseVisualizerPage from "@/pages/BitwiseVisualizerPage";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/base64-tool",
         element: <Base64Page />,
+      },
+      {
+        path:"/bitwise-visualizer",
+        element: <BitwiseVisualizerPage />,
       }
     ],
   },

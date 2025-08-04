@@ -7,7 +7,7 @@ export default function Base64Page() {
   return (
     <>
       <Helmet>
-        <title>Base64 Encoder & Decoder | Online Tool</title>
+        <title>Base64 Encoder & Decoder | Online Tool By Abhishek Kumar Yadav</title>
         <meta
           name="description"
           content="Free online tool to encode and decode Base64 text with support for UTF-8, ASCII, and UTF-16 character sets. Live, fast, and secure."

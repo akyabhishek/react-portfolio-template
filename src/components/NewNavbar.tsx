@@ -24,6 +24,10 @@ export function NewNavbar() {
     setTheme(checked ? "dark" : "light");
   };
   const navItems = [
+     {
+      name: "DevTools",
+      link: "/#devtools",
+    },
     {
       name: "About",
       link: "/#about",

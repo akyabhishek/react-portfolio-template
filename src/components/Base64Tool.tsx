@@ -67,10 +67,12 @@ const decodeBase64 = (
 ): string => {
   try {
     const processLine = (line: string) => {
-        const binary = atob(line);
-        const bytes = new Uint8Array([...binary].map((char) => char.charCodeAt(0)));
-        const decoder = new TextDecoder(encoding);
-        return decoder.decode(bytes);
+      const binary = atob(line);
+      const bytes = new Uint8Array(
+        [...binary].map((char) => char.charCodeAt(0))
+      );
+      const decoder = new TextDecoder(encoding);
+      return decoder.decode(bytes);
     };
     if (processLineByLine) {
       return input.split("\n").map(processLine).join("\n");
@@ -114,8 +116,12 @@ const Base64Tool: React.FC = () => {
   };
 
   return (
-    <section className="max-w-3xl mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold">Base64 Encoder / Decoder</h1>
+    <section className="max-w-3xl mx-auto p-4 space-y-2">
+      <h2 className="text-2xl font-bold">Base64 Encoder / Decoder</h2>
+      <p className="text-xs text-gray-500">
+        Convert text to and from Base64 with URL-safe and line-by-line support.
+        100% secure, all processing happens in your browser.
+      </p>
 
       <Tabs
         value={mode}
