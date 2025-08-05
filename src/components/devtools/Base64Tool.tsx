@@ -17,9 +17,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { FiCopy, FiClipboard, FiRefreshCw } from "react-icons/fi";
-import { toast } from "../hooks/use-toast";
+import { toast } from "../../hooks/use-toast";
 import { Switch } from "@/components/ui/switch";
 
 type EncodingType = "utf-8" | "utf-16" | "ascii";

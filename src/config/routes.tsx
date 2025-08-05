@@ -9,6 +9,7 @@ import Base64Page from "@/pages/Base64page";
 import BitwiseVisualizerPage from "@/pages/BitwiseVisualizerPage";
 import HashGeneratorPage from "@/pages/HashGeneratorPage";
 import DevToolsPage from "@/pages/DevToolsPage";
+import JSONFormatter from "@/components/devtools/JSONFormatter";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/devtools",
         element: <DevToolsPage />,
+      },
+      {
+        path: "/json-formatter",
+        element: <JSONFormatter />,
       },
     ],
   },

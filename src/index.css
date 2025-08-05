@@ -123,3 +123,25 @@ body {
     }
   }
 }
+/* json-highlight.css */
+
+.token.property {
+  color: #df3079;
+}
+
+.token.string {
+  color: #00a67d;
+}
+
+.token.boolean {
+  color: #2e95d3;
+}
+
+.token.null {
+  color: #2e95d3;
+}
+
+.token.number {
+  color: #fd971f;
+}
+

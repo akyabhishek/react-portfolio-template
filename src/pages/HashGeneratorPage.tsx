@@ -1,5 +1,5 @@
 import React from "react";
-import HashGenerator from "@/components/HashGenerator";
+import HashGenerator from "@/components/devtools/HashGenerator";
 import { Helmet } from "react-helmet";
 
 export default function HashGeneratorPage() {
