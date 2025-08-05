@@ -24,9 +24,9 @@ export function NewNavbar() {
     setTheme(checked ? "dark" : "light");
   };
   const navItems = [
-     {
+    {
       name: "DevTools",
-      link: "/#devtools",
+      link: "/devtools",
     },
     {
       name: "About",
@@ -34,7 +34,7 @@ export function NewNavbar() {
     },
     {
       name: "Skills",
-      link: "/#skills"
+      link: "/#skills",
     },
     {
       name: "Projects",
@@ -43,7 +43,8 @@ export function NewNavbar() {
     {
       name: "Stats",
       link: "/stats",
-    }, {
+    },
+    {
       name: "Contact",
       link: "/#contact",
     },
@@ -69,8 +70,12 @@ export function NewNavbar() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary" className="space-x-2"><Switch checked={isDark} onCheckedChange={toggleTheme} /></NavbarButton>
-            <NavbarButton variant="secondary" className="p-0"><ResumeButton /></NavbarButton>
+            <NavbarButton variant="secondary" className="space-x-2">
+              <Switch checked={isDark} onCheckedChange={toggleTheme} />
+            </NavbarButton>
+            <NavbarButton variant="secondary" className="p-0">
+              <ResumeButton />
+            </NavbarButton>
           </div>
         </NavBody>
 
@@ -104,11 +109,13 @@ export function NewNavbar() {
                 variant="secondary"
                 className="w-full"
               >
-                <Switch checked={isDark} onCheckedChange={toggleTheme} className="float-left"/></NavbarButton>
-              <NavbarButton
-                variant="secondary"
-                className="w-full"
-              >
+                <Switch
+                  checked={isDark}
+                  onCheckedChange={toggleTheme}
+                  className="float-left"
+                />
+              </NavbarButton>
+              <NavbarButton variant="secondary" className="w-full">
                 <ResumeButton />
               </NavbarButton>
             </div>

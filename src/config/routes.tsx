@@ -6,10 +6,9 @@ import Resume from "@/pages/Resume";
 import { NewNavbar } from "@/components/NewNavbar";
 import JavaQA from "@/pages/JavaQA";
 import Base64Page from "@/pages/Base64page";
-import BitwiseVisualizer from "@/components/BitwiseVisualizer";
 import BitwiseVisualizerPage from "@/pages/BitwiseVisualizerPage";
-import HashGenerator from "@/components/HashGenerator";
 import HashGeneratorPage from "@/pages/HashGeneratorPage";
+import DevToolsPage from "@/pages/DevToolsPage";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/hash-generator",
         element: <HashGeneratorPage />,
+      },
+      {
+        path: "/devtools",
+        element: <DevToolsPage />,
       },
     ],
   },
