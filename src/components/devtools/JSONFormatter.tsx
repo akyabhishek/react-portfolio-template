@@ -79,8 +79,8 @@ export default function JSONFormatter() {
     try {
       const formatted =
         mode === "beautify"
-          ? JSON.stringify(JSON.parse(rawJson))
-          : JSON.stringify(JSON.parse(rawJson), null, 2);
+          ? JSON.stringify(JSON.parse(rawJson), null, 4)
+          : JSON.stringify(JSON.parse(rawJson));
       setRawJson(formatted);
       setMode(mode === "beautify" ? "minify" : "beautify");
     } catch (e) {
@@ -215,7 +215,7 @@ export default function JSONFormatter() {
                       const beautified = JSON.stringify(
                         JSON.parse(rawJson),
                         null,
-                        2
+                        4
                       );
                       setRawJson(beautified);
                       setError(null);
