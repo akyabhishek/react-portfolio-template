@@ -5,11 +5,12 @@ import Contact from "@/pages/Contact";
 import Resume from "@/pages/Resume";
 import { NewNavbar } from "@/components/NewNavbar";
 import JavaQA from "@/pages/JavaQA";
-import Base64Page from "@/pages/Base64page";
-import BitwiseVisualizerPage from "@/pages/BitwiseVisualizerPage";
-import HashGeneratorPage from "@/pages/HashGeneratorPage";
+import Base64Page from "@/pages/devtools/Base64page";
+import BitwiseVisualizerPage from "@/pages/devtools/BitwiseVisualizerPage";
+import HashGeneratorPage from "@/pages/devtools/HashGeneratorPage";
 import DevToolsPage from "@/pages/DevToolsPage";
 import JSONFormatter from "@/components/devtools/JSONFormatter";
+import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
 
 const router = createBrowserRouter([
   {
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/json-formatter",
-        element: <JSONFormatter />,
+        element: <JSONFormatterPage />,
       },
     ],
   },
