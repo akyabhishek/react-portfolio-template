@@ -6,6 +6,7 @@ import { FiCode } from "react-icons/fi";
 import { GiLogicGateXor } from "react-icons/gi";
 import { PiHashStraightFill } from "react-icons/pi";
 import { LuFileJson } from "react-icons/lu";
+import { SiJsonwebtokens } from "react-icons/si";
 const tools = [
   {
     name: "JSON Formatter & Viewer",
@@ -16,6 +17,13 @@ const tools = [
     name: "Base64 Encoder/Decoder",
     link: "/base64-tool",
     icon: <FiCode className="inline-block text-3xl text-emerald-600" />,
+  },
+  {
+    name: "JWT Decoder",
+    link: "/jwt-decoder",
+    icon: (
+      <SiJsonwebtokens className="inline-block text-3xl text-emerald-600" />
+    ),
   },
   {
     name: "Bitwise Visualizer",

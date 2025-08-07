@@ -11,6 +11,7 @@ import HashGeneratorPage from "@/pages/devtools/HashGeneratorPage";
 import DevToolsPage from "@/pages/DevToolsPage";
 import JSONFormatter from "@/components/devtools/JSONFormatter";
 import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
+import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: "/json-formatter",
         element: <JSONFormatterPage />,
+      },
+      {
+        path: "/jwt-decoder",
+        element: <JWTDecoderPage />,
       },
     ],
   },
