@@ -129,7 +129,7 @@ export default function JSONFormatter() {
 
   return (
     <div className="flex items-center justify-center">
-      <section className="max-w-3xl w-full p-4 space-y-2">
+      <section className="max-w-screen-xl w-full p-4 space-y-2">
         <h2 className="text-2xl font-bold mb-5">JSON Formatter & Viewer</h2>
         <p className="text-xs text-gray-500">
           Format, view, and copy your JSON data. Paste or upload JSON, view as

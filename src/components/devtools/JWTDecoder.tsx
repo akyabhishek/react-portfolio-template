@@ -71,7 +71,7 @@ const JWTDecoder: React.FC = () => {
   };
 
   return (
-    <section className="max-w-3xl mx-auto p-4 space-y-2">
+    <section className="max-w-screen-xl mx-auto p-4 space-y-2">
       <h2 className="text-2xl font-bold">JWT Decoder</h2>
       <p className="text-xs text-gray-500">
         Paste your JWT below to decode its header and payload. All processing

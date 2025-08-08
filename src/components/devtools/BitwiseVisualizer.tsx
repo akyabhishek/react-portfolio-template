@@ -27,18 +27,45 @@ const BitwiseVisualizer: React.FC = () => {
   const [operation, setOperation] = useState<
     "AND" | "OR" | "XOR" | "NOT" | "LSHIFT" | "RSHIFT"
   >("AND");
+  const [num1Error, setNum1Error] = useState("");
+  const [num2Error, setNum2Error] = useState("");
+
+  const validateInput = (val: string, mode: "dec" | "bin" | "hex"): string => {
+    if (!val.trim()) return "Input cannot be empty";
+
+    switch (mode) {
+      case "bin":
+        if (!/^[01]+$/.test(val)) {
+          return "Binary numbers can only contain 0 and 1";
+        }
+        break;
+      case "hex":
+        if (!/^[0-9A-Fa-f]+$/.test(val)) {
+          return "Hexadecimal numbers can only contain 0-9 and A-F";
+        }
+        break;
+      case "dec":
+        if (!/^\d+$/.test(val)) {
+          return "Decimal numbers can only contain digits 0-9";
+        }
+        break;
+    }
+    return "";
+  };
 
   const parseInput = (val: string) => {
     if (inputMode === "bin") return parseInt(val, 2) || 0;
     if (inputMode === "hex") return parseInt(val, 16) || 0;
     return parseInt(val) || 0;
   };
-  const n1 = parseInput(num1);
-  const n2 = parseInput(num2);
+  const n1 = num1Error ? 0 : parseInput(num1);
+  const n2 = num2Error ? 0 : parseInput(num2);
   const n1Bits = getBitLength(n1);
   const n2Bits = getBitLength(n2);
 
   const result = (() => {
+    if (num1Error || (operation !== "NOT" && num2Error)) return 0;
+
     switch (operation) {
       case "AND":
         return n1 & n2;
@@ -58,22 +85,33 @@ const BitwiseVisualizer: React.FC = () => {
   })();
   const resultBits = getBitLength(result);
   const maxBits = Math.max(n1Bits, n2Bits, resultBits);
+
+  const handleNum1Change = (value: string) => {
+    setNum1(value);
+    setNum1Error(validateInput(value, inputMode));
+  };
+
+  const handleNum2Change = (value: string) => {
+    setNum2(value);
+    setNum2Error(validateInput(value, inputMode));
+  };
+
+  const handleInputModeChange = (mode: "dec" | "bin" | "hex") => {
+    setInputMode(mode);
+    setNum1Error(validateInput(num1, mode));
+    setNum2Error(validateInput(num2, mode));
+  };
   return (
     <div className="flex items-center justify-center">
-      <section className="max-w-3xl w-full p-4 space-y-6">
-        <h2 className="text-2xl font-bold mb-5">
-          Bitwise Operation Visualizer
-        </h2>
+      <section className="max-w-screen-xl w-full p-4 space-y-6">
+        <h2 className="text-2xl font-bold">Bitwise Operation Visualizer</h2>
         <p className="text-xs text-gray-500">
           Visualize AND, OR, XOR, NOT, and shift operations in binary.
           Interactive and in-browser with real-time binary representation.
         </p>
         <div>
           <Label>Input Mode</Label>
-          <Select
-            value={inputMode}
-            onValueChange={(val) => setInputMode(val as any)}
-          >
+          <Select value={inputMode} onValueChange={handleInputModeChange}>
             <SelectTrigger>
               <SelectValue placeholder="Select Input Mode" />
             </SelectTrigger>
@@ -90,7 +128,7 @@ const BitwiseVisualizer: React.FC = () => {
             <Input
               type="text"
               value={num1}
-              onChange={(e) => setNum1(e.target.value)}
+              onChange={(e) => handleNum1Change(e.target.value)}
               placeholder={
                 inputMode === "bin"
                   ? "e.g. 1010"
@@ -98,7 +136,11 @@ const BitwiseVisualizer: React.FC = () => {
                   ? "e.g. 1A"
                   : "e.g. 10"
               }
+              className={num1Error ? "border-red-500" : ""}
             />
+            {num1Error && (
+              <p className="text-red-500 text-xs mt-1">{num1Error}</p>
+            )}
           </div>
           {operation !== "NOT" && (
             <div>
@@ -110,7 +152,7 @@ const BitwiseVisualizer: React.FC = () => {
               <Input
                 type="text"
                 value={num2}
-                onChange={(e) => setNum2(e.target.value)}
+                onChange={(e) => handleNum2Change(e.target.value)}
                 placeholder={
                   inputMode === "bin"
                     ? "e.g. 1010"
@@ -118,7 +160,11 @@ const BitwiseVisualizer: React.FC = () => {
                     ? "e.g. 1A"
                     : "e.g. 10"
                 }
+                className={num2Error ? "border-red-500" : ""}
               />
+              {num2Error && (
+                <p className="text-red-500 text-xs mt-1">{num2Error}</p>
+              )}
             </div>
           )}
         </div>

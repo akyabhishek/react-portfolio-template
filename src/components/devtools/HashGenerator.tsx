@@ -13,7 +13,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FiCopy, FiClipboard, FiRefreshCw } from "react-icons/fi";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "@/hooks/use-toast";
 
 const encodeText = async (text: string, algo: string): Promise<string> => {
@@ -59,7 +59,7 @@ const HashGenerator: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <section className="max-w-3xl w-full p-4 space-y-6">
+      <section className="max-w-screen-xl w-full p-4 space-y-6">
         <h2 className="text-2xl font-bold mb-5">Hash Generator</h2>
         <p className="text-xs text-gray-500">
           Generate MD5, SHA-1, SHA-256, and SHA-512 hashes instantly. Secure,
@@ -72,13 +72,26 @@ const HashGenerator: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Enter text..."
-              className="pr-10"
+              className="pr-20"
             />
             <Button
               type="button"
+              variant="ghost"
+              size="sm"
+              className="absolute top-2 right-12 z-10 h-6 w-6 p-1 text-muted-foreground hover:text-primary"
+              aria-label="Reset"
+              onClick={() => {
+                setInput("");
+                setHash("");
+              }}
+            >
+              <FiRefreshCw size={14} />
+            </Button>
+            <Button
+              type="button"
               variant="outline"
-              size="icon"
-              className="absolute top-2 right-2 z-10"
+              size="sm"
+              className="absolute top-2 right-2 z-10 h-6 w-6 p-1"
               aria-label="Paste"
               onClick={async () => {
                 const text = await navigator.clipboard.readText();
@@ -86,7 +99,7 @@ const HashGenerator: React.FC = () => {
                 toast({ title: "Pasted from clipboard", duration: 3000 });
               }}
             >
-              <FiClipboard size={18} />
+              <FiClipboard size={14} />
             </Button>
           </div>
         </div>
@@ -109,41 +122,32 @@ const HashGenerator: React.FC = () => {
           </Select>
         </div>
 
-        <div className="flex items-center gap-4">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <Checkbox
-              checked={live}
-              onCheckedChange={(val: boolean) => setLive(val)}
-            />
-            <span className="flex items-center gap-1">
-              Live conversion
-              {live && (
-                <span
-                  className="inline-block w-2 h-2 rounded-full bg-emerald-600 ml-1 animate-pulse"
-                  style={{ animationDuration: "1.2s" }}
-                  title="Live mode active"
-                ></span>
-              )}
-            </span>
-          </label>
-          {!live && (
-            <Button onClick={generateHash} disabled={!input}>
-              Generate Hash
-            </Button>
-          )}
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-label="Reset"
-            onClick={() => {
-              setInput("");
-              setHash("");
-            }}
-            className="h-6 w-6 p-4 text-muted-foreground hover:text-primary"
-          >
-            <FiRefreshCw size={18} />
-          </Button>
+        <div className="flex items-center justify-between min-h-[40px]">
+          <div className="flex items-center gap-3">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <Switch
+                checked={live}
+                onCheckedChange={(val: boolean) => setLive(val)}
+              />
+              <span className="text-sm font-medium">Live conversion</span>
+              <div className="w-2 h-2 flex items-center justify-center">
+                {live && (
+                  <span
+                    className="inline-block w-2 h-2 rounded-full bg-emerald-600 animate-pulse"
+                    style={{ animationDuration: "1.2s" }}
+                    title="Live mode active"
+                  ></span>
+                )}
+              </div>
+            </label>
+          </div>
+          <div className="min-w-[120px] flex items-center justify-end h-10">
+            {!live && (
+              <Button onClick={generateHash} disabled={!input}>
+                Generate Hash
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="mt-4">
@@ -157,11 +161,12 @@ const HashGenerator: React.FC = () => {
             />
             <Button
               variant="outline"
-              size="icon"
+              size="sm"
               onClick={handleCopy}
               disabled={!hash}
+              className="h-6 w-6 p-1"
             >
-              <FiCopy size={16} />
+              <FiCopy size={14} />
             </Button>
           </div>
         </div>

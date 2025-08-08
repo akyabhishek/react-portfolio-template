@@ -9,7 +9,6 @@ import Base64Page from "@/pages/devtools/Base64page";
 import BitwiseVisualizerPage from "@/pages/devtools/BitwiseVisualizerPage";
 import HashGeneratorPage from "@/pages/devtools/HashGeneratorPage";
 import DevToolsPage from "@/pages/DevToolsPage";
-import JSONFormatter from "@/components/devtools/JSONFormatter";
 import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
 import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
 

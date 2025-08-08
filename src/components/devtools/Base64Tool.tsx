@@ -116,7 +116,7 @@ const Base64Tool: React.FC = () => {
   };
 
   return (
-    <section className="max-w-3xl mx-auto p-4 space-y-2">
+    <section className="max-w-screen-xl mx-auto p-4 space-y-2">
       <h2 className="text-2xl font-bold">Base64 Encoder / Decoder</h2>
       <p className="text-xs text-gray-500">
         Convert text to and from Base64 with URL-safe and line-by-line support.
