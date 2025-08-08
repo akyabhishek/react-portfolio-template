@@ -90,6 +90,63 @@ const Base64Tool: React.FC = () => {
   const [encoding, setEncoding] = useState<EncodingType>("utf-8");
   const [processLineByLine, setProcessLineByLine] = useState(false);
   const [isUrlSafe, setIsUrlSafe] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    try {
+      const savedMode = localStorage.getItem("base64Tool_mode");
+      const savedEncodeInput = localStorage.getItem("base64Tool_encodeInput");
+      const savedDecodeInput = localStorage.getItem("base64Tool_decodeInput");
+      const savedEncoding = localStorage.getItem("base64Tool_encoding");
+      const savedProcessLineByLine = localStorage.getItem(
+        "base64Tool_processLineByLine"
+      );
+      const savedIsUrlSafe = localStorage.getItem("base64Tool_isUrlSafe");
+
+      if (savedMode && ["encode", "decode"].includes(savedMode)) {
+        setMode(savedMode as "encode" | "decode");
+      }
+      if (savedEncodeInput) setEncodeInput(savedEncodeInput);
+      if (savedDecodeInput) setDecodeInput(savedDecodeInput);
+      if (savedEncoding && ENCODINGS.includes(savedEncoding as EncodingType)) {
+        setEncoding(savedEncoding as EncodingType);
+      }
+      if (savedProcessLineByLine !== null)
+        setProcessLineByLine(savedProcessLineByLine === "true");
+      if (savedIsUrlSafe !== null) setIsUrlSafe(savedIsUrlSafe === "true");
+    } catch (error) {
+      console.warn("Failed to load from localStorage:", error);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save to localStorage whenever values change (but only after initial load)
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    try {
+      localStorage.setItem("base64Tool_mode", mode);
+      localStorage.setItem("base64Tool_encodeInput", encodeInput);
+      localStorage.setItem("base64Tool_decodeInput", decodeInput);
+      localStorage.setItem("base64Tool_encoding", encoding);
+      localStorage.setItem(
+        "base64Tool_processLineByLine",
+        processLineByLine.toString()
+      );
+      localStorage.setItem("base64Tool_isUrlSafe", isUrlSafe.toString());
+    } catch (error) {
+      console.warn("Failed to save to localStorage:", error);
+    }
+  }, [
+    mode,
+    encodeInput,
+    decodeInput,
+    encoding,
+    processLineByLine,
+    isUrlSafe,
+    isLoaded,
+  ]);
 
   const input = mode === "encode" ? encodeInput : decodeInput;
   const setInput = mode === "encode" ? setEncodeInput : setDecodeInput;
@@ -112,6 +169,13 @@ const Base64Tool: React.FC = () => {
   const handleReset = () => {
     setEncodeInput("");
     setDecodeInput("");
+    // Clear saved inputs from localStorage when resetting
+    try {
+      localStorage.removeItem("base64Tool_encodeInput");
+      localStorage.removeItem("base64Tool_decodeInput");
+    } catch (error) {
+      console.warn("Failed to clear localStorage:", error);
+    }
     toast({ title: "Inputs cleared", duration: 3000 });
   };
 

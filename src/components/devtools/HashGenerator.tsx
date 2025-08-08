@@ -37,7 +37,42 @@ const HashGenerator: React.FC = () => {
     "MD5" | "SHA-1" | "SHA-256" | "SHA-512"
   >("SHA-256");
   const [hash, setHash] = useState("");
-  const [live, setLive] = useState(false);
+  const [live, setLive] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load saved data from localStorage on component mount
+  React.useEffect(() => {
+    try {
+      const savedInput = localStorage.getItem("hashGenerator_input");
+      const savedAlgorithm = localStorage.getItem("hashGenerator_algorithm");
+      const savedLive = localStorage.getItem("hashGenerator_live");
+
+      if (savedInput) setInput(savedInput);
+      if (
+        savedAlgorithm &&
+        ["MD5", "SHA-1", "SHA-256", "SHA-512"].includes(savedAlgorithm)
+      ) {
+        setAlgorithm(savedAlgorithm as "MD5" | "SHA-1" | "SHA-256" | "SHA-512");
+      }
+      if (savedLive !== null) setLive(savedLive === "true");
+    } catch (error) {
+      console.warn("Failed to load from localStorage:", error);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save to localStorage whenever values change (but only after initial load)
+  React.useEffect(() => {
+    if (!isLoaded) return;
+
+    try {
+      localStorage.setItem("hashGenerator_input", input);
+      localStorage.setItem("hashGenerator_algorithm", algorithm);
+      localStorage.setItem("hashGenerator_live", live.toString());
+    } catch (error) {
+      console.warn("Failed to save to localStorage:", error);
+    }
+  }, [input, algorithm, live, isLoaded]);
 
   const generateHash = async () => {
     const result = await encodeText(input, algorithm);
@@ -51,6 +86,17 @@ const HashGenerator: React.FC = () => {
       setHash("");
     }
   }, [input, algorithm, live]);
+
+  const handleReset = () => {
+    setInput("");
+    setHash("");
+    // Clear localStorage when resetting
+    try {
+      localStorage.removeItem("hashGenerator_input");
+    } catch (error) {
+      console.warn("Failed to clear localStorage:", error);
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(hash);
@@ -78,18 +124,15 @@ const HashGenerator: React.FC = () => {
               type="button"
               variant="ghost"
               size="sm"
-              className="absolute top-2 right-12 z-10 h-6 w-6 p-1 text-muted-foreground hover:text-primary"
+              className="absolute top-2 right-12 z-10 h-6 w-6 p-1"
               aria-label="Reset"
-              onClick={() => {
-                setInput("");
-                setHash("");
-              }}
+              onClick={handleReset}
             >
               <FiRefreshCw size={14} />
             </Button>
             <Button
               type="button"
-              variant="outline"
+              variant="ghost"
               size="sm"
               className="absolute top-2 right-2 z-10 h-6 w-6 p-1"
               aria-label="Paste"

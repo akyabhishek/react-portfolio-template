@@ -48,6 +48,8 @@ export default function JSONFormatter() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [mode, setMode] = useState<"beautify" | "minify">("beautify");
+  const [activeTab, setActiveTab] = useState<"editor" | "tree">("editor");
+  const [isLoaded, setIsLoaded] = useState(false);
   const { theme, setTheme } = useTheme();
   // Validate and parse JSON
   const handleValidate = (input: string) => {
@@ -62,15 +64,52 @@ export default function JSONFormatter() {
 
   // Load from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem("jsonFormatterData");
-    setRawJson(saved || defaultJson);
+    try {
+      const savedJson = localStorage.getItem("jsonFormatter_rawJson");
+      const savedMode = localStorage.getItem("jsonFormatter_mode");
+      const savedActiveTab = localStorage.getItem("jsonFormatter_activeTab");
+      const savedSearchTerm = localStorage.getItem("jsonFormatter_searchTerm");
+
+      if (savedJson) {
+        setRawJson(savedJson);
+      } else {
+        setRawJson(defaultJson);
+      }
+
+      if (savedMode && ["beautify", "minify"].includes(savedMode)) {
+        setMode(savedMode as "beautify" | "minify");
+      }
+
+      if (savedActiveTab && ["editor", "tree"].includes(savedActiveTab)) {
+        setActiveTab(savedActiveTab as "editor" | "tree");
+      }
+
+      if (savedSearchTerm) {
+        setSearchTerm(savedSearchTerm);
+      }
+    } catch (error) {
+      console.warn("Failed to load from localStorage:", error);
+      setRawJson(defaultJson);
+    }
+    setIsLoaded(true);
   }, []);
+
+  // Save to localStorage whenever values change (but only after initial load)
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    try {
+      localStorage.setItem("jsonFormatter_rawJson", rawJson);
+      localStorage.setItem("jsonFormatter_mode", mode);
+      localStorage.setItem("jsonFormatter_activeTab", activeTab);
+      localStorage.setItem("jsonFormatter_searchTerm", searchTerm);
+    } catch (error) {
+      console.warn("Failed to save to localStorage:", error);
+    }
+  }, [rawJson, mode, activeTab, searchTerm, isLoaded]);
 
   // Save to localStorage and validate on change
   useEffect(() => {
-    if (rawJson) {
-      localStorage.setItem("jsonFormatterData", rawJson);
-    }
     handleValidate(rawJson);
   }, [rawJson]);
 
@@ -143,13 +182,26 @@ export default function JSONFormatter() {
             </Alert>
           )}
 
-          <Tabs defaultValue="editor" style={{ marginTop: "0!important" }}>
+          <Tabs
+            value={activeTab}
+            onValueChange={(val) => setActiveTab(val as "editor" | "tree")}
+            style={{ marginTop: "0!important" }}
+          >
             <div className="flex items-center justify-between">
               <TabsList>
                 <TabsTrigger value="editor">Editor</TabsTrigger>
                 <TabsTrigger value="tree">Tree View</TabsTrigger>
               </TabsList>
               <div className="flex items-center gap-2">
+                {/* Search input for tree view */}
+                {activeTab === "tree" && (
+                  <Input
+                    placeholder="Search keys..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-40"
+                  />
+                )}
                 {/* Upload button before Download */}
                 <Button
                   variant="ghost"
@@ -196,6 +248,14 @@ export default function JSONFormatter() {
                   onClick={() => {
                     setRawJson("{}");
                     setError(null);
+                    setSearchTerm("");
+                    // Clear localStorage when resetting
+                    try {
+                      localStorage.removeItem("jsonFormatter_rawJson");
+                      localStorage.removeItem("jsonFormatter_searchTerm");
+                    } catch (error) {
+                      console.warn("Failed to clear localStorage:", error);
+                    }
                     toast({ title: "JSON reset", duration: 3000 });
                   }}
                   title="Reset JSON"
@@ -248,7 +308,11 @@ export default function JSONFormatter() {
             <TabsContent value="tree">
               <div className="border rounded p-4 overflow-auto min-h-[400px] bg-muted  text-sm text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-700 transition-colors">
                 <ReactJson
-                  src={parsedJson}
+                  src={
+                    searchTerm
+                      ? highlightJson(parsedJson, searchTerm)
+                      : parsedJson
+                  }
                   name={null}
                   collapsed={2}
                   displayDataTypes={false}

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -16,6 +17,7 @@ import {
   GiLogicGateNor,
 } from "react-icons/gi";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
+import { FiRefreshCw } from "react-icons/fi";
 
 const getBitLength = (n: number) => Math.max(8, n.toString(2).length);
 const toBinary = (n: number, bits: number) => n.toString(2).padStart(bits, "0");
@@ -29,6 +31,52 @@ const BitwiseVisualizer: React.FC = () => {
   >("AND");
   const [num1Error, setNum1Error] = useState("");
   const [num2Error, setNum2Error] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    try {
+      const savedNum1 = localStorage.getItem("bitwiseVisualizer_num1");
+      const savedNum2 = localStorage.getItem("bitwiseVisualizer_num2");
+      const savedInputMode = localStorage.getItem(
+        "bitwiseVisualizer_inputMode"
+      );
+      const savedOperation = localStorage.getItem(
+        "bitwiseVisualizer_operation"
+      );
+
+      if (savedNum1) setNum1(savedNum1);
+      if (savedNum2) setNum2(savedNum2);
+      if (savedInputMode && ["dec", "bin", "hex"].includes(savedInputMode)) {
+        setInputMode(savedInputMode as "dec" | "bin" | "hex");
+      }
+      if (
+        savedOperation &&
+        ["AND", "OR", "XOR", "NOT", "LSHIFT", "RSHIFT"].includes(savedOperation)
+      ) {
+        setOperation(
+          savedOperation as "AND" | "OR" | "XOR" | "NOT" | "LSHIFT" | "RSHIFT"
+        );
+      }
+    } catch (error) {
+      console.warn("Failed to load from localStorage:", error);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save to localStorage whenever values change (but only after initial load)
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    try {
+      localStorage.setItem("bitwiseVisualizer_num1", num1);
+      localStorage.setItem("bitwiseVisualizer_num2", num2);
+      localStorage.setItem("bitwiseVisualizer_inputMode", inputMode);
+      localStorage.setItem("bitwiseVisualizer_operation", operation);
+    } catch (error) {
+      console.warn("Failed to save to localStorage:", error);
+    }
+  }, [num1, num2, inputMode, operation, isLoaded]);
 
   const validateInput = (val: string, mode: "dec" | "bin" | "hex"): string => {
     if (!val.trim()) return "Input cannot be empty";
@@ -101,14 +149,41 @@ const BitwiseVisualizer: React.FC = () => {
     setNum1Error(validateInput(num1, mode));
     setNum2Error(validateInput(num2, mode));
   };
+
+  const handleReset = () => {
+    setNum1("5");
+    setNum2("3");
+    setNum1Error("");
+    setNum2Error("");
+    // Clear localStorage when resetting
+    try {
+      localStorage.removeItem("bitwiseVisualizer_num1");
+      localStorage.removeItem("bitwiseVisualizer_num2");
+    } catch (error) {
+      console.warn("Failed to clear localStorage:", error);
+    }
+  };
   return (
     <div className="flex items-center justify-center">
       <section className="max-w-screen-xl w-full p-4 space-y-6">
-        <h2 className="text-2xl font-bold">Bitwise Operation Visualizer</h2>
-        <p className="text-xs text-gray-500">
-          Visualize AND, OR, XOR, NOT, and shift operations in binary.
-          Interactive and in-browser with real-time binary representation.
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">Bitwise Operation Visualizer</h2>
+            <p className="text-xs text-gray-500">
+              Visualize AND, OR, XOR, NOT, and shift operations in binary.
+              Interactive and in-browser with real-time binary representation.
+            </p>
+          </div>
+          <Button
+            variant="ghost"
+            onClick={handleReset}
+            title="Reset to default values"
+            className="flex items-center gap-2"
+          >
+            <FiRefreshCw size={16} />
+            Reset
+          </Button>
+        </div>
         <div>
           <Label>Input Mode</Label>
           <Select value={inputMode} onValueChange={handleInputModeChange}>

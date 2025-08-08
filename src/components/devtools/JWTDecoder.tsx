@@ -35,6 +35,33 @@ const JWTDecoder: React.FC = () => {
   const [jwt, setJwt] = useState("");
   const [decoded, setDecoded] = useState<any>({});
   const [live, setLive] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load saved data from localStorage on component mount
+  React.useEffect(() => {
+    try {
+      const savedJwt = localStorage.getItem("jwtDecoder_jwt");
+      const savedLive = localStorage.getItem("jwtDecoder_live");
+
+      if (savedJwt) setJwt(savedJwt);
+      if (savedLive !== null) setLive(savedLive === "true");
+    } catch (error) {
+      console.warn("Failed to load from localStorage:", error);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save to localStorage whenever values change (but only after initial load)
+  React.useEffect(() => {
+    if (!isLoaded) return;
+
+    try {
+      localStorage.setItem("jwtDecoder_jwt", jwt);
+      localStorage.setItem("jwtDecoder_live", live.toString());
+    } catch (error) {
+      console.warn("Failed to save to localStorage:", error);
+    }
+  }, [jwt, live, isLoaded]);
 
   React.useEffect(() => {
     if (live) {
@@ -59,6 +86,12 @@ const JWTDecoder: React.FC = () => {
   const handleReset = () => {
     setJwt("");
     setDecoded({});
+    // Clear localStorage when resetting
+    try {
+      localStorage.removeItem("jwtDecoder_jwt");
+    } catch (error) {
+      console.warn("Failed to clear localStorage:", error);
+    }
     toast({ title: "Inputs cleared", duration: 3000 });
   };
 
