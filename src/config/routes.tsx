@@ -11,6 +11,7 @@ import HashGeneratorPage from "@/pages/devtools/HashGeneratorPage";
 import DevToolsPage from "@/pages/DevToolsPage";
 import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
 import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
+import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/jwt-decoder",
         element: <JWTDecoderPage />,
+      },
+      {
+        path: "/qr-generator",
+        element: <QRCodeGeneratorPage />,
       },
     ],
   },

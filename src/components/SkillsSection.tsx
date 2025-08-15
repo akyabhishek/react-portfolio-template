@@ -164,7 +164,7 @@ export default function SkillsSection() {
                 {skill.items.map((item, i) => (
                   <li
                     key={i}
-                    className={`relative z-20 flex items-center gap-2 px-3 py-1 rounded-full text-sm transition-colors ease-in-out duration-300 bg-slate-100 dark:bg-zinc-900 text-slate-900 hover:text-slate-100 dark:text-gray-200 ${randomGradient()}`}
+                    className={`relative z-20 flex items-center gap-2 px-3 py-1 rounded-2xl text-sm transition-colors ease-in-out duration-300 bg-slate-100 dark:bg-zinc-900 text-slate-900 hover:text-slate-100 dark:text-gray-200 ${randomGradient()}`}
                   >
                     <span className="text-lg">{iconMap[item] ?? ""}</span>
                     {item}

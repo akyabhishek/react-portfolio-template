@@ -58,7 +58,11 @@ export default function ProjectCard(props: ProjectCardProps) {
         <CardContent>
           <div className="flex flex-wrap gap-2">
             {techStack.map((tech, index) => (
-              <Badge key={index} variant="outline" className="font-normal">
+              <Badge
+                key={index}
+                variant="outline"
+                className="font-normal rounded-2xl"
+              >
                 {tech}
               </Badge>
             ))}
