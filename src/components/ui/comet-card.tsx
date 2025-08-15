@@ -96,7 +96,7 @@ export const CometCard = ({
           z: 50,
           transition: { duration: 0.2 },
         }}
-        className="relative rounded-2xl shadow-md"
+        className="relative rounded-2xl shadow-sm"
       >
         {children}
         <motion.div

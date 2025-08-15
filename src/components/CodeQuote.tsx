@@ -1,9 +1,9 @@
 import React from "react";
-import {CodeBlock} from "./ui/code-block";
-
+import { CodeBlock } from "./ui/code-block";
+import { settings } from "@/config/settings";
 
 export default function CodeQuote() {
-    const code = `// The Journey of a Developer
+  const code = `// The Journey of a Developer
 function cultivateGrowth<T extends Developer>(person: T): Promise<Success> {
   return new Promise((resolve) => {
     while (person.isLearning) {
@@ -32,19 +32,27 @@ function cultivateGrowth<T extends Developer>(person: T): Promise<Success> {
     });
   });
 } `;
-    return (
-      <div className="pt-10 mb-10">
-          <h1 className="text-3xl my-5">Developer's Journey Algorithm</h1>
-          
-        <div>
+  return (
+    <>
+      {settings.quoteSection && (
+        <div className="pt-10 mb-10">
+          <h1 className="text-3xl my-5 font-bold">
+            Developer's Journey Algorithm
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            A deep dive into the algorithm that maps out the growth of a
+            developer.
+          </p>
+
+          <div>
             <CodeBlock
-                language="tsx"
-                filename="DevJourneyAlgo.tsx"
-                code={code}
+              language="tsx"
+              filename="DevJourneyAlgo.tsx"
+              code={code}
             />
-
+          </div>
         </div>
-
-</div>
-    );
+      )}
+    </>
+  );
 }

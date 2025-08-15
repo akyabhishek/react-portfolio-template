@@ -73,9 +73,6 @@ export function NewNavbar() {
             <NavbarButton variant="secondary" className="space-x-2">
               <Switch checked={isDark} onCheckedChange={toggleTheme} />
             </NavbarButton>
-            <NavbarButton variant="secondary" className="p-0">
-              <ResumeButton />
-            </NavbarButton>
           </div>
         </NavBody>
 
@@ -114,9 +111,6 @@ export function NewNavbar() {
                   onCheckedChange={toggleTheme}
                   className="float-left"
                 />
-              </NavbarButton>
-              <NavbarButton variant="secondary" className="w-full">
-                <ResumeButton />
               </NavbarButton>
             </div>
           </MobileNavMenu>

@@ -1,20 +1,20 @@
 import React from "react";
-import {FlipWords} from "@/components/ui/flip-words";
+import { FlipWords } from "@/components/ui/flip-words";
 import LinkCard from "@/components/LinkCard";
-import {BackgroundBeamsWithCollision} from "@/components/ui/background-beams-with-collision";
-import {Card} from "@/components/ui/card";
-import {CardBody} from "@/components/ui/3d-card";
-import {Link} from "react-router-dom";
+import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
+import { Card } from "@/components/ui/card";
+import { CardBody } from "@/components/ui/3d-card";
+import { Link } from "react-router-dom";
 import {
-    SiFacebook,
-    SiGeeksforgeeks,
-    SiGithub,
-    SiInstagram,
-    SiLeetcode,
-    SiLinkedin,
-    SiSnapchat,
-    SiX,
-    SiYoutube
+  SiFacebook,
+  SiGeeksforgeeks,
+  SiGithub,
+  SiInstagram,
+  SiLeetcode,
+  SiLinkedin,
+  SiSnapchat,
+  SiX,
+  SiYoutube,
 } from "react-icons/si";
 
 export default function Contact(): JSX.Element {
@@ -24,16 +24,20 @@ export default function Contact(): JSX.Element {
       url: "https://www.linkedin.com/in/abhishekkumaryadav/",
       icon: <SiLinkedin />,
     },
-    { title: "GitHub", url: "https://github.com/akyabhishek", icon: <SiGithub /> },
+    {
+      title: "GitHub",
+      url: "https://github.com/akyabhishek",
+      icon: <SiGithub />,
+    },
     {
       title: "LeetCode",
       url: "https://leetcode.com/mrabk121/",
-      icon: <SiLeetcode />
+      icon: <SiLeetcode />,
     },
     {
       title: "GeeksforGeeks",
       url: "https://www.geeksforgeeks.org/user/akyabhishek/",
-      icon: <SiGeeksforgeeks />
+      icon: <SiGeeksforgeeks />,
     },
     {
       title: "Instagram",
@@ -66,7 +70,9 @@ export default function Contact(): JSX.Element {
           <CardBody className="w-full h-auto  z-20 ">
             <p className="leading-9 text-center">
               Feel free to get in touch at:{" "}
-              <Link to="mailto:aky.abhishekkumaryadav@gmail.com" className="font-medium underline underline-offset-4 transition-colors hover:text-emerald-500"
+              <Link
+                to="mailto:aky.abhishekkumaryadav@gmail.com"
+                className="font-medium underline underline-offset-4 transition-colors hover:text-emerald-500"
               >
                 aky.abhishekkumaryadav@gmail.com
               </Link>
@@ -76,13 +82,21 @@ export default function Contact(): JSX.Element {
                   "Still thinking? Take your time!",
                   "I'll wait... but not forever!",
                   "Okay, maybe forever.",
-                  "Don't be shy—I'm super friendly!",
+                  "Don’t be shy—I'm super friendly!",
                   "Unless you ask for free coffee ☕.",
                   "Need help? I’ve got you!",
-                  "Just say 'Hi'—I won't bite!",
                   "Typing already? I’m excited!",
                   "Wait... are you really emailing?",
                   "Kidding. You totally should!",
+                  "Pssst... I’m still here",
+                  "Your keyboard misses you!",
+                  "The suspense is killing me!",
+                  "Fun fact: I debug faster than I reply",
+                  "You write, I reply—teamwork!",
+                  "Free smiles with every message",
+                  "If you don't email, I'll start singing",
+                  "I promise my code is cleaner than my jokes",
+                  "Your move...",
                 ]}
                 duration={2000}
               />
@@ -133,10 +147,9 @@ export default function Contact(): JSX.Element {
               </a>
               .
             </div>
-
-          </CardBody></Card>
+          </CardBody>
+        </Card>
       </BackgroundBeamsWithCollision>
-
     </div>
   );
 }

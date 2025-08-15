@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -123,6 +128,16 @@ body {
     }
   }
 }
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
+}
+
 /* json-highlight.css */
 
 .token.property {

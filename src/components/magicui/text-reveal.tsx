@@ -1,12 +1,12 @@
 "use client";
 
-import {motion, MotionValue, useScroll, useTransform} from "motion/react";
-import {ComponentPropsWithoutRef, FC, ReactNode, useRef} from "react";
+import { motion, MotionValue, useScroll, useTransform } from "motion/react";
+import { ComponentPropsWithoutRef, FC, ReactNode, useRef } from "react";
 
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export interface TextRevealProps extends ComponentPropsWithoutRef<"div"> {
-  children: string;
+  children: ReactNode;
 }
 
 export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
@@ -15,11 +15,25 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
     target: targetRef,
   });
 
-  if (typeof children !== "string") {
-    throw new Error("TextReveal: children must be a string");
-  }
+  // Function to extract text content and preserve structure
+  const processChildren = (node: ReactNode): (string | ReactNode)[] => {
+    if (typeof node === "string") {
+      return node.split(" ");
+    }
 
-  const words = children.split(" ");
+    if (typeof node === "number") {
+      return [node.toString()];
+    }
+
+    if (Array.isArray(node)) {
+      return node.flatMap(processChildren);
+    }
+
+    // For React elements or other nodes, return as-is
+    return [node];
+  };
+
+  const elements = processChildren(children);
 
   return (
     <div ref={targetRef} className={cn("relative z-0 h-[200vh]", className)}>
@@ -34,12 +48,12 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
             "flex flex-wrap p-5 text-2xl font-bold text-black/20 dark:text-white/20 md:p-8 md:text-3xl lg:p-10 lg:text-4xl xl:text-5xl"
           }
         >
-          {words.map((word, i) => {
-            const start = i / words.length;
-            const end = start + 1 / words.length;
+          {elements.map((element, i) => {
+            const start = i / elements.length;
+            const end = start + 1 / elements.length;
             return (
               <Word key={i} progress={scrollYProgress} range={[start, end]}>
-                {word}
+                {element}
               </Word>
             );
           })}
