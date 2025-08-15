@@ -1,11 +1,16 @@
-import {SiGithub, SiGoogleplay} from "react-icons/si";
-import {Badge} from "./ui/badge";
-import {Button} from "./ui/button";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,} from "./ui/card";
-import {GoLinkExternal} from "react-icons/go";
-import {CardContainer} from "./ui/3d-card";
-
-;
+import { SiGithub, SiGoogleplay } from "react-icons/si";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { GoLinkExternal } from "react-icons/go";
+import { CardContainer } from "./ui/3d-card";
 
 interface ProjectCardProps {
   title: string;
@@ -20,7 +25,17 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard(props: ProjectCardProps) {
-  const { title, description, techStack, imageUrl, live, github, liveUrl, playstore ,duration} = props;
+  const {
+    title,
+    description,
+    techStack,
+    imageUrl,
+    live,
+    github,
+    liveUrl,
+    playstore,
+    duration,
+  } = props;
   const cardContent = (
     <CardContainer className="inter-var">
       <Card className="max-w-sm w-full shadow-md hover:shadow-lg transition-shadow duration-300  relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:border-white/[0.2] border-black/[0.1]">
@@ -28,20 +43,17 @@ export default function ProjectCard(props: ProjectCardProps) {
           <img
             src={imageUrl}
             alt={title}
-            className="w-full h-auto object-cover rounded-md mb-4"
-          /><br />
-          <div className="text-xs text-muted-foreground">
-            {duration}
-          </div>
+            className="w-full h-auto object-cover rounded-2xl mb-4"
+          />
+          <br />
+          <div className="text-xs text-muted-foreground">{duration}</div>
           <CardTitle className="flex items-center gap-2">
             {title}
             {live && (
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 -translate-y-0.5"></span>
+              <span className="inline-block h-2 w-2 rounded-2xl bg-emerald-500 -translate-y-0.5"></span>
             )}
           </CardTitle>
-          <CardDescription>{description}
-            
-          </CardDescription>
+          <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -70,21 +82,26 @@ export default function ProjectCard(props: ProjectCardProps) {
             </Button>
           )}
           {liveUrl && (
-            <Button variant="ghost" size="sm" className="text-emerald-500" asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-emerald-500"
+              asChild
+            >
               <a href={liveUrl} target="_blank" rel="noopener noreferrer">
                 <GoLinkExternal />
               </a>
             </Button>
           )}
         </CardFooter>
-      </Card></CardContainer>
+      </Card>
+    </CardContainer>
   );
 
   return liveUrl ? (
     <a href={liveUrl} target="_blank" rel="noopener noreferrer">
       {cardContent}
     </a>
-
   ) : (
     cardContent
   );

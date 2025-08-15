@@ -7,6 +7,7 @@ import { GiLogicGateXor } from "react-icons/gi";
 import { PiHashStraightFill } from "react-icons/pi";
 import { LuFileJson } from "react-icons/lu";
 import { SiJsonwebtokens } from "react-icons/si";
+import { GlowingEffect } from "./ui/glowing-effect";
 const tools = [
   {
     name: "JSON Formatter & Viewer",
@@ -43,7 +44,7 @@ export default function ToolsForDev() {
     <div id="devtools">
       <section className="p-3 md:p-6 bg-gradient-to-b max-w-4xl mx-auto transition-colors duration-300">
         <h1 className="text-3xl mb-4">DEV TOOLS</h1>
-        <div className="space-y-6 border-l-2 border-dotted pl-6 py-3 rounded-3xl">
+        <div className="space-y-6 border-l-2 border-dotted pl-6 py-3 rounded-2xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {tools.map((tool) => (
               <Link
