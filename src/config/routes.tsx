@@ -12,6 +12,7 @@ import DevToolsPage from "@/pages/DevToolsPage";
 import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
 import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
 import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
+import QRScannerPage from "@/pages/devtools/QRScannerPage";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/qr-generator",
         element: <QRCodeGeneratorPage />,
+      },
+      {
+        path: "/qr-scanner",
+        element: <QRScannerPage />,
       },
     ],
   },

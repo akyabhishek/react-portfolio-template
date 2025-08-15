@@ -1,5 +1,5 @@
 import React from "react";
-import QRCodeGenerator from "@/components/devtools/QRCodeGenerator_new";
+import QRCodeGenerator from "@/components/devtools/QRCodeGenerator";
 import { Helmet } from "react-helmet";
 
 export default function QRCodeGeneratorPage() {

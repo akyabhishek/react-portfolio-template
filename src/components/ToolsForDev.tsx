@@ -5,7 +5,7 @@ import { GiLogicGateXor } from "react-icons/gi";
 import { PiHashStraightFill } from "react-icons/pi";
 import { LuFileJson } from "react-icons/lu";
 import { SiJsonwebtokens } from "react-icons/si";
-import { MdQrCode } from "react-icons/md";
+import { MdQrCode, MdQrCodeScanner } from "react-icons/md";
 import { CometCard } from "./ui/comet-card";
 const tools = [
   {
@@ -47,6 +47,14 @@ const tools = [
     description: "Generate QR codes for text, URLs, and more",
     link: "/qr-generator",
     icon: <MdQrCode className="inline-block text-3xl text-emerald-600" />,
+  },
+  {
+    name: "QR Code Scanner",
+    description: "Scan QR codes using camera or image upload",
+    link: "/qr-scanner",
+    icon: (
+      <MdQrCodeScanner className="inline-block text-3xl text-emerald-600" />
+    ),
   },
 ];
 export default function ToolsForDev() {
