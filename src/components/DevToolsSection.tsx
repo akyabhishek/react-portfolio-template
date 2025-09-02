@@ -6,12 +6,22 @@ import { PiHashStraightFill } from "react-icons/pi";
 import { LuFileJson } from "react-icons/lu";
 import { SiJsonwebtokens } from "react-icons/si";
 import { MdQrCode, MdQrCodeScanner } from "react-icons/md";
+import { BiTime } from "react-icons/bi";
 import { CometCard } from "./ui/comet-card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { settings } from "@/config/settings";
 const tools = [
+  {
+    name: "Algorithm Complexity Analyzer",
+    description: "Analyze time and space complexity of algorithms",
+    link: "/algorithm-complexity-analyzer",
+    icon: <BiTime className="inline-block text-3xl text-emerald-600" />,
+    category: "Programming",
+    tags: ["algorithm", "complexity", "big-o", "performance", "analysis"],
+    popular: true,
+  },
   {
     name: "JSON Formatter & Viewer",
     description: "Format, validate and view JSON data",

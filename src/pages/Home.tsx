@@ -5,7 +5,7 @@ import ProjectsSection from "@/components/ProjectSection";
 import { TextReveal } from "@/components/magicui/text-reveal";
 import ExperienceSection from "@/components/Experience";
 import Contact from "./Contact";
-import ToolsForDev from "@/components/ToolsForDev";
+import ToolsForDev from "@/components/DevToolsSection";
 import HeroSection from "@/components/HeroSection";
 import CodeQuote from "@/components/CodeQuote";
 import { SiFuturelearn } from "react-icons/si";

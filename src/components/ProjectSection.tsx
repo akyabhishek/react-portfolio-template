@@ -86,6 +86,20 @@ const projects = [
     liveUrl: "https://binary-search-visualizer-mauve.vercel.app/",
   },
   {
+    title: "FlowTrace",
+    description: "Browser extension for tracing user flows and debugging.",
+    techStack: [
+      "JavaScript",
+      "Chrome Extension API",
+      "Manifest V3",
+      "HTML",
+      "CSS",
+    ],
+    imageUrl: "/assets/flowtrace-preview.jpg",
+    github: "https://github.com/akyabhishek/FlowTrace",
+    live: false,
+  },
+  {
     title: "Personal Portfolio",
     description: "A personal portfolio site portfolio site",
     techStack: [
@@ -122,19 +136,20 @@ export default function ProjectsSection() {
         problems I've solved.
       </p>
       <section className="p-6 md:p-12 bg-gradient-to-b max-w-4xl mx-auto transition-colors duration-300">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
           {projects.map((project, index) => (
-            <ProjectCard
-              key={index}
-              title={project.title}
-              description={project.description}
-              techStack={project.techStack}
-              imageUrl={project.imageUrl}
-              github={project.github}
-              liveUrl={project.liveUrl}
-              playstore={project.playstore}
-              live={project.live}
-            />
+            <div key={index} className="h-full">
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                techStack={project.techStack}
+                imageUrl={project.imageUrl}
+                github={project.github}
+                liveUrl={project.liveUrl}
+                playstore={project.playstore}
+                live={project.live}
+              />
+            </div>
           ))}
         </div>
       </section>

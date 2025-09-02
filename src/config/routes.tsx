@@ -13,6 +13,7 @@ import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
 import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
 import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
 import QRScannerPage from "@/pages/devtools/QRScannerPage";
+import AlgorithmComplexityAnalyzerPage from "@/pages/devtools/AlgorithmComplexityAnalyzerPage";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/qr-scanner",
         element: <QRScannerPage />,
+      },
+      {
+        path: "/algorithm-complexity-analyzer",
+        element: <AlgorithmComplexityAnalyzerPage />,
       },
     ],
   },
