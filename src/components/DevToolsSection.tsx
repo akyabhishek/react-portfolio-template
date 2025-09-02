@@ -5,7 +5,7 @@ import { GiLogicGateXor } from "react-icons/gi";
 import { PiHashStraightFill } from "react-icons/pi";
 import { LuFileJson } from "react-icons/lu";
 import { SiJsonwebtokens } from "react-icons/si";
-import { MdQrCode, MdQrCodeScanner } from "react-icons/md";
+import { MdQrCode, MdQrCodeScanner, MdConstruction } from "react-icons/md";
 import { BiTime } from "react-icons/bi";
 import { CometCard } from "./ui/comet-card";
 import { Badge } from "./ui/badge";
@@ -21,6 +21,7 @@ const tools = [
     category: "Programming",
     tags: ["algorithm", "complexity", "big-o", "performance", "analysis"],
     popular: true,
+    inDevelopment: true,
   },
   {
     name: "JSON Formatter & Viewer",
@@ -30,6 +31,7 @@ const tools = [
     category: "Data Processing",
     tags: ["json", "format", "validate"],
     popular: true,
+    inDevelopment: false,
   },
   {
     name: "Base64 Encoder/Decoder",
@@ -39,6 +41,7 @@ const tools = [
     category: "Encoding",
     tags: ["base64", "encode", "decode"],
     popular: true,
+    inDevelopment: false,
   },
   {
     name: "JWT Decoder",
@@ -50,6 +53,7 @@ const tools = [
     category: "Security",
     tags: ["jwt", "token", "security"],
     popular: false,
+    inDevelopment: false,
   },
   {
     name: "Bitwise Visualizer",
@@ -59,6 +63,7 @@ const tools = [
     category: "Programming",
     tags: ["bitwise", "binary", "operations"],
     popular: false,
+    inDevelopment: false,
   },
   {
     name: "Hash Generator",
@@ -70,6 +75,7 @@ const tools = [
     category: "Security",
     tags: ["hash", "md5", "sha256"],
     popular: false,
+    inDevelopment: false,
   },
   {
     name: "QR Code Generator",
@@ -79,6 +85,7 @@ const tools = [
     category: "Utilities",
     tags: ["qr", "code", "generator"],
     popular: true,
+    inDevelopment: false,
   },
   {
     name: "QR Code Scanner",
@@ -90,6 +97,7 @@ const tools = [
     category: "Utilities",
     tags: ["qr", "scanner", "camera"],
     popular: false,
+    inDevelopment: false,
   },
 ];
 export default function ToolsForDev() {
@@ -199,6 +207,18 @@ export default function ToolsForDev() {
                           className="absolute top-2 right-2 bg-emerald-100 text-emerald-800 dark:bg-emerald-900 hover:bg-emerald-200 dark:text-emerald-100 text-xs"
                         >
                           <FiStar size={12} />
+                        </Badge>
+                      )}
+
+                      {/* Beta Badge */}
+                      {tool.inDevelopment && (
+                        <Badge
+                          title="Beta"
+                          className={`absolute top-2 ${
+                            tool.popular ? "right-16" : "right-2"
+                          } bg-orange-100 text-orange-800 dark:bg-orange-900 hover:bg-orange-200 dark:text-orange-100 text-xs`}
+                        >
+                          Beta
                         </Badge>
                       )}
 
