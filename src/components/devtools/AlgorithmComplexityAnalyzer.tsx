@@ -946,9 +946,7 @@ export default function ComplexityAnalyzer() {
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Algorithm Complexity Analyzer
-        </h1>
+        <h1 className="text-2xl font-bold">Algorithm Complexity Analyzer</h1>
         <p className="text-gray-600 dark:text-gray-400">
           Analyze time and space complexity of your algorithms with interactive
           visualizations
@@ -989,7 +987,7 @@ export default function ComplexityAnalyzer() {
                 <Switch
                   checked={autoAnalyze}
                   onCheckedChange={setAutoAnalyze}
-                  className="data-[state=checked]:bg-blue-600"
+                  className="data-[state=checked]:bg-emerald-600"
                 />
                 <span className="text-sm text-gray-600 dark:text-gray-400">
                   Auto Analyze
