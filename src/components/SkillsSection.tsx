@@ -65,6 +65,7 @@ import { CardSpotlight } from "./ui/card-spotlight";
 import { useState } from "react";
 import { skillsData, type Skill } from "../config/skillsData";
 import { PiOpenAiLogo } from "react-icons/pi";
+import SkillDetails from "./SkillDetails";
 
 // Tooltip component
 interface TooltipProps {
@@ -114,7 +115,7 @@ const getProficiencyWidth = (level: Skill["level"]): string => {
 };
 
 // Circular Proficiency Indicator Component
-const CircularIndicator = ({ level }: { level: Skill["level"] }) => {
+export const CircularIndicator = ({ level }: { level: Skill["level"] }) => {
   const quarters = getProficiencyLevel(level);
 
   return (
@@ -227,6 +228,22 @@ const categoryIconMap: Record<string, JSX.Element> = {
 };
 
 export default function SkillsSection() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
+  const [selectedIcon, setSelectedIcon] = useState<JSX.Element | null>(null);
+
+  const handleCategoryClick = (
+    category: string,
+    skills: Skill[],
+    icon: JSX.Element
+  ) => {
+    setSelectedCategory(category);
+    setSelectedSkills(skills);
+    setSelectedIcon(icon);
+    setIsDialogOpen(true);
+  };
+
   return (
     <div className="pt-5" id="skills">
       <h1 className="text-3xl font-bold mb-2">SKILLS</h1>
@@ -261,7 +278,14 @@ export default function SkillsSection() {
           {skillsData.map((skill, idx) => (
             <CardSpotlight
               key={idx}
-              className=" p-4 rounded-2xl shadow-sm hover:shadow-lg duration-500 ease-in-out transition-all"
+              className="p-4 rounded-2xl shadow-sm hover:shadow-lg duration-500 ease-in-out transition-all cursor-pointer"
+              onClick={() =>
+                handleCategoryClick(
+                  skill.category,
+                  skill.items,
+                  categoryIconMap[skill.category]
+                )
+              }
             >
               <h3 className="text-xl mb-3 text-grey-700 font-bold dark:text-gray-100 relative z-20 flex items-center gap-2">
                 {categoryIconMap[skill.category] && (
@@ -300,12 +324,13 @@ export default function SkillsSection() {
                       }
                     >
                       <span
-                        className={`relative z-20 flex items-center gap-2 px-3 py-1 rounded-2xl text-sm transition-all ease-in-out duration-300 bg-slate-100 dark:bg-zinc-900 text-slate-900 hover:text-slate-100 dark:text-gray-200 cursor-help hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:scale-105`}
+                        className={`relative z-20 flex items-center gap-2 px-3 py-2 rounded-2xl text-base transition-all ease-in-out duration-300 bg-slate-100 dark:bg-zinc-900 text-slate-900 hover:text-slate-100 dark:text-gray-200 cursor-help hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:shadow-lg hover:translate-y-[-2px]`}
+                        onClick={(e) => e.stopPropagation()} // Prevent card click when clicking on skill
                       >
                         {iconMap[item.name] && (
-                          <span className="text-lg">{iconMap[item.name]}</span>
+                          <span className="text-xl">{iconMap[item.name]}</span>
                         )}
-                        <span>{item.name}</span>
+                        <span className="font-medium">{item.name}</span>
                         <CircularIndicator level={item.level} />
                       </span>
                     </Tooltip>
@@ -316,6 +341,16 @@ export default function SkillsSection() {
           ))}
         </div>
       </section>
+
+      {/* Skill Details Dialog */}
+      <SkillDetails
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        category={selectedCategory}
+        skills={selectedSkills}
+        icon={selectedIcon || <></>}
+        iconMap={iconMap}
+      />
     </div>
   );
 }
