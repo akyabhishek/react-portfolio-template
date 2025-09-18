@@ -142,8 +142,13 @@ export default function HeroSection(): JSX.Element {
 
   return (
     <>
-      <div className="min-h-screen h-auto flex flex-col lg:flex-row justify-center items-center px-5 md:px-40 space-x-2 mt-10 relative">
-        <div className="text-2xl mx-auto font-normal text-neutral-600 dark:text-neutral-400 lg:w-1/2 lg:pl-3">
+      <div className="min-h-screen h-auto flex flex-col lg:flex-row justify-center items-center px-5 md:px-40 lg:space-x-2 mt-10 relative">
+        {/* Image - Order first on mobile, second on lg */}
+        <div className="lg:w-1/2 p-10 flex justify-center order-first lg:order-last mb-4 lg:mb-0">
+          <FloatingImage mainImage={mainImage} altImage={altMainImage} />
+        </div>
+
+        <div className="text-2xl mx-auto font-normal text-neutral-600 dark:text-neutral-400 lg:w-1/2 lg:pl-3 order-last lg:order-first">
           {/* Status Badge */}
           {settings.showAvailableForOpportunities && (
             <div className="mb-4">
@@ -209,22 +214,6 @@ export default function HeroSection(): JSX.Element {
             ))}
           </div>
           <div></div>
-        </div>
-        <div className="lg:w-1/2 p-10 flex justify-center">
-          <FloatingImage mainImage={mainImage} altImage={altMainImage} />
-        </div>
-
-        {/* Scroll Indicator - Positioned absolutely at bottom of viewport */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <a
-            href="#about"
-            className="flex flex-col items-center cursor-pointer animate-bounce hover:text-emerald-600 transition-colors duration-300 no-underline"
-          >
-            <span className="text-xs text-muted-foreground mb-2">
-              Scroll to explore
-            </span>
-            <FiChevronDown className="text-emerald-600" size={20} />
-          </a>
         </div>
       </div>
     </>

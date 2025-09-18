@@ -25,6 +25,10 @@ interface NavItemsProps {
   items: {
     name: string;
     link: string;
+    dropdown?: {
+      name: string;
+      link: string;
+    }[];
   }[];
   className?: string;
   onItemClick?: () => void;
@@ -121,31 +125,97 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 
 export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
   return (
     <motion.div
-      onMouseLeave={() => setHovered(null)}
+      onMouseLeave={() => {
+        setHovered(null);
+        setOpenDropdown(null);
+      }}
       className={cn(
         "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
         className
       )}
     >
       {items.map((item, idx) => (
-        <a
-          onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-emerald-500 dark:hover:text-emerald-500 transition-all duration-500 ease-in-out"
+        <div
           key={`link-${idx}`}
-          href={item.link}
+          className="relative"
+          onMouseEnter={() => {
+            setHovered(idx);
+            if (item.dropdown) {
+              setOpenDropdown(idx);
+            } else {
+              setOpenDropdown(null);
+            }
+          }}
         >
-          {hovered === idx && (
-            <motion.div
-              layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800 "
-            />
-          )}
-          <span className="relative z-20 ">{item.name}</span>
-        </a>
+          <a
+            onClick={(e) => {
+              if (item.dropdown) {
+                e.preventDefault();
+              } else if (onItemClick) {
+                onItemClick();
+              }
+            }}
+            className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-emerald-500 dark:hover:text-emerald-500 transition-all duration-500 ease-in-out flex items-center"
+            href={item.link}
+          >
+            {hovered === idx && (
+              <motion.div
+                layoutId="hovered"
+                className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              />
+            )}
+            <span className="relative z-20">{item.name}</span>
+            {item.dropdown && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 ml-1 relative z-20 transition-transform duration-300 ease-in-out"
+                style={{
+                  transform:
+                    openDropdown === idx ? "rotate(180deg)" : "rotate(0deg)",
+                }}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            )}
+          </a>
+
+          {/* Dropdown Menu */}
+          <AnimatePresence>
+            {item.dropdown && openDropdown === idx && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute top-full left-0 mt-1 w-48 rounded-md shadow-lg bg-white dark:bg-neutral-900 ring-1 ring-black ring-opacity-5 z-30"
+              >
+                <div className="py-1">
+                  {item.dropdown.map((dropdownItem, dropIdx) => (
+                    <a
+                      key={`dropdown-${idx}-${dropIdx}`}
+                      href={dropdownItem.link}
+                      onClick={onItemClick}
+                      className="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-500 dark:hover:text-emerald-400"
+                    >
+                      {dropdownItem.name}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       ))}
     </motion.div>
   );
