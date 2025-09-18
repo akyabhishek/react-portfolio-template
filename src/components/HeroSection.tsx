@@ -17,8 +17,7 @@ import {
 import { useState, useEffect } from "react";
 import FloatingImage from "@/components/MyImage";
 import mainImage from "../../public/assets/abhishekkumaryadav-ghibli.png";
-import altMainImage from "../../public/assets/abhishekkumaryadav.png";
-import { SiLeetcode } from "react-icons/si";
+import altMainImage from "../../public/assets/abhishekkumaryadav-new.jpg";
 import ResumeButton from "./DownloadResumeBtn";
 import { settings } from "@/config/settings";
 

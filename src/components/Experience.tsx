@@ -97,7 +97,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
                   {technologies.map((tech, index) => (
                     <span
                       key={index}
-                      className="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-2xl"
+                      className="px-2 py-1 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 text-xs rounded-2xl transition-colors duration-200 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
                     >
                       {tech}
                     </span>

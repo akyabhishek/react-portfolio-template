@@ -1,10 +1,14 @@
-import {cn} from "@/lib/utils";
-import {IconMenu2, IconX} from "@tabler/icons-react";
-import {AnimatePresence, motion, useMotionValueEvent, useScroll,} from "motion/react";
+import { cn } from "@/lib/utils";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "motion/react";
 
-import React, {useRef, useState} from "react";
-import {ScrollProgress} from "../magicui/scroll-progress";
-
+import React, { useRef, useState } from "react";
+import { ScrollProgress } from "../magicui/scroll-progress";
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -70,11 +74,10 @@ export const Navbar = ({ children, className }: NavbarProps) => {
         React.isValidElement(child)
           ? React.cloneElement(
               child as React.ReactElement<{ visible?: boolean }>,
-              { visible },
+              { visible }
             )
-          : child,
+          : child
       )}
-      
     </motion.div>
   );
 };
@@ -88,8 +91,8 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
         width: visible ? "90%" : "100%",
-        paddingTop:visible?"15px":"10px",
-        paddingBottom:visible?"15px":"10px",
+        paddingTop: visible ? "15px" : "10px",
+        paddingBottom: visible ? "15px" : "10px",
         paddingRight: visible ? "40px" : "0px",
         paddingLeft: visible ? "40px" : "0px",
         y: visible ? 0 : 0,
@@ -105,9 +108,12 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       className={cn(
         "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full px-4 py-2 lg:flex  bg-white/80 dark:bg-neutral-950/80",
         visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
+        className
       )}
-    ><ScrollProgress className={visible?`top-[72.8px] mx-9`:'top-[59.6px] mx-9'} />
+    >
+      <ScrollProgress
+        className={visible ? `top-[72.8px] mx-9` : "top-[59.6px] mx-9"}
+      />
       {children}
     </motion.div>
   );
@@ -121,7 +127,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
-        className,
+        className
       )}
     >
       {items.map((item, idx) => (
@@ -166,9 +172,10 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
       className={cn(
         "relative z-50 mx-auto flex w-full max-w-full flex-col items-center justify-between px-0 py-2 lg:hidden bg-white/80 dark:bg-neutral-950/80",
         visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
+        className
       )}
-    ><ScrollProgress className={'top-[52px]'} />
+    >
+      <ScrollProgress className={"top-[52px]"} />
       {children}
     </motion.div>
   );
@@ -182,7 +189,7 @@ export const MobileNavHeader = ({
     <div
       className={cn(
         "flex w-full flex-row items-center justify-between",
-        className,
+        className
       )}
     >
       {children}
@@ -205,7 +212,7 @@ export const MobileNavMenu = ({
           exit={{ opacity: 0 }}
           className={cn(
             "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
-            className,
+            className
           )}
         >
           {children}
@@ -235,8 +242,13 @@ export const NavbarLogo = () => {
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-    <span className="text-xl text-emerald-500">Abhishek</span>
-    <span className="text-xl text-gray-900 dark:text-white hidden md:block"> Kr. Yadav</span>
+      <span className="text-xl bg-gradient-to-r from-emerald-500 to-emerald-900 dark:from-emerald-300 dark:to-emerald-600 bg-clip-text text-transparent">
+        Abhishek
+      </span>
+      <span className="text-xl text-gray-900 dark:text-white hidden md:block">
+        {" "}
+        Kr. Yadav
+      </span>
     </a>
   );
 };
