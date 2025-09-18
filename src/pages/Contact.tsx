@@ -12,6 +12,7 @@ import {
   SiInstagram,
   SiLeetcode,
   SiLinkedin,
+  SiMedium,
   SiSnapchat,
   SiX,
   SiYoutube,
@@ -38,6 +39,11 @@ export default function Contact(): JSX.Element {
       title: "GeeksforGeeks",
       url: "https://www.geeksforgeeks.org/user/akyabhishek/",
       icon: <SiGeeksforgeeks />,
+    },
+    {
+      title: "Medium",
+      url: "https://medium.com/@akyabhishek",
+      icon: <SiMedium />,
     },
     {
       title: "Instagram",
