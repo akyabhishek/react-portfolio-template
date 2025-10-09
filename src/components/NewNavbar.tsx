@@ -74,6 +74,10 @@ export function NewNavbar() {
           name: "BS Visualizer",
           link: "https://binary-search-visualizer-mauve.vercel.app/",
         },
+        {
+          name: "Java Q & A",
+          link: "/java-interview-question-answers",
+        },
       ],
     },
   ];
