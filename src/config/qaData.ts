@@ -4,7 +4,11 @@ export const qaList: QuestionAnswerProps[] = [
   {
     question: "What is Java?",
     answer:
-      "Java is a high-level, object-oriented programming language used to build platform-independent applications.",
+      "Java is a high-level, object-oriented programming language used to build platform-independent applications." +
+      "<br/>It is widely used for web, mobile, and enterprise applications. Java code is compiled into bytecode, which runs on the Java Virtual Machine (JVM), allowing it to run on any device with a compatible JVM." +
+      "<br/><br/>Java is known for its portability, robustness, and extensive libraries." +
+      "<br/>It follows the principle of 'Write Once, Run Anywhere' (WORA). ",
+    htmlAnswer: true,
   },
   {
     question: "Difference between == and .equals() in Java?",
@@ -102,9 +106,5 @@ public class Main {
         // finalize() may or may not be called
     }
 }`,
-  },
-  {
-    question: "What algorithm JVM uses for Garbage Collection?",
-    answer: "",
   },
 ];
