@@ -74,7 +74,7 @@ export default function HeroSection(): JSX.Element {
   const stats = [
     {
       value: animatedStats.experience,
-      suffix: "",
+      suffix: "+",
       label: "Years Experience",
       icon: <FiBriefcase size={20} />,
       color: "text-blue-600",

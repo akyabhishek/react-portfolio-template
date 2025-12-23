@@ -1,6 +1,6 @@
 "use client";
-import {cn} from "@/lib/utils";
-import {motion, useMotionTemplate, useMotionValue} from "framer-motion";
+import { cn } from "@/lib/utils";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import React from "react";
 
 export const HeroHighlight = ({
@@ -86,7 +86,7 @@ export const Highlight = ({
         display: "inline",
       }}
       className={cn(
-        "relative inline-block pb-1 px-1 rounded-full bg-gradient-to-r from-green-400 via-emerald-500 to-green-800 dark:from-green-700 dark:via-emerald-600 dark:to-green-800",
+        "relative inline-block pb-1 px-1 rounded-full bg-gradient-to-r from-emerald-200 via-green-300 to-emerald-400 dark:from-green-700 dark:via-emerald-600 dark:to-green-800",
         className
       )}
     >

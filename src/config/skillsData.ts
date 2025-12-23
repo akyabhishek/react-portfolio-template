@@ -118,12 +118,6 @@ export const skillsData: SkillCategory[] = [
         experience: "2+ years",
         description: "JavaScript runtime for server-side development",
       },
-      {
-        name: "Redis",
-        level: "Beginner",
-        experience: "6 Months",
-        description: "In-memory data structure store for caching and sessions",
-      },
     ],
   },
   {
@@ -175,6 +169,12 @@ export const skillsData: SkillCategory[] = [
         level: "Intermediate",
         experience: "6 months",
         description: "NoSQL cloud database for real-time applications",
+      },
+      {
+        name: "Redis",
+        level: "Intermediate",
+        experience: "1 year",
+        description: "In-memory data structure store for caching and sessions",
       },
     ],
   },
