@@ -14,6 +14,7 @@ import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
 import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
 import QRScannerPage from "@/pages/devtools/QRScannerPage";
 import AlgorithmComplexityAnalyzerPage from "@/pages/devtools/AlgorithmComplexityAnalyzerPage";
+import Topup from "@/pages/Topup";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "/algorithm-complexity-analyzer",
         element: <AlgorithmComplexityAnalyzerPage />,
+      },
+      {
+        path: "/topup",
+        element: <Topup />,
       },
     ],
   },

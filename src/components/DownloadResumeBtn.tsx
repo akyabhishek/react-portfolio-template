@@ -1,7 +1,7 @@
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export default function ResumeButton() {
-  const pdfUrl = "/ABHISHEK_KUMAR_YADAV_RESUME_2025.pdf";
+  const pdfUrl = "/ABHISHEK_KUMAR_YADAV_RESUME.pdf";
   return (
     <a href={pdfUrl} download>
       {/* <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-emerald-900 focus:ring-offset-2 focus:ring-offset-slate-50">
