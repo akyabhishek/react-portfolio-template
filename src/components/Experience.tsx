@@ -3,6 +3,7 @@ import React from "react";
 import { TextAnimate } from "./magicui/text-animate";
 import { GlowingEffect } from "./ui/glowing-effect";
 import { settings } from "@/config/settings";
+import { experienceData, calculateDuration } from "@/config/data";
 
 // Define the type for each timeline entry
 interface TimelineItemProps {
@@ -15,21 +16,7 @@ interface TimelineItemProps {
   technologies?: string[];
   achievements?: string[];
 }
-const calculateDuration = (from: string, to: string): string => {
-  const [fromMonth, fromYear] = from.split("/").map(Number);
-  const [toMonth, toYear] =
-    to.toLowerCase() === "present"
-      ? [new Date().getMonth() + 1, new Date().getFullYear()]
-      : to.split("/").map(Number);
 
-  let totalMonths = (toYear - fromYear) * 12 + (toMonth - fromMonth) + 1; // +1 to include both months
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-
-  const yearText = years > 0 ? `${years} year${years > 1 ? "s" : ""}` : "";
-  const monthText = months > 0 ? `${months} month${months > 1 ? "s" : ""}` : "";
-  return [yearText, monthText].filter(Boolean).join(" ");
-};
 // Timeline item component
 const TimelineItem: React.FC<TimelineItemProps> = ({
   title,
@@ -127,76 +114,6 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
   </div>
 );
 
-// Define the type for the array of timeline data
-interface TimelineData {
-  title: string;
-  company: string;
-  description: string;
-  from: string;
-  to: string;
-  logoPath?: string;
-  technologies?: string[];
-  achievements?: string[];
-}
-
-// Static data for the timeline
-const timelineData: TimelineData[] = [
-  {
-    title: "Programmer Analyst - GN",
-    company: "Cognizant Technology Solutions",
-
-    logoPath: "/assets/CTSH.png",
-    description:
-      "Developed and enhanced the ECS backend application for American Airlines, enabling communication between client applications and pilots",
-    from: "09/2023",
-    to: "Present",
-    technologies: [
-      "Java",
-      "Spring Boot",
-      "Spring Data",
-      "Spring Framework",
-      "REST APIs",
-      "Microservices",
-      "SQL Server",
-      "JWT",
-      "TypeScript",
-      "JavaScript",
-      "Git",
-      "GitHub",
-      "GitHub Actions",
-      "CI/CD",
-      "Playwright",
-      "GitHub Copilot",
-      "Cursor",
-      "Gen AI",
-    ],
-    achievements: [],
-  },
-  {
-    title: "Intern",
-    company: "Cognizant Technology Solutions",
-    description:
-      "Developed RESTful APIs using Java and Spring Boot, integrating MySQL for backend data management.",
-    from: "03/2023",
-    to: "08/2023",
-    logoPath: "/assets/CTSH.png",
-    technologies: [
-      "Java",
-      "Spring Boot",
-      "MySQL",
-      "REST APIs",
-      "Git",
-      "ReactJS",
-      "TypeScript",
-    ],
-    achievements: [
-      "Successfully completed 3 major Projects",
-      "Learned enterprise-level development practices",
-      "Contributed to team codebase with 95% code review approval",
-    ],
-  },
-];
-
 // Main Timeline component
 const ExperienceSection: React.FC = () => (
   <div className="pt-5" id="experience">
@@ -206,7 +123,7 @@ const ExperienceSection: React.FC = () => (
     </p>
     <section className="p-3 md:p-6 bg-gradient-to-b max-w-4xl mx-auto transition-colors duration-300">
       <div className="space-y-6 border-l-2 border-dotted border-gray-300 dark:border-gray-600 pl-6 py-3 rounded-2xl">
-        {timelineData.map((item, index) => (
+        {experienceData.map((item, index) => (
           <TimelineItem key={index} {...item} />
         ))}
       </div>

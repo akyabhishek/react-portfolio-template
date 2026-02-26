@@ -2,28 +2,11 @@ import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { useMemo } from "react";
 import { settings } from "@/config/settings";
 import { FiMapPin, FiMail, FiCalendar, FiAward } from "react-icons/fi";
+import { getExperienceString } from "@/config/data";
 
 export default function AboutMe() {
   // Calculate experience dynamically
-  const experience = useMemo(() => {
-    const start = new Date("2023-09-14");
-    const now = new Date();
-    let months =
-      (now.getFullYear() - start.getFullYear()) * 12 +
-      (now.getMonth() - start.getMonth());
-    if (now.getDate() < start.getDate()) months--;
-    const years = Math.floor(months / 12);
-    const remMonths = months % 12;
-    if (years > 0 && remMonths > 0) {
-      return `${years} year${years > 1 ? "s" : ""} ${remMonths} month${
-        remMonths > 1 ? "s" : ""
-      }`;
-    } else if (years > 0) {
-      return `${years} year${years > 1 ? "s" : ""}`;
-    } else {
-      return `${remMonths} month${remMonths > 1 ? "s" : ""}`;
-    }
-  }, []);
+  const experience = useMemo(() => getExperienceString(), []);
 
   // Quick stats for visual appeal
   const quickStats = [

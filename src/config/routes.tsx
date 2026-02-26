@@ -15,6 +15,7 @@ import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
 import QRScannerPage from "@/pages/devtools/QRScannerPage";
 import AlgorithmComplexityAnalyzerPage from "@/pages/devtools/AlgorithmComplexityAnalyzerPage";
 import Topup from "@/pages/Topup";
+import ModernResume from "@/pages/ModernResume";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
         element: <Topup />,
       },
     ],
+  },
+  {
+    path: "/cv",
+    element: <ModernResume />,
   },
 ]);
 
