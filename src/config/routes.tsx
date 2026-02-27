@@ -16,8 +16,13 @@ import QRScannerPage from "@/pages/devtools/QRScannerPage";
 import AlgorithmComplexityAnalyzerPage from "@/pages/devtools/AlgorithmComplexityAnalyzerPage";
 import Topup from "@/pages/Topup";
 import ModernResume from "@/pages/ModernResume";
+import LandingChooser from "@/pages/LandingChooser";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingChooser />,
+  },
   {
     element: (
       <>
@@ -30,7 +35,7 @@ const router = createBrowserRouter([
         element: <NotFoundPage />,
       },
       {
-        path: "/",
+        path: "/home",
         element: <Home />,
       },
       {

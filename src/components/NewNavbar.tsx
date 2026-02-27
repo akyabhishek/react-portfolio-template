@@ -9,12 +9,16 @@ import {
   NavBody,
   NavItems,
 } from "@/components/ui/resizable-navbar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import ResumeButton from "./DownloadResumeBtn";
 import { Switch } from "./ui/switch";
 import { useTheme } from "./theme-provider";
 import { motion, AnimatePresence } from "motion/react";
+import { FiTerminal } from "react-icons/fi";
+import InteractiveTerminal, {
+  type InteractiveTerminalHandle,
+} from "./InteractiveTerminal";
 
 // Define the type for navigation items
 interface NavItem {
@@ -28,6 +32,7 @@ interface NavItem {
 
 export function NewNavbar() {
   const { theme, setTheme } = useTheme();
+  const terminalRef = useRef<InteractiveTerminalHandle>(null);
 
   const isDark = theme === "dark";
 
@@ -37,7 +42,7 @@ export function NewNavbar() {
 
   // State to track which mobile dropdown is open
   const [openMobileDropdown, setOpenMobileDropdown] = useState<number | null>(
-    null
+    null,
   );
 
   const navItems: NavItem[] = [
@@ -101,7 +106,14 @@ export function NewNavbar() {
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 relative z-30">
+            <button
+              onClick={() => terminalRef.current?.openFullscreen()}
+              className="text-neutral-500 dark:text-neutral-400 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors cursor-pointer"
+              title="Open Terminal"
+            >
+              <FiTerminal size={18} />
+            </button>
             <NavbarButton variant="secondary" className="space-x-2">
               <Switch checked={isDark} onCheckedChange={toggleTheme} />
             </NavbarButton>
@@ -133,7 +145,7 @@ export function NewNavbar() {
                       className="relative text-neutral-600 dark:text-neutral-300 font-medium mb-1 flex items-center justify-between cursor-pointer py-2"
                       onClick={() =>
                         setOpenMobileDropdown(
-                          openMobileDropdown === idx ? null : idx
+                          openMobileDropdown === idx ? null : idx,
                         )
                       }
                     >
@@ -208,6 +220,8 @@ export function NewNavbar() {
       <div className="min-h-screen pt-4 ">
         <Outlet />
       </div>
+      {/* Hidden terminal - only renders the fullscreen overlay */}
+      <InteractiveTerminal ref={terminalRef} hideInline />
     </div>
   );
 }

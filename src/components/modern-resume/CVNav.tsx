@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiSun, FiMoon } from "react-icons/fi";
 import { personalInfo } from "@/config/data";
+import { useTheme } from "@/components/theme-provider";
+import { Switch } from "@/components/ui/switch";
 
 const navItems = [
   { label: "Experience", href: "#experience" },
@@ -13,6 +15,12 @@ const navItems = [
 export default function CVNav() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const { theme, setTheme } = useTheme();
+
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   useEffect(() => {
     const sections = ["experience", "skills", "projects", "education"];
@@ -87,14 +95,31 @@ export default function CVNav() {
               ))}
             </div>
 
-            <a
-              href={personalInfo.resumePdfUrl}
-              download
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gray-900 text-white dark:bg-white dark:text-slate-950 text-[11px] font-medium tracking-wide hover:shadow-lg hover:shadow-gray-900/10 dark:hover:shadow-white/10 transition-all duration-300"
-            >
-              <FiDownload size={12} />
-              Resume
-            </a>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                <FiSun size={11} className="text-gray-500 dark:text-gray-400" />
+                <Switch
+                  checked={isDark}
+                  onCheckedChange={(checked) =>
+                    setTheme(checked ? "dark" : "light")
+                  }
+                  className="h-4 w-7 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input [&_span]:h-3 [&_span]:w-3 [&_span]:data-[state=checked]:translate-x-3"
+                />
+                <FiMoon
+                  size={11}
+                  className="text-gray-500 dark:text-gray-400"
+                />
+              </div>
+
+              <a
+                href={personalInfo.resumePdfUrl}
+                download
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gray-900 text-white dark:bg-white dark:text-slate-950 text-[11px] font-medium tracking-wide hover:shadow-lg hover:shadow-gray-900/10 dark:hover:shadow-white/10 transition-all duration-300"
+              >
+                <FiDownload size={12} />
+                Resume
+              </a>
+            </div>
           </div>
         </motion.nav>
       )}
