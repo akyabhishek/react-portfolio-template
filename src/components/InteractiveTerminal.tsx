@@ -27,12 +27,13 @@ export interface InteractiveTerminalHandle {
 
 interface InteractiveTerminalProps {
   hideInline?: boolean;
+  onExit?: () => void;
 }
 
 const InteractiveTerminal = forwardRef<
   InteractiveTerminalHandle,
   InteractiveTerminalProps
->(({ hideInline = false }, ref) => {
+>(({ hideInline = false, onExit }, ref) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const [terminalInput, setTerminalInput] = useState("");
@@ -44,6 +45,7 @@ const InteractiveTerminal = forwardRef<
   const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const fullscreenInputRef = useRef<HTMLInputElement>(null);
+  const sessionStart = useRef(Date.now());
 
   useImperativeHandle(ref, () => ({
     openFullscreen: () => {
@@ -119,6 +121,7 @@ const InteractiveTerminal = forwardRef<
         setTerminalFullscreen(false);
         setTerminalOutput([]);
         setTerminalInput("");
+        onExit?.();
         return;
       }
 
@@ -181,6 +184,29 @@ const InteractiveTerminal = forwardRef<
           { text: "  contact       → how to reach me", type: "success" },
           { text: "  ping          → ping the website", type: "success" },
           { text: "  ascii         → ASCII art name banner", type: "success" },
+          { text: "  weather       → current weather info", type: "success" },
+          { text: "  history       → show command history", type: "success" },
+          { text: "  hack          → fake hacking animation", type: "success" },
+          {
+            text: "  404           → page not found easter egg",
+            type: "success",
+          },
+          {
+            text: "  countdown <s> → countdown timer",
+            type: "success",
+          },
+          {
+            text: "  color <hex>   → preview a color",
+            type: "success",
+          },
+          {
+            text: "  base64 <text> → encode/decode base64",
+            type: "success",
+          },
+          { text: "  uptime        → session uptime", type: "success" },
+          { text: "  snake         → play snake game", type: "success" },
+          { text: "  fireworks     → celebration animation", type: "success" },
+          { text: "  rainbow       → rainbow text animation", type: "success" },
           { text: "  version       → show version", type: "info" },
           { text: "  fs            → open fullscreen terminal", type: "info" },
           { text: "  clear         → reset terminal", type: "info" },
@@ -288,7 +314,7 @@ const InteractiveTerminal = forwardRef<
       // hi / hello
       if (cmd === "hi" || cmd === "hello" || cmd === "hey") {
         const greetings = [
-          `Hey there! 👋 I'm ${personalInfo.name}.`,
+          `Hey there! 👋 Welcome to my terminal.`,
           `Hello, world! Welcome to my terminal.`,
           `Hi! Type 'help' to see what I can do.`,
           `Greetings, human! 🤖 Ready to explore?`,
@@ -648,6 +674,214 @@ const InteractiveTerminal = forwardRef<
         return;
       }
 
+      // weather
+      if (cmd === "weather" || cmd.startsWith("weather ")) {
+        const city =
+          cmd === "weather"
+            ? personalInfo.location.split(",")[0].trim()
+            : raw.slice(8).trim();
+        setTerminalOutput([
+          { text: `Fetching weather for ${city}...`, type: "info" },
+        ]);
+        setTerminalInput("");
+        fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=28.58&longitude=77.33&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m&timezone=auto${cmd !== "weather" ? "" : ""}`,
+        )
+          .then(async (res) => {
+            // If a custom city is given, first geocode it
+            if (cmd !== "weather") {
+              const geoRes = await fetch(
+                `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`,
+              );
+              const geoData = await geoRes.json();
+              if (!geoData.results || geoData.results.length === 0)
+                throw new Error("City not found");
+              const { latitude, longitude } = geoData.results[0];
+              const weatherRes = await fetch(
+                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m&timezone=auto`,
+              );
+              return weatherRes.json();
+            }
+            return res.json();
+          })
+          .then((data) => {
+            const cur = data.current;
+            const temp = cur.temperature_2m;
+            const feels = cur.apparent_temperature;
+            const humidity = cur.relative_humidity_2m;
+            const wind = cur.wind_speed_10m;
+            const windDeg = cur.wind_direction_10m;
+            const code = cur.weather_code;
+
+            // WMO weather code to description & icon
+            const wmoMap: Record<number, [string, string]> = {
+              0: ["Clear sky", "☀️"],
+              1: ["Mainly clear", "🌤️"],
+              2: ["Partly cloudy", "⛅"],
+              3: ["Overcast", "☁️"],
+              45: ["Fog", "🌫️"],
+              48: ["Rime fog", "🌫️"],
+              51: ["Light drizzle", "🌦️"],
+              53: ["Drizzle", "🌦️"],
+              55: ["Dense drizzle", "🌧️"],
+              61: ["Light rain", "🌦️"],
+              63: ["Rain", "🌧️"],
+              65: ["Heavy rain", "🌧️"],
+              71: ["Light snow", "❄️"],
+              73: ["Snow", "❄️"],
+              75: ["Heavy snow", "❄️"],
+              80: ["Light showers", "🌦️"],
+              81: ["Showers", "🌧️"],
+              82: ["Heavy showers", "🌧️"],
+              85: ["Snow showers", "❄️"],
+              86: ["Heavy snow showers", "❄️"],
+              95: ["Thunderstorm", "⛈️"],
+              96: ["Thunderstorm w/ hail", "⛈️"],
+              99: ["Severe thunderstorm", "⛈️"],
+            };
+            const [desc, icon] = wmoMap[code] || ["Unknown", "🌤️"];
+
+            // Wind degree to compass direction
+            const dirs = [
+              "N",
+              "NNE",
+              "NE",
+              "ENE",
+              "E",
+              "ESE",
+              "SE",
+              "SSE",
+              "S",
+              "SSW",
+              "SW",
+              "WSW",
+              "W",
+              "WNW",
+              "NW",
+              "NNW",
+            ];
+            const windDir = dirs[Math.round(windDeg / 22.5) % 16];
+
+            setTerminalOutput([
+              {
+                text: "┌─────────────────────────────────────────┐",
+                type: "info",
+              },
+              {
+                text: `│  ${icon}  Weather — ${city.padEnd(27)}│`,
+                type: "info",
+              },
+              {
+                text: "└─────────────────────────────────────────┘",
+                type: "info",
+              },
+              { text: "", type: "info" },
+              { text: `  ${icon} ${desc}`, type: "success" },
+              {
+                text: `  🌡️  Temperature   ${temp}°C (feels like ${feels}°C)`,
+                type: "success",
+              },
+              { text: `  💧 Humidity      ${humidity}%`, type: "info" },
+              {
+                text: `  💨 Wind          ${wind} km/h ${windDir}`,
+                type: "info",
+              },
+            ]);
+          })
+          .catch(() => {
+            setTerminalOutput([
+              {
+                text: `Failed to fetch weather for "${city}". Try again!`,
+                type: "error",
+              },
+            ]);
+          });
+        return;
+      }
+
+      // ls
+      if (
+        cmd === "ls" ||
+        cmd === "ls -la" ||
+        cmd === "ls -a" ||
+        cmd === "dir"
+      ) {
+        setTerminalOutput([
+          { text: "📂 portfolio/", type: "success" },
+          { text: "📂 cv/", type: "success" },
+        ]);
+        setTerminalInput("");
+        return;
+      }
+
+      // cat
+      if (cmd.startsWith("cat ")) {
+        const file = cmd.slice(4).trim();
+        const catMap: Record<string, TerminalLine[]> = {
+          "resume.pdf": [
+            { text: `📄 ${personalInfo.name}`, type: "success" },
+            { text: `   ${personalInfo.title}`, type: "info" },
+            {
+              text: `   ${personalInfo.email} • ${personalInfo.location}`,
+              type: "info",
+            },
+            { text: "", type: "info" },
+            { text: "   Try 'cd cv' to view the full résumé.", type: "info" },
+          ],
+          "contact.json": [
+            { text: "{", type: "success" },
+            { text: `  "name": "${personalInfo.name}",`, type: "success" },
+            { text: `  "email": "${personalInfo.email}",`, type: "success" },
+            {
+              text: `  "github": "${personalInfo.githubUrl}",`,
+              type: "success",
+            },
+            {
+              text: `  "linkedin": "${personalInfo.linkedinUrl}",`,
+              type: "success",
+            },
+            { text: `  "website": "${personalInfo.website}"`, type: "success" },
+            { text: "}", type: "success" },
+          ],
+          "skills.config": [
+            { text: "# Run 'skills' to view full list", type: "info" },
+          ],
+          ".secret-jokes": [
+            { text: "🤫 Run 'joke' to unlock the secrets...", type: "info" },
+          ],
+        };
+        if (catMap[file]) {
+          setTerminalOutput(catMap[file]);
+        } else {
+          setTerminalOutput([
+            { text: `cat: ${file}: No such file or directory`, type: "error" },
+          ]);
+        }
+        setTerminalInput("");
+        return;
+      }
+
+      // npm
+      if (cmd === "npm" || cmd.startsWith("npm ") || cmd.startsWith("node")) {
+        const responses = [
+          "📦 npm ERR! This is a portfolio, not a Node.js project. Touch grass.",
+          "🚫 npm: command not supported. Did you really just try to install packages in a browser?",
+          "🤦 npm install common-sense — package not found. Neither is npm here.",
+          "⚠️  node_modules has 847,293 files. We don't have that kind of storage here.",
+          "😂 npm: This terminal runs on vibes, not on Node.js.",
+          "💀 npm ERR! 418 I'm a teapot. Try 'help' instead.",
+          "🙃 npm: Sorry, we don't serve JavaScript runtimes at this terminal.",
+        ];
+        setTerminalOutput([
+          {
+            text: responses[Math.floor(Math.random() * responses.length)],
+            type: "error",
+          },
+        ]);
+        setTerminalInput("");
+        return;
+      }
+
       // sudo
       if (cmd.startsWith("sudo")) {
         const responses = [
@@ -660,6 +894,80 @@ const InteractiveTerminal = forwardRef<
         setTerminalOutput([
           {
             text: responses[Math.floor(Math.random() * responses.length)],
+            type: "error",
+          },
+        ]);
+        setTerminalInput("");
+        return;
+      }
+
+      // mkdir, rmdir, rm, touch, mv, cp, chmod, chown — sarcastic filesystem commands
+      if (
+        cmd.startsWith("mkdir") ||
+        cmd.startsWith("rmdir") ||
+        cmd.startsWith("rm ") ||
+        cmd === "rm" ||
+        cmd.startsWith("touch ") ||
+        cmd === "touch" ||
+        cmd === "mv" ||
+        cmd.startsWith("mv ") ||
+        cmd === "cp" ||
+        cmd.startsWith("cp ") ||
+        cmd.startsWith("chmod") ||
+        cmd.startsWith("chown")
+      ) {
+        const responses: Record<string, string[]> = {
+          mkdir: [
+            "📁 mkdir: You want to create a folder? In THIS economy?",
+            "🏗️ mkdir: Sorry, this portfolio has a strict no-construction policy.",
+            "🚫 mkdir: I barely have two folders. Don't push it.",
+            "😤 mkdir: We're at capacity. Try deleting your expectations first.",
+          ],
+          rmdir: [
+            "🗑️ rmdir: And destroy what I've built? Absolutely not.",
+            "😱 rmdir: You monster. Those folders have families.",
+            "🛡️ rmdir: These directories are under witness protection.",
+            "💔 rmdir: I'm not emotionally ready to let go.",
+          ],
+          rm: [
+            "🔥 rm: You want to delete things? This isn't your ex's texts.",
+            "☠️ rm: Denied. I've seen what rm -rf does. Never again.",
+            "🙈 rm: I pretended I didn't see that. You're welcome.",
+            "⚠️ rm: ERROR — file is protected by emotional attachment.",
+            "💀 rm -rf /: Nice try. I too like to live dangerously.",
+          ],
+          touch: [
+            "👆 touch: Please don't touch my files. Boundaries.",
+            "🚷 touch: This is a look-don't-touch kind of terminal.",
+            "😳 touch: At least buy me dinner first.",
+            "🧤 touch: Use gloves next time. These files are pristine.",
+          ],
+          mv: [
+            "🚚 mv: Nothing moves here without a formal request in triplicate.",
+            "📦 mv: Moving is stressful enough IRL. Leave my files alone.",
+            "🏠 mv: These files are settled. They have mortgages.",
+          ],
+          cp: [
+            "📋 cp: Copying is plagiarism and I won't stand for it.",
+            "🪞 cp: One of each file is enough. We're minimalists here.",
+            "©️ cp: Copyright violation detected. My lawyer will be in touch.",
+          ],
+          chmod: [
+            "🔐 chmod: You can't change what you don't control.",
+            "🎭 chmod: Permissions are an illusion here. Just like free will.",
+            "🔒 chmod: 777? In this economy? Best I can do is 000.",
+          ],
+          chown: [
+            "👑 chown: Everything here belongs to me. Deal with it.",
+            "🏴‍☠️ chown: Ownership is theft... wait, that's my portfolio.",
+            "📜 chown: The deed is in my name. Nice try though.",
+          ],
+        };
+        const key = cmd.split(" ")[0] as keyof typeof responses;
+        const pool = responses[key] || responses["rm"];
+        setTerminalOutput([
+          {
+            text: pool[Math.floor(Math.random() * pool.length)],
             type: "error",
           },
         ]);
@@ -697,6 +1005,429 @@ const InteractiveTerminal = forwardRef<
             setTerminalOutput((prev) => [...prev, line]);
           }, i * 60);
         });
+        return;
+      }
+
+      // history
+      if (cmd === "history") {
+        const lines: TerminalLine[] = commandHistory.map((c, i) => ({
+          text: `  ${String(i + 1).padStart(4)}  ${c}`,
+          type: "info" as const,
+        }));
+        if (lines.length === 0) {
+          lines.push({ text: "  No commands in history yet.", type: "info" });
+        }
+        setTerminalOutput(lines);
+        setTerminalInput("");
+        return;
+      }
+
+      // hack
+      if (cmd === "hack") {
+        setTerminalInput("");
+        setTerminalOutput([
+          { text: "Initializing hack sequence...", type: "success" },
+        ]);
+        const steps = [
+          { text: "[▓░░░░░░░░░] 10%  Bypassing firewall...", delay: 400 },
+          { text: "[▓▓▓░░░░░░░] 30%  Injecting payload...", delay: 900 },
+          { text: "[▓▓▓▓▓░░░░░] 50%  Decrypting mainframe...", delay: 1500 },
+          { text: "[▓▓▓▓▓▓▓░░░] 70%  Stealing cookies... 🍪", delay: 2100 },
+          { text: "[▓▓▓▓▓▓▓▓░░] 80%  Planting backdoor...", delay: 2600 },
+          { text: "[▓▓▓▓▓▓▓▓▓▓] 100% Complete!", delay: 3200 },
+          { text: "", delay: 3500 },
+          { text: "╔══════════════════════════════════════╗", delay: 3600 },
+          { text: "║     🔓 ACCESS GRANTED                ║", delay: 3700 },
+          { text: "║     Welcome, root@mainframe          ║", delay: 3800 },
+          { text: "║     JK. You hacked a portfolio. 😂   ║", delay: 3900 },
+          { text: "╚══════════════════════════════════════╝", delay: 4000 },
+        ];
+        steps.forEach(({ text, delay }) => {
+          setTimeout(() => {
+            setTerminalOutput((prev) => [...prev, { text, type: "success" }]);
+          }, delay);
+        });
+        return;
+      }
+
+      // 404
+      if (cmd === "404") {
+        setTerminalOutput([
+          { text: "", type: "info" },
+          { text: "    ██╗  ██╗ ██████╗ ██╗  ██╗", type: "error" },
+          { text: "    ██║  ██║██╔═████╗██║  ██║", type: "error" },
+          { text: "    ███████║██║██╔██║███████║", type: "error" },
+          { text: "    ╚════██║████╔╝██║╚════██║", type: "error" },
+          { text: "         ██║╚██████╔╝     ██║", type: "error" },
+          { text: "         ╚═╝ ╚═════╝      ╚═╝", type: "error" },
+          { text: "", type: "info" },
+          { text: "    🚫 PAGE NOT FOUND", type: "error" },
+          { text: "", type: "info" },
+          { text: "    The page you're looking for has", type: "info" },
+          { text: "    gone on a permanent vacation. 🏖️", type: "info" },
+          { text: "", type: "info" },
+          { text: "    Maybe try 'help' instead?", type: "info" },
+          { text: "", type: "info" },
+        ]);
+        setTerminalInput("");
+        return;
+      }
+
+      // countdown
+      if (cmd === "countdown" || cmd.startsWith("countdown ")) {
+        const arg = cmd.slice(10).trim();
+        let seconds = parseInt(arg, 10);
+        if (isNaN(seconds) || seconds <= 0) seconds = 10;
+        if (seconds > 60) seconds = 60;
+        setTerminalInput("");
+        setTerminalOutput([
+          { text: `⏱️  Countdown: ${seconds}s`, type: "info" },
+        ]);
+        let remaining = seconds;
+        const interval = setInterval(() => {
+          remaining--;
+          if (remaining <= 0) {
+            clearInterval(interval);
+            setTerminalOutput([
+              { text: "🎉🎉🎉 TIME'S UP! 🎉🎉🎉", type: "success" },
+            ]);
+            return;
+          }
+          const filled = Math.round(((seconds - remaining) / seconds) * 20);
+          const bar = "█".repeat(filled) + "░".repeat(20 - filled);
+          setTerminalOutput([
+            { text: `⏱️  Countdown: ${remaining}s`, type: "info" },
+            { text: `  [${bar}]`, type: remaining <= 3 ? "error" : "success" },
+          ]);
+        }, 1000);
+        return;
+      }
+
+      // color
+      if (cmd === "color" || cmd.startsWith("color ")) {
+        const hex = cmd.slice(6).trim().replace(/^#/, "");
+        if (!hex || !/^[0-9a-fA-F]{3,8}$/.test(hex)) {
+          setTerminalOutput([
+            { text: "Usage: color <hex>", type: "info" },
+            { text: "  e.g. color ff5733", type: "info" },
+            { text: "  e.g. color #2ecc71", type: "info" },
+          ]);
+          setTerminalInput("");
+          return;
+        }
+        const fullHex =
+          hex.length === 3
+            ? hex
+                .split("")
+                .map((c) => c + c)
+                .join("")
+            : hex;
+        const block = "████████████████";
+        setTerminalOutput([
+          { text: `  Color: #${fullHex.toUpperCase()}`, type: "info" },
+          { text: "", type: "info" },
+          { text: `  ${block}`, type: "success" },
+          { text: `  ${block}`, type: "success" },
+          { text: `  ${block}`, type: "success" },
+          { text: "", type: "info" },
+          {
+            text: "  (Rendered as text — open DevTools to see the real color!)",
+            type: "info",
+          },
+        ]);
+        setTerminalInput("");
+        return;
+      }
+
+      // base64
+      if (cmd === "base64" || cmd.startsWith("base64 ")) {
+        const arg = raw.slice(7).trim();
+        if (!arg) {
+          setTerminalOutput([
+            { text: "Usage: base64 <text>       → encode", type: "info" },
+            { text: "       base64 -d <text>   → decode", type: "info" },
+          ]);
+          setTerminalInput("");
+          return;
+        }
+        try {
+          if (arg.startsWith("-d ") || arg.startsWith("--decode ")) {
+            const encoded = arg.replace(/^(-d|--decode)\s+/, "");
+            const decoded = atob(encoded);
+            setTerminalOutput([
+              { text: "Decoded:", type: "info" },
+              { text: `  ${decoded}`, type: "success" },
+            ]);
+          } else {
+            const encoded = btoa(arg);
+            setTerminalOutput([
+              { text: "Encoded:", type: "info" },
+              { text: `  ${encoded}`, type: "success" },
+            ]);
+          }
+        } catch {
+          setTerminalOutput([
+            { text: "Error: Invalid base64 input", type: "error" },
+          ]);
+        }
+        setTerminalInput("");
+        return;
+      }
+
+      // uptime
+      if (cmd === "uptime") {
+        const elapsed = Date.now() - sessionStart.current;
+        const secs = Math.floor(elapsed / 1000);
+        const mins = Math.floor(secs / 60);
+        const hrs = Math.floor(mins / 60);
+        const parts: string[] = [];
+        if (hrs > 0) parts.push(`${hrs}h`);
+        if (mins % 60 > 0) parts.push(`${mins % 60}m`);
+        parts.push(`${secs % 60}s`);
+        setTerminalOutput([
+          { text: `⏳ Session uptime: ${parts.join(" ")}`, type: "success" },
+          {
+            text: `   Started: ${new Date(sessionStart.current).toLocaleTimeString()}`,
+            type: "info",
+          },
+        ]);
+        setTerminalInput("");
+        return;
+      }
+
+      // snake
+      if (cmd === "snake") {
+        setTerminalInput("");
+        const W = 20,
+          H = 12;
+        let snake = [
+          { x: 10, y: 6 },
+          { x: 9, y: 6 },
+          { x: 8, y: 6 },
+        ];
+        let dir = { x: 1, y: 0 };
+        let food = { x: 15, y: 4 };
+        let score = 0;
+        let gameOver = false;
+
+        const placeFood = () => {
+          let pos: { x: number; y: number };
+          do {
+            pos = {
+              x: Math.floor(Math.random() * W),
+              y: Math.floor(Math.random() * H),
+            };
+          } while (snake.some((s) => s.x === pos.x && s.y === pos.y));
+          return pos;
+        };
+
+        const render = () => {
+          const grid = Array.from({ length: H }, () => Array(W).fill(" "));
+          grid[food.y][food.x] = "●";
+          snake.forEach((s, i) => {
+            if (s.x >= 0 && s.x < W && s.y >= 0 && s.y < H) {
+              grid[s.y][s.x] = i === 0 ? "◆" : "■";
+            }
+          });
+          const border = "┌" + "─".repeat(W) + "┐";
+          const bottom = "└" + "─".repeat(W) + "┘";
+          const lines: TerminalLine[] = [
+            {
+              text: `  🐍 Snake | Score: ${score} | WASD to move, Q to quit`,
+              type: "info",
+            },
+            { text: `  ${border}`, type: "info" },
+            ...grid.map((row) => ({
+              text: `  │${row.join("")}│`,
+              type: "success" as const,
+            })),
+            { text: `  ${bottom}`, type: "info" },
+          ];
+          setTerminalOutput(lines);
+        };
+
+        render();
+
+        const handleKey = (e: KeyboardEvent) => {
+          const key = e.key.toLowerCase();
+          if (key === "w" && dir.y !== 1) dir = { x: 0, y: -1 };
+          else if (key === "s" && dir.y !== -1) dir = { x: 0, y: 1 };
+          else if (key === "a" && dir.x !== 1) dir = { x: -1, y: 0 };
+          else if (key === "d" && dir.x !== -1) dir = { x: 1, y: 0 };
+          else if (key === "q") {
+            gameOver = true;
+          }
+        };
+
+        window.addEventListener("keydown", handleKey);
+
+        const gameLoop = setInterval(() => {
+          if (gameOver) {
+            clearInterval(gameLoop);
+            window.removeEventListener("keydown", handleKey);
+            setTerminalOutput([
+              {
+                text: `  🐍 Game Over! Final Score: ${score}`,
+                type: "success",
+              },
+              { text: "  Type 'snake' to play again.", type: "info" },
+            ]);
+            return;
+          }
+          const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+          // wall collision
+          if (head.x < 0 || head.x >= W || head.y < 0 || head.y >= H) {
+            gameOver = true;
+            clearInterval(gameLoop);
+            window.removeEventListener("keydown", handleKey);
+            setTerminalOutput([
+              {
+                text: `  💀 Game Over! You hit a wall. Score: ${score}`,
+                type: "error",
+              },
+              { text: "  Type 'snake' to play again.", type: "info" },
+            ]);
+            return;
+          }
+          // self collision
+          if (snake.some((s) => s.x === head.x && s.y === head.y)) {
+            gameOver = true;
+            clearInterval(gameLoop);
+            window.removeEventListener("keydown", handleKey);
+            setTerminalOutput([
+              {
+                text: `  💀 Game Over! You ate yourself. Score: ${score}`,
+                type: "error",
+              },
+              { text: "  Type 'snake' to play again.", type: "info" },
+            ]);
+            return;
+          }
+          snake.unshift(head);
+          if (head.x === food.x && head.y === food.y) {
+            score++;
+            food = placeFood();
+          } else {
+            snake.pop();
+          }
+          render();
+        }, 200);
+        return;
+      }
+
+      // fireworks
+      if (cmd === "fireworks") {
+        setTerminalInput("");
+        setTerminalOutput([
+          { text: "  🎆 Launching fireworks...", type: "info" },
+        ]);
+        const cols = terminalFullscreen ? 60 : 30;
+        const rows = terminalFullscreen ? 16 : 10;
+        let frame = 0;
+        const maxFrames = 40;
+        const particles: {
+          x: number;
+          y: number;
+          char: string;
+          life: number;
+        }[] = [];
+        const sparkChars = ["✦", "✧", "★", "☆", "✴", "✹", "❋", "✺", "❄", "✸"];
+        const colors: ("success" | "error" | "info")[] = [
+          "success",
+          "error",
+          "info",
+        ];
+
+        const interval = setInterval(() => {
+          if (frame >= maxFrames) {
+            clearInterval(interval);
+            setTerminalOutput([
+              { text: "", type: "info" },
+              {
+                text: "  🎆🎇🎆🎇🎆 Happy celebrations! 🎆🎇🎆🎇🎆",
+                type: "success",
+              },
+              { text: "", type: "info" },
+            ]);
+            return;
+          }
+          // Spawn new burst every few frames
+          if (frame % 5 === 0) {
+            const cx = Math.floor(Math.random() * (cols - 4)) + 2;
+            const cy = Math.floor(Math.random() * (rows - 3)) + 1;
+            for (let i = 0; i < 12; i++) {
+              const angle = (Math.PI * 2 * i) / 12;
+              const speed = 1 + Math.random() * 2;
+              particles.push({
+                x: cx + Math.round(Math.cos(angle) * speed),
+                y: cy + Math.round(Math.sin(angle) * speed * 0.5),
+                char: sparkChars[Math.floor(Math.random() * sparkChars.length)],
+                life: 4 + Math.floor(Math.random() * 4),
+              });
+            }
+          }
+          // Update particles
+          particles.forEach((p) => p.life--);
+          const alive = particles.filter((p) => p.life > 0);
+          particles.length = 0;
+          particles.push(...alive);
+          // Render
+          const grid = Array.from({ length: rows }, () =>
+            Array(cols).fill(" "),
+          );
+          particles.forEach((p) => {
+            if (p.x >= 0 && p.x < cols && p.y >= 0 && p.y < rows) {
+              grid[p.y][p.x] = p.char;
+            }
+          });
+          const color = colors[frame % colors.length];
+          const lines: TerminalLine[] = grid.map((row) => ({
+            text: row.join(""),
+            type: color,
+          }));
+          setTerminalOutput(lines);
+          frame++;
+        }, 120);
+        return;
+      }
+
+      // rainbow
+      if (cmd === "rainbow") {
+        setTerminalInput("");
+        const text = `${personalInfo.name} - ${personalInfo.title}`;
+        const rainbowChars = ["🟥", "🟧", "🟨", "🟩", "🟦", "🟪"];
+        let frame = 0;
+        const maxFrames = 30;
+
+        const interval = setInterval(() => {
+          if (frame >= maxFrames) {
+            clearInterval(interval);
+            setTerminalOutput([
+              { text: "", type: "info" },
+              { text: "  🌈 That was colorful! ✨", type: "success" },
+              { text: "", type: "info" },
+            ]);
+            return;
+          }
+          const lines: TerminalLine[] = [];
+          // Rainbow bar
+          const barLine = rainbowChars
+            .map((_, i) => rainbowChars[(i + frame) % rainbowChars.length])
+            .join("");
+          lines.push({ text: `  ${barLine.repeat(3)}`, type: "success" });
+          lines.push({ text: "", type: "info" });
+          // Text with shifting type for visual effect
+          const types: ("success" | "error" | "info")[] = [
+            "success",
+            "error",
+            "info",
+          ];
+          lines.push({ text: `  ${text}`, type: types[frame % 3] });
+          lines.push({ text: "", type: "info" });
+          lines.push({ text: `  ${barLine.repeat(3)}`, type: "success" });
+          setTerminalOutput(lines);
+          frame++;
+        }, 150);
         return;
       }
 
@@ -860,6 +1591,7 @@ const InteractiveTerminal = forwardRef<
                     onClick={(e) => {
                       e.stopPropagation();
                       setTerminalFullscreen(false);
+                      onExit?.();
                     }}
                     className="w-3 h-3 rounded-full bg-red-400/80 hover:bg-red-400 transition-colors"
                   />
@@ -873,6 +1605,7 @@ const InteractiveTerminal = forwardRef<
                     onClick={(e) => {
                       e.stopPropagation();
                       setTerminalFullscreen(false);
+                      onExit?.();
                     }}
                     className="text-white/20 hover:text-white/50 transition-colors"
                   >

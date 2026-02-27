@@ -17,11 +17,20 @@ import AlgorithmComplexityAnalyzerPage from "@/pages/devtools/AlgorithmComplexit
 import Topup from "@/pages/Topup";
 import ModernResume from "@/pages/ModernResume";
 import LandingChooser from "@/pages/LandingChooser";
+import TerminalPage from "@/pages/TerminalPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingChooser />,
+  },
+  {
+    path: "/terminal",
+    element: <TerminalPage />,
+  },
+  {
+    path: "/t",
+    element: <TerminalPage />,
   },
   {
     element: (
