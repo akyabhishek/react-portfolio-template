@@ -1473,10 +1473,10 @@ const InteractiveTerminal = forwardRef<
               key={i}
               className={`${size === "sm" ? "text-[10px]" : "text-xs"} font-mono select-none whitespace-pre-wrap ${size === "sm" ? "break-all" : "break-words"} ${
                 line.type === "error"
-                  ? "text-red-400"
+                  ? "text-red-600 dark:text-red-400"
                   : line.type === "success"
-                    ? "text-emerald-400/70"
-                    : "text-gray-400"
+                    ? "text-emerald-700/80 dark:text-emerald-400/70"
+                    : "text-gray-500 dark:text-gray-400"
               }`}
             >
               {line.text}
@@ -1498,7 +1498,9 @@ const InteractiveTerminal = forwardRef<
     >
       <span
         className={`inline-block w-[7px] h-[15px] ${
-          active && showCursor ? "bg-emerald-400/80" : "bg-transparent"
+          active && showCursor
+            ? "bg-emerald-600/80 dark:bg-emerald-400/80"
+            : "bg-transparent"
         } transition-opacity duration-75`}
       />
     </span>
@@ -1536,9 +1538,11 @@ const InteractiveTerminal = forwardRef<
             </button>
           </div>
           {/* Terminal body */}
-          <div className="bg-gray-900 dark:bg-[#0d1117] px-3 py-2.5 cursor-text">
+          <div className="bg-white dark:bg-[#0d1117] px-3 py-2.5 cursor-text">
             <div className="flex items-center gap-1.5 text-sm font-mono">
-              <span className="text-emerald-400 select-none">❯</span>
+              <span className="text-emerald-600 dark:text-emerald-400 select-none">
+                ❯
+              </span>
               <div className="relative flex-1">
                 <input
                   ref={inputRef}
@@ -1551,13 +1555,13 @@ const InteractiveTerminal = forwardRef<
                   placeholder="cd portfolio"
                   spellCheck={false}
                   autoComplete="off"
-                  className="w-full bg-transparent text-emerald-300 font-mono text-sm outline-none placeholder:text-gray-600 caret-transparent"
+                  className="w-full bg-transparent text-emerald-700 dark:text-emerald-300 font-mono text-sm outline-none placeholder:text-gray-400 dark:placeholder:text-gray-600 caret-transparent"
                   onClick={(e) => e.stopPropagation()}
                 />
                 {cursorBlock(terminalActive, terminalInput.length)}
               </div>
             </div>
-            <p className="text-[9px] font-mono text-gray-600 mt-1.5 select-none">
+            <p className="text-[9px] font-mono text-gray-400 dark:text-gray-600 mt-1.5 select-none">
               type help for commands
             </p>
             {outputRenderer(terminalOutput, "sm")}
@@ -1570,7 +1574,7 @@ const InteractiveTerminal = forwardRef<
         <AnimatePresence>
           {terminalFullscreen && (
             <motion.div
-              className="fixed inset-0 z-[100] flex flex-col bg-black"
+              className="fixed inset-0 z-[100] flex flex-col bg-gray-50 dark:bg-black"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1586,7 +1590,7 @@ const InteractiveTerminal = forwardRef<
                 transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 {/* Title bar */}
-                <div className="flex items-center gap-1.5 px-4 py-2.5 bg-[#1a1a2e] border-b border-white/[0.06]">
+                <div className="flex items-center gap-1.5 px-4 py-2.5 bg-gray-100 dark:bg-[#1a1a2e] border-b border-gray-200 dark:border-white/[0.06]">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -1597,7 +1601,7 @@ const InteractiveTerminal = forwardRef<
                   />
                   <span className="w-3 h-3 rounded-full bg-yellow-400/80" />
                   <span className="w-3 h-3 rounded-full bg-green-400/80" />
-                  <span className="flex-1 text-center text-[11px] font-mono text-white/25">
+                  <span className="flex-1 text-center text-[11px] font-mono text-gray-400 dark:text-white/25">
                     {personalInfo.name.toLowerCase().replace(/\s/g, "")} —
                     terminal
                   </span>
@@ -1607,23 +1611,26 @@ const InteractiveTerminal = forwardRef<
                       setTerminalFullscreen(false);
                       onExit?.();
                     }}
-                    className="text-white/20 hover:text-white/50 transition-colors"
+                    className="text-gray-400 dark:text-white/20 hover:text-gray-600 dark:hover:text-white/50 transition-colors"
                   >
                     <FiMinimize2 size={12} />
                   </button>
                 </div>
                 {/* Terminal body */}
                 <div
-                  className="bg-[#0d1117] px-4 py-4 cursor-text flex-1 overflow-y-auto"
+                  className="bg-white dark:bg-[#0d1117] px-4 py-4 cursor-text flex-1 overflow-y-auto"
                   onClick={() => fullscreenInputRef.current?.focus()}
                 >
                   {/* Welcome message */}
-                  <p className="text-xs font-mono text-gray-500 mb-1">
+                  <p className="text-xs font-mono text-gray-400 dark:text-gray-500 mb-1">
                     Welcome to {personalInfo.name}'s terminal
                   </p>
-                  <p className="text-xs font-mono text-gray-600 mb-4">
-                    Type <span className="text-emerald-400/60">help</span> to
-                    see available commands
+                  <p className="text-xs font-mono text-gray-400 dark:text-gray-600 mb-4">
+                    Type{" "}
+                    <span className="text-emerald-600/80 dark:text-emerald-400/60">
+                      help
+                    </span>{" "}
+                    to see available commands
                   </p>
 
                   {/* Output */}
@@ -1631,7 +1638,9 @@ const InteractiveTerminal = forwardRef<
 
                   {/* Input line */}
                   <div className="flex items-center gap-2 text-sm font-mono">
-                    <span className="text-emerald-400 select-none">❯</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 select-none">
+                      ❯
+                    </span>
                     <div className="relative flex-1">
                       <input
                         ref={fullscreenInputRef}
@@ -1644,7 +1653,7 @@ const InteractiveTerminal = forwardRef<
                         placeholder="type a command..."
                         spellCheck={false}
                         autoComplete="off"
-                        className="w-full bg-transparent text-emerald-300 font-mono text-sm outline-none placeholder:text-gray-700 caret-transparent"
+                        className="w-full bg-transparent text-emerald-700 dark:text-emerald-300 font-mono text-sm outline-none placeholder:text-gray-400 dark:placeholder:text-gray-700 caret-transparent"
                       />
                       {cursorBlock(terminalActive, terminalInput.length)}
                     </div>
