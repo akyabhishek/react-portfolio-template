@@ -1,70 +1,6 @@
-import {
-  SiAndroidstudio,
-  SiApachemaven,
-  SiAxios,
-  SiCss3,
-  SiDocker,
-  SiFigma,
-  SiFirebase,
-  SiGit,
-  SiGithub,
-  SiGithubactions,
-  SiGooglecloud,
-  SiGradle,
-  SiHibernate,
-  SiHtml5,
-  SiIntellijidea,
-  SiJavascript,
-  SiJunit5,
-  SiLangchain,
-  SiMysql,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPostman,
-  SiPython,
-  SiReact,
-  SiRedis,
-  SiSelenium,
-  SiSpring,
-  SiSpringboot,
-  SiSwagger,
-  SiTailwindcss,
-  SiTensorflow,
-  SiTypescript,
-  SiVercel,
-  SiVite,
-  SiYaml,
-} from "react-icons/si";
-import {
-  FaJava,
-  FaCode,
-  FaRobot,
-  FaDatabase,
-  FaCloud,
-  FaBookOpen,
-  FaPalette,
-  FaCog,
-  FaTools,
-  FaCogs,
-  FaProjectDiagram,
-  FaLayerGroup,
-  FaBrain,
-  FaChartBar,
-  FaUsers,
-  FaSync,
-  FaStream,
-  FaTheaterMasks,
-} from "react-icons/fa";
-import { VscAzure, VscVscode } from "react-icons/vsc";
-import { BsFiletypeXml } from "react-icons/bs";
-import { DiMsqlServer } from "react-icons/di";
-import { GoCopilot } from "react-icons/go";
-import { BiCodeBlock } from "react-icons/bi";
-import { MdDesignServices, MdArchitecture } from "react-icons/md";
 import { CardSpotlight } from "./ui/card-spotlight";
 import { useState, useRef } from "react";
 import { skillsData, type Skill } from "../config/skillsData";
-import { PiOpenAiLogo } from "react-icons/pi";
 import SkillDetails from "./SkillDetails";
 
 // Tooltip component
@@ -151,82 +87,6 @@ export const CircularIndicator = ({ level }: { level: Skill["level"] }) => {
   );
 };
 
-const iconMap: Record<string, JSX.Element> = {
-  Java: <FaJava />,
-  TypeScript: <SiTypescript />,
-  JavaScript: <SiJavascript />,
-  Python: <SiPython />,
-  HTML: <SiHtml5 />,
-  CSS: <SiCss3 />,
-  YAML: <SiYaml />,
-  XML: <BsFiletypeXml />,
-  "Spring Boot": <SiSpringboot />,
-  "Spring Core": <SiSpring />,
-  "Spring MVC": <SiSpring />,
-  "Spring Data JPA": <SiSpring />,
-  Hibernate: <SiHibernate />,
-  Spring: <SiSpring />,
-  ReactJs: <SiReact />,
-  "Next.js": <SiNextdotjs />,
-  "Node.js": <SiNodedotjs />,
-  ChatGPT: <PiOpenAiLogo />,
-  "GitHub Copilot": <GoCopilot />,
-  Cursor: <BiCodeBlock />,
-  Selenium: <SiSelenium />,
-  "Artificial Intelligence": <FaBrain />,
-  "Visualization Tools": <FaChartBar />,
-  MySQL: <SiMysql />,
-  "SQL Server": <DiMsqlServer />,
-  "Firebase Realtime Database": <SiFirebase />,
-  Redis: <SiRedis />,
-  Git: <SiGit />,
-  GitHub: <SiGithub />,
-  "GitHub Actions": <SiGithubactions />,
-  Docker: <SiDocker />,
-  Maven: <SiApachemaven />,
-  Gradle: <SiGradle />,
-  Azure: <VscAzure />,
-  GCP: <SiGooglecloud />,
-  Vercel: <SiVercel />,
-  "Tailwind CSS": <SiTailwindcss />,
-  Axios: <SiAxios />,
-  Lombok: <FaJava />,
-  TensorFlow: <SiTensorflow />,
-  HeroUI: <SiReact />,
-  "Rest Assured": <SiJunit5 />,
-  Playwright: <FaTheaterMasks />,
-  JUnit: <SiJunit5 />,
-  Kafka: <FaStream />,
-  Figma: <SiFigma />,
-  LangChain: <SiLangchain />,
-  Postman: <SiPostman />,
-  VSCode: <VscVscode />,
-  IntelliJ: <SiIntellijidea />,
-  Swagger: <SiSwagger />,
-  "Android Studio": <SiAndroidstudio />,
-  Vite: <SiVite />,
-  "Multi-threading": <FaSync />,
-  "Design Patterns": <MdDesignServices />,
-  "Low Level Design": <MdArchitecture />,
-  "High Level Design": <FaProjectDiagram />,
-  Microservices: <FaLayerGroup />,
-  Agile: <FaUsers />,
-};
-
-// Category icon map
-const categoryIconMap: Record<string, JSX.Element> = {
-  Languages: <FaCode />,
-  Frameworks: <SiReact />,
-  "AI / Automation": <FaRobot />,
-  Databases: <FaDatabase />,
-  DevOps: <FaCloud />,
-  Libraries: <FaBookOpen />,
-  "UI/UX": <FaPalette />,
-  "Markup & Config": <FaCog />,
-  Tools: <FaTools />,
-  Others: <FaCogs />,
-};
-
 export default function SkillsSection() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -273,7 +133,7 @@ export default function SkillsSection() {
   const handleCategoryClick = (
     category: string,
     skills: Skill[],
-    icon: JSX.Element
+    icon: JSX.Element,
   ) => {
     setSelectedCategory(category);
     setSelectedSkills(skills);
@@ -306,7 +166,7 @@ export default function SkillsSection() {
                     {level}
                   </span>
                 </div>
-              )
+              ),
             )}
           </div>
         </div>
@@ -320,15 +180,13 @@ export default function SkillsSection() {
                 handleCategoryClick(
                   skill.category,
                   skill.items,
-                  categoryIconMap[skill.category]
+                  (skill.categoryIcon as JSX.Element) || <></>,
                 )
               }
             >
               <h3 className="text-xl mb-3 text-grey-700 font-bold dark:text-gray-100 relative z-20 flex items-center gap-2">
-                {categoryIconMap[skill.category] && (
-                  <span className="text-emerald-600">
-                    {categoryIconMap[skill.category]}
-                  </span>
+                {skill.categoryIcon && (
+                  <span className="text-emerald-600">{skill.categoryIcon}</span>
                 )}
                 {skill.category}
               </h3>
@@ -360,9 +218,9 @@ export default function SkillsSection() {
                           <div className="space-y-3 animate-in fade-in duration-500">
                             {/* Header with Icon and Name */}
                             <div className="flex items-center gap-3 pb-2">
-                              {iconMap[item.name] && (
+                              {item.icon && (
                                 <span className="text-3xl transition-all duration-500 ease-in-out flex-shrink-0">
-                                  {iconMap[item.name]}
+                                  {item.icon}
                                 </span>
                               )}
                               <div className="flex-1">
@@ -415,9 +273,9 @@ export default function SkillsSection() {
                           </div>
                         ) : (
                           <span className="flex items-center gap-2 px-3 py-2 transition-all duration-500 ease-in-out">
-                            {iconMap[item.name] && (
+                            {item.icon && (
                               <span className="text-xl transition-all duration-500 ease-in-out">
-                                {iconMap[item.name]}
+                                {item.icon}
                               </span>
                             )}
                             <span className="font-medium transition-all duration-500 ease-in-out">
@@ -443,7 +301,6 @@ export default function SkillsSection() {
         category={selectedCategory}
         skills={selectedSkills}
         icon={selectedIcon || <></>}
-        iconMap={iconMap}
       />
     </div>
   );

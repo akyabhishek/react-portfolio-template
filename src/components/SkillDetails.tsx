@@ -9,7 +9,6 @@ interface SkillDetailsProps {
   category: string;
   skills: Skill[];
   icon: JSX.Element;
-  iconMap: Record<string, JSX.Element>;
 }
 
 const SkillDetails: React.FC<SkillDetailsProps> = ({
@@ -18,7 +17,6 @@ const SkillDetails: React.FC<SkillDetailsProps> = ({
   category,
   skills,
   icon,
-  iconMap,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -37,9 +35,9 @@ const SkillDetails: React.FC<SkillDetailsProps> = ({
               className="bg-slate-100 dark:bg-zinc-900 rounded-xl p-3 hover:shadow-md transition-shadow flex flex-col border border-neutral-200 dark:border-neutral-800"
             >
               <div className="flex items-center gap-2 mb-2 pb-1.5 border-b border-gray-200 dark:border-gray-800">
-                {iconMap[skill.name] && (
+                {skill.icon && (
                   <span className="text-lg md:text-xl text-emerald-600 flex-shrink-0">
-                    {iconMap[skill.name]}
+                    {skill.icon}
                   </span>
                 )}
                 <h3 className="text-base md:text-lg font-semibold tracking-tight truncate text-slate-900 dark:text-gray-100">
