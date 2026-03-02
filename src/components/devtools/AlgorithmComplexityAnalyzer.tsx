@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,12 +20,10 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
   BarChart,
   Bar,
-  Legend,
   Cell,
 } from "recharts";
 
@@ -33,6 +31,7 @@ type ComplexityType =
   | "O(1)"
   | "O(log n)"
   | "O(n)"
+  | "O(V + E)"
   | "O(n log n)"
   | "O(n²)"
   | "O(n³)"
@@ -66,6 +65,11 @@ const complexityData = {
     color: "#eab308",
     description: "Linear time - Good performance",
   },
+  "O(V + E)": {
+    value: 3.5,
+    color: "#d97706",
+    description: "Graph traversal - Linear in vertices + edges",
+  },
   "O(n log n)": {
     value: 4,
     color: "#f97316",
@@ -98,13 +102,17 @@ const generateComplexityGraphData = (complexity: ComplexityType) => {
         y = 1;
         break;
       case "O(log n)":
-        y = Math.log2(x);
+        y = x <= 1 ? 0.1 : Math.log2(x);
         break;
       case "O(n)":
         y = x;
         break;
+      case "O(V + E)":
+        // Model as ~1.5x linear to show it's between O(n) and O(n log n)
+        y = x * 1.5;
+        break;
       case "O(n log n)":
-        y = x * Math.log2(x);
+        y = x <= 1 ? 0.1 : x * Math.log2(x);
         break;
       case "O(n²)":
         y = x * x;
@@ -113,7 +121,7 @@ const generateComplexityGraphData = (complexity: ComplexityType) => {
         y = x * x * x;
         break;
       case "O(2^n)":
-        y = Math.pow(2, Math.min(x, 8)); // Cap to prevent huge numbers
+        y = Math.pow(2, x);
         break;
     }
     data.push({
@@ -197,6 +205,53 @@ function merge(left, right) {
   
   return [];
 }`,
+  "Graph DFS (Bipartite)": `class Solution {
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int color[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            color[i] = -1;
+        }
+        for (int i = 0; i < n; i++) {
+            if (color[i] == -1) {
+                if (dfs(graph, color, i, 0) == false)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean dfs(int[][] graph, int color[], int row, int col) {
+        color[row] = col;
+        for (int i = 0; i < graph[row].length; i++) {
+            int neighbor = graph[row][i];
+            if (color[neighbor] == -1) {
+                if (dfs(graph, color, neighbor, 1-col) == false)
+                    return false;
+            }
+            else if (color[neighbor] == col) {
+                return false;
+            }
+        }
+        return true;
+    }
+}`,
+  "BFS Shortest Path": `function bfs(graph, start) {
+  const visited = new Set();
+  const queue = [start];
+  visited.add(start);
+
+  while (queue.length > 0) {
+    const node = queue.shift();
+    for (const neighbor of graph[node]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);
+      }
+    }
+  }
+  return visited;
+}`,
 };
 
 // --- ROBUST COMPLEXITY ANALYZER ---
@@ -234,7 +289,7 @@ const analyzeComplexity = (code: string): ComplexityResult => {
   const recursionAnalysis = analyzeRecursion(
     ast,
     cleanCode,
-    languageDetection.language
+    languageDetection.language,
   );
   const algorithmPatternAnalysis = analyzeAlgorithmPatterns(cleanCode);
 
@@ -245,26 +300,54 @@ const analyzeComplexity = (code: string): ComplexityResult => {
     algorithmPatternAnalysis,
   ].filter((result) => result.complexity !== "O(1)");
 
-  if (complexityResults.length > 0) {
-    // Take the highest complexity found
-    const sortedComplexities = complexityResults.sort(
-      (a, b) =>
-        getComplexityWeight(b.complexity) - getComplexityWeight(a.complexity)
-    );
-    timeComplexity = sortedComplexities[0].complexity;
-    patterns = sortedComplexities.flatMap((r) => r.patterns);
-    confidence = getLowerConfidence(
-      confidence,
-      sortedComplexities[0].confidence
-    );
+  // Helper function for comparing confidence levels
+  function getLowerConfidence(
+    a: "high" | "medium" | "low",
+    b: "high" | "medium" | "low",
+  ): "high" | "medium" | "low" {
+    const levels = { high: 3, medium: 2, low: 1 };
+    return levels[a] < levels[b] ? a : b;
+  }
 
-    // Helper function for comparing confidence levels
-    function getLowerConfidence(
-      a: "high" | "medium" | "low",
-      b: "high" | "medium" | "low"
-    ): "high" | "medium" | "low" {
-      const levels = { high: 3, medium: 2, low: 1 };
-      return levels[a] < levels[b] ? a : b;
+  if (complexityResults.length > 0) {
+    // If graph traversal (O(V + E)) was detected, it supersedes loop×recursion multiplication
+    // because the loops and recursion are part of the same graph traversal, not independent
+    const hasGraphTraversal =
+      algorithmPatternAnalysis.complexity === "O(V + E)";
+
+    // Check if both loop and recursion contribute (multiplicative complexity)
+    const loopPower = getComplexityPower(loopAnalysis.complexity);
+    const recPower = getComplexityPower(recursionAnalysis.complexity);
+
+    if (
+      !hasGraphTraversal &&
+      loopPower !== null &&
+      recPower !== null &&
+      loopPower > 0 &&
+      recPower > 0 &&
+      recursionAnalysis.complexity !== "O(n log n)"
+    ) {
+      // Recursive function with inner loops: complexities multiply
+      const combinedPower = Math.min(loopPower + recPower, 3);
+      timeComplexity = powerToComplexity(combinedPower);
+      patterns = [
+        ...loopAnalysis.patterns,
+        ...recursionAnalysis.patterns,
+        "Recursive function with inner loops (multiplicative)",
+      ];
+      confidence = "medium";
+    } else {
+      // Take the highest complexity found
+      const sortedComplexities = complexityResults.sort(
+        (a, b) =>
+          getComplexityWeight(b.complexity) - getComplexityWeight(a.complexity),
+      );
+      timeComplexity = sortedComplexities[0].complexity;
+      patterns = sortedComplexities.flatMap((r) => r.patterns);
+      confidence = getLowerConfidence(
+        confidence,
+        sortedComplexities[0].confidence,
+      );
     }
   }
 
@@ -272,15 +355,15 @@ const analyzeComplexity = (code: string): ComplexityResult => {
   const spaceAnalysis = analyzeSpaceComplexity(
     ast,
     cleanCode,
-    languageDetection.language
+    languageDetection.language,
   );
   spaceComplexity = spaceAnalysis.complexity;
-  patterns = [...patterns, ...spaceAnalysis.patterns];
+  patterns = [...new Set([...patterns, ...spaceAnalysis.patterns])];
 
   const explanation = generateExplanation(
     timeComplexity,
     spaceComplexity,
-    patterns
+    patterns,
   );
 
   return {
@@ -295,7 +378,7 @@ const analyzeComplexity = (code: string): ComplexityResult => {
   };
 };
 
-// Language detection function
+// Language detection function — ordered from most specific to least specific
 function detectLanguage(code: string): {
   language: string;
   support: "full" | "partial" | "limited" | "unsupported";
@@ -303,51 +386,11 @@ function detectLanguage(code: string): {
 } {
   const lowerCode = code.toLowerCase();
 
-  // JavaScript/TypeScript patterns
-  if (/\b(function|const|let|var|=>)\b/.test(code) && /\{|\}/.test(code)) {
-    return {
-      language: "JavaScript/TypeScript",
-      support: "full",
-    };
-  }
-
-  // Java patterns
+  // Python patterns — check early; allow dict literals {} but require def/elif without semicolons
   if (
-    /\b(public|private|class|void|int|String)\b/.test(code) &&
-    /\{|\}/.test(code)
-  ) {
-    return {
-      language: "Java",
-      support: "full",
-    };
-  }
-
-  // C/C++ patterns
-  if (
-    /\b(int|void|char|float|double|#include)\b/.test(code) &&
-    /\{|\}/.test(code)
-  ) {
-    return {
-      language: "C/C++",
-      support: "full",
-    };
-  }
-
-  // C# patterns
-  if (
-    /\b(using|namespace|class|void|int|string)\b/.test(code) &&
-    /\{|\}/.test(code)
-  ) {
-    return {
-      language: "C#",
-      support: "full",
-    };
-  }
-
-  // Python patterns
-  if (
-    /\b(def|if|elif|else|for|while|in|range)\b/.test(lowerCode) &&
-    !/\{|\}/.test(code)
+    /\b(def\s+\w+|elif|import\s+\w+|from\s+\w+)\b/.test(code) &&
+    /\b(def|for|while|if)\b/.test(lowerCode) &&
+    !/;\s*$/m.test(code)
   ) {
     return {
       language: "Python",
@@ -357,28 +400,8 @@ function detectLanguage(code: string): {
     };
   }
 
-  // Go patterns
-  if (/\b(func|package|import|var|:=)\b/.test(lowerCode)) {
-    return {
-      language: "Go",
-      support: "partial",
-      warning:
-        "Go analysis may miss some patterns. Consider using JavaScript-like syntax for better accuracy.",
-    };
-  }
-
-  // Ruby patterns
-  if (/\b(def|end|class|if|elsif|while|each)\b/.test(lowerCode)) {
-    return {
-      language: "Ruby",
-      support: "limited",
-      warning:
-        "Ruby analysis is limited. Results may not be accurate. Consider using JavaScript-like languages.",
-    };
-  }
-
-  // Kotlin patterns
-  if (/\b(fun|val|var|class|if|when|for)\b/.test(lowerCode)) {
+  // Kotlin patterns (before Java — `fun` keyword and `val`/`when` are distinctive)
+  if (/\b(fun\s+\w+|val\s+\w+|when\s*\()/.test(code) && /\{|\}/.test(code)) {
     return {
       language: "Kotlin",
       support: "partial",
@@ -387,8 +410,68 @@ function detectLanguage(code: string): {
     };
   }
 
-  // Functional languages (limited support)
-  if (/\b(map|filter|reduce|lambda|foldr|foldl)\b/.test(lowerCode)) {
+  // C# patterns (before Java — `using System`, `namespace`, lowercase `string` are distinctive)
+  if (/\b(using\s+System|namespace\s+\w+)\b/.test(code) && /\{|\}/.test(code)) {
+    return {
+      language: "C#",
+      support: "full",
+    };
+  }
+
+  // Java patterns (public class, capital-S String, System.out are distinctive)
+  if (
+    /\b(public\s+class|private\s+|protected\s+|String\b|System\.out)/.test(
+      code,
+    ) &&
+    /\{|\}/.test(code)
+  ) {
+    return {
+      language: "Java",
+      support: "full",
+    };
+  }
+
+  // JavaScript/TypeScript patterns (const/let/var/=>/function)
+  if (/\b(function|const|let|var|=>)\b/.test(code) && /\{|\}/.test(code)) {
+    return {
+      language: "JavaScript/TypeScript",
+      support: "full",
+    };
+  }
+
+  // C/C++ patterns (#include, printf, cout are very distinctive)
+  if (
+    /\b(#include|printf|scanf|cout|cin|nullptr|NULL|sizeof)\b/.test(code) &&
+    /\{|\}/.test(code)
+  ) {
+    return {
+      language: "C/C++",
+      support: "full",
+    };
+  }
+
+  // Go patterns (func + package, := operator)
+  if (/\b(func\s+\w+|package\s+\w+|:=)/.test(code)) {
+    return {
+      language: "Go",
+      support: "partial",
+      warning:
+        "Go analysis may miss some patterns. Consider using JavaScript-like syntax for better accuracy.",
+    };
+  }
+
+  // Ruby patterns (def + end together is distinctive)
+  if (/\bdef\b/.test(lowerCode) && /\bend\b/.test(lowerCode)) {
+    return {
+      language: "Ruby",
+      support: "limited",
+      warning:
+        "Ruby analysis is limited. Results may not be accurate. Consider using JavaScript-like languages.",
+    };
+  }
+
+  // Functional languages (require distinctive keywords, not map/filter/reduce which are common in JS)
+  if (/\b(lambda|foldr|foldl|defun|defn)\b/.test(lowerCode)) {
     return {
       language: "Functional Language",
       support: "limited",
@@ -458,13 +541,68 @@ function parseToAST(tokens: string[], language: string): ASTNode[] {
         : token === "for" || token === "while";
 
     // Handle different function syntaxes
-    const isFunction =
-      language === "Python"
-        ? token === "def"
-        : language === "Go"
-        ? token === "func"
-        : token === "function";
+    // For Java/C/C++/C#: detect "type name(" patterns like "public boolean dfs(" or "void foo("
+    const javaStyleModifiers = ["public", "private", "protected", "static"];
+    const javaStyleTypes = [
+      "void",
+      "int",
+      "boolean",
+      "String",
+      "char",
+      "float",
+      "double",
+      "long",
+      "short",
+      "byte",
+      "bool",
+      "List",
+      "Map",
+      "Set",
+      "Array",
+    ];
+    let isFunction = false;
+    let funcNameOffset = 1; // how many tokens ahead the function name is
 
+    if (language === "Python") {
+      isFunction = token === "def";
+    } else if (language === "Go") {
+      isFunction = token === "func";
+    } else if (token === "function") {
+      isFunction = true;
+    } else if (
+      (javaStyleModifiers.includes(token) || javaStyleTypes.includes(token)) &&
+      i + 2 < tokens.length
+    ) {
+      // Look ahead: [modifier]* type name (
+      // e.g. "public" "boolean" "dfs" "("  or  "void" "foo" "("
+      let lookAhead = i + 1;
+      // Skip modifiers
+      while (
+        lookAhead < tokens.length &&
+        javaStyleModifiers.includes(tokens[lookAhead])
+      ) {
+        lookAhead++;
+      }
+      // Skip return type (could be a type keyword or any identifier)
+      if (
+        lookAhead < tokens.length &&
+        (javaStyleTypes.includes(tokens[lookAhead]) ||
+          /^[A-Z]\w*/.test(tokens[lookAhead]) ||
+          /^\w+\[\]$/.test(tokens[lookAhead]))
+      ) {
+        lookAhead++;
+      }
+      // Now we should be at the function name, followed by "("
+      if (
+        lookAhead < tokens.length &&
+        /^\w+$/.test(tokens[lookAhead]) &&
+        lookAhead + 1 < tokens.length &&
+        tokens[lookAhead + 1] === "("
+      ) {
+        isFunction = true;
+        funcNameOffset = lookAhead - i;
+      }
+    }
     if (isLoop) {
       const loopNode: ASTNode = {
         type: "loop",
@@ -483,15 +621,26 @@ function parseToAST(tokens: string[], language: string): ASTNode[] {
       i++; // skip block start
       depth++;
 
-      const bodyTokens = [];
+      const bodyTokens: string[] = [];
       if (language === "Python") {
-        // For Python, we'll assume the next few tokens are the body (simplified)
-        let tokenCount = 0;
-        while (i < tokens.length && tokenCount < 10) {
-          // Simple heuristic
-          bodyTokens.push(tokens[i]);
+        // For Python, scan until we hit a top-level keyword or sequential loop
+        const stopKeywords = ["def", "class", "return"];
+        let seenContent = false;
+        while (i < tokens.length) {
+          const t = tokens[i];
+          // Stop at top-level constructs
+          if (seenContent && stopKeywords.includes(t)) break;
+          // Stop at a sequential loop (another for/while at same level)
+          if (seenContent && (t === "for" || t === "while")) {
+            // If we already have a loop in body, this is sequential — stop
+            const bodyHasLoop = bodyTokens.some(
+              (bt) => bt === "for" || bt === "while",
+            );
+            if (bodyHasLoop) break;
+          }
+          bodyTokens.push(t);
+          seenContent = true;
           i++;
-          tokenCount++;
         }
       } else {
         // For brace-based languages
@@ -510,15 +659,17 @@ function parseToAST(tokens: string[], language: string): ASTNode[] {
     } else if (isFunction) {
       const funcNode: ASTNode = {
         type: "function",
-        content: tokens[i + 1] || "",
+        content: tokens[i + funcNameOffset] || "",
         children: [],
         depth: depth,
       };
       nodes.push(funcNode);
-      i++;
+      i += funcNameOffset;
     } else if (
-      token.includes("(") &&
-      !["for", "while", "if", "def", "func"].includes(tokens[i - 1] || "")
+      /^\w+$/.test(token) &&
+      i + 1 < tokens.length &&
+      tokens[i + 1] === "(" &&
+      !["for", "while", "if", "def", "func", "function"].includes(token)
     ) {
       const callNode: ASTNode = {
         type: "call",
@@ -538,7 +689,7 @@ function parseToAST(tokens: string[], language: string): ASTNode[] {
 function analyzeLoops(
   ast: ASTNode[],
   code: string,
-  language: string
+  language: string,
 ): {
   complexity: ComplexityType;
   patterns: string[];
@@ -585,16 +736,15 @@ function analyzeLoops(
       patterns.push("Single linear loop");
     }
   } else if (maxDepth === 2) {
-    if (hasNestedLinearLoops(code, language)) {
-      complexity = "O(n²)";
-      patterns.push("Nested linear loops");
-    }
+    complexity = "O(n²)";
+    patterns.push("Nested linear loops (depth 2)");
   } else if (maxDepth === 3) {
     complexity = "O(n³)";
     patterns.push("Triple nested loops");
   } else if (maxDepth > 3) {
-    complexity = `O(n^${maxDepth})` as ComplexityType;
-    patterns.push(`${maxDepth} levels of nested loops`);
+    // Cap at O(n³) since our type system only goes up to O(n³) for polynomial
+    complexity = "O(n³)";
+    patterns.push(`${maxDepth} levels of nested loops (capped at O(n³))`);
   }
 
   return {
@@ -608,7 +758,7 @@ function analyzeLoops(
 function analyzeRecursion(
   ast: ASTNode[],
   code: string,
-  language: string
+  language: string,
 ): {
   complexity: ComplexityType;
   patterns: string[];
@@ -620,8 +770,12 @@ function analyzeRecursion(
     const funcName = func.content;
     if (!funcName) continue;
 
+    // Extract the function body to count only self-recursive calls (not calls from other functions)
+    const funcBody = extractFunctionBody(code, funcName, language);
+    if (!funcBody) continue;
+
     const recursiveCallPattern = new RegExp(`\\b${funcName}\\s*\\(`, "g");
-    const recursiveCalls = (code.match(recursiveCallPattern) || []).length - 1; // -1 for function definition
+    const recursiveCalls = (funcBody.match(recursiveCallPattern) || []).length;
 
     if (recursiveCalls === 0) continue;
 
@@ -646,15 +800,33 @@ function analyzeRecursion(
 
     // Single recursive call patterns
     if (recursiveCalls === 1) {
-      // Divide and conquer with linear work per level
+      // Merge sort — divide and conquer with linear merge work
       if (
-        /merge|quick|sort/.test(code.toLowerCase()) ||
-        hasArraySlicing(code, language)
+        /merge.*sort|mergesort/i.test(code) ||
+        (/merge/.test(code.toLowerCase()) && hasArraySlicing(code, language))
       ) {
         return {
           complexity: "O(n log n)",
-          patterns: ["Divide and conquer with linear work"],
+          patterns: ["Divide and conquer with linear merge work"],
           confidence: "high",
+        };
+      }
+
+      // Quicksort — average O(n log n) but worst case O(n²)
+      if (/quick.*sort|quicksort|pivot/i.test(code)) {
+        return {
+          complexity: "O(n log n)",
+          patterns: ["Quicksort (average case; worst case is O(n²))"],
+          confidence: "medium",
+        };
+      }
+
+      // Generic sort with array slicing
+      if (/sort/i.test(code) && hasArraySlicing(code, language)) {
+        return {
+          complexity: "O(n log n)",
+          patterns: ["Divide and conquer with linear work"],
+          confidence: "medium",
         };
       }
 
@@ -674,7 +846,7 @@ function analyzeRecursion(
 function analyzeSpaceComplexity(
   ast: ASTNode[],
   code: string,
-  language: string
+  language: string,
 ): { complexity: ComplexityType; patterns: string[] } {
   const patterns = [];
   let complexity: ComplexityType = "O(1)";
@@ -738,12 +910,8 @@ function analyzeAlgorithmPatterns(code: string): {
     };
   }
 
-  // Two pointers technique
-  if (
-    /left.*right|start.*end|i.*j/.test(lowerCode) &&
-    /\+\+|\-\-/.test(code) &&
-    !/for.*\(/.test(lowerCode)
-  ) {
+  // Two pointers technique (left/right or start/end with increment/decrement)
+  if (/left.*right|start.*end/.test(lowerCode) && /\+\+|\-\-/.test(code)) {
     return {
       complexity: "O(n)",
       patterns: ["Two pointers technique"],
@@ -751,11 +919,8 @@ function analyzeAlgorithmPatterns(code: string): {
     };
   }
 
-  // Sliding window
-  if (
-    /window|slide/.test(lowerCode) ||
-    (/left.*right/.test(lowerCode) && /while.*\(/.test(lowerCode))
-  ) {
+  // Sliding window (require explicit window/slide/sliding keywords)
+  if (/window|slide|sliding/.test(lowerCode) && /while|for/.test(lowerCode)) {
     return {
       complexity: "O(n)",
       patterns: ["Sliding window technique"],
@@ -763,11 +928,8 @@ function analyzeAlgorithmPatterns(code: string): {
     };
   }
 
-  // Hash table lookup
-  if (
-    /map\.has|map\.get|set\.has/.test(lowerCode) &&
-    !/for.*\(/.test(lowerCode)
-  ) {
+  // Hash table lookup (allow inside for loops — hash map inside a loop is still O(n) total)
+  if (/map\.has|map\.get|set\.has|\.has\(|\.get\(/.test(lowerCode)) {
     return {
       complexity: "O(n)",
       patterns: ["Hash table operations"],
@@ -775,7 +937,100 @@ function analyzeAlgorithmPatterns(code: string): {
     };
   }
 
+  // Graph traversal patterns (DFS/BFS on adjacency list)
+  const graphResult = analyzeGraphTraversal(code, lowerCode);
+  if (graphResult) return graphResult;
+
   return { complexity: "O(1)", patterns: [], confidence: "high" };
+}
+
+// Detect DFS/BFS graph traversal → O(V + E)
+function analyzeGraphTraversal(
+  code: string,
+  lowerCode: string,
+): {
+  complexity: ComplexityType;
+  patterns: string[];
+  confidence: "high" | "medium" | "low";
+} | null {
+  // Detect adjacency list traversal patterns:
+  // - Iterating neighbors: graph[node], graph[row], adj[u], etc.
+  // - Combined with visited/color array and recursion or queue/stack
+  const hasAdjListAccess =
+    /graph\[\w+\]|adj\[\w+\]|neighbors|adjlist|adjacency/i.test(code);
+  const hasVisitedPattern = /visited|color|seen|marked|inqueue/i.test(code);
+  const hasRecursionOrQueue =
+    /dfs|bfs|queue|stack|recursive/i.test(lowerCode) ||
+    /\bqueue\b|\bstack\b|Queue\(|Deque\(|LinkedList\(/.test(code) ||
+    // Detect self-recursive calls: function calling itself
+    /function\s+(\w+)[\s\S]*?\1\s*\(/.test(code) ||
+    /def\s+(\w+)[\s\S]*?\1\s*\(/.test(code) ||
+    // Java-style: method name appears in its own body
+    /\b(\w+)\s*\([^)]*\)\s*\{[\s\S]*?\1\s*\(/.test(code);
+
+  if (hasAdjListAccess && hasVisitedPattern && hasRecursionOrQueue) {
+    return {
+      complexity: "O(V + E)",
+      patterns: ["Graph traversal (DFS/BFS on adjacency list)"],
+      confidence: "high",
+    };
+  }
+
+  // Looser detection: adjacency list access + neighbor loop + visited
+  const hasNeighborLoop =
+    /for.*graph\[|for.*adj\[|for.*neighbor|for.*of.*graph/.test(lowerCode);
+  if (hasAdjListAccess && hasVisitedPattern && hasNeighborLoop) {
+    return {
+      complexity: "O(V + E)",
+      patterns: ["Graph neighbor iteration with visited tracking"],
+      confidence: "medium",
+    };
+  }
+
+  return null;
+}
+
+// Extract the body of a function by name (text between its opening { and matching closing })
+function extractFunctionBody(
+  code: string,
+  funcName: string,
+  language: string,
+): string | null {
+  // Build a regex to find the function signature
+  // Handles: function name(, def name(, func name(, public type name(, etc.
+  const escapedName = funcName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const funcDefPattern = new RegExp(
+    `(?:function|def|func|(?:public|private|protected|static)\\s+(?:\\w+\\s+)*)${escapedName}\\s*\\(`,
+  );
+  const match = funcDefPattern.exec(code);
+  if (!match) return null;
+
+  if (language === "Python") {
+    // For Python, find the colon after the def and return everything after it
+    // until the next top-level def/class or EOF
+    const colonIdx = code.indexOf(":", match.index + match[0].length);
+    if (colonIdx === -1) return null;
+    const afterColon = code.substring(colonIdx + 1);
+    // Find next top-level definition
+    const nextDef = afterColon.search(/\n(?=def\s|class\s)/);
+    return nextDef === -1 ? afterColon : afterColon.substring(0, nextDef);
+  }
+
+  // For brace-based languages, find the opening { after the signature
+  const startSearch = match.index + match[0].length;
+  let braceStart = code.indexOf("{", startSearch);
+  if (braceStart === -1) return null;
+
+  let depth = 1;
+  let i = braceStart + 1;
+  while (i < code.length && depth > 0) {
+    if (code[i] === "{") depth++;
+    else if (code[i] === "}") depth--;
+    i++;
+  }
+
+  // Return the body between { and }
+  return code.substring(braceStart + 1, i - 1);
 }
 
 // Helper functions
@@ -825,18 +1080,6 @@ function hasLinearIteration(code: string, language: string): boolean {
   }
 }
 
-function hasNestedLinearLoops(code: string, language: string): boolean {
-  if (language === "Python") {
-    const forLoops = (code.match(/for\s+\w+\s+in/g) || []).length;
-    const whileLoops = (code.match(/while\s+/g) || []).length;
-    return forLoops + whileLoops >= 2;
-  } else {
-    const forLoops = (code.match(/for\s*\(/g) || []).length;
-    const whileLoops = (code.match(/while\s*\(/g) || []).length;
-    return forLoops + whileLoops >= 2;
-  }
-}
-
 function hasArraySlicing(code: string, language: string): boolean {
   if (language === "Python") {
     return /\[.*:.*\]|slice/.test(code);
@@ -852,6 +1095,7 @@ function getComplexityWeight(complexity: ComplexityType): number {
     "O(1)": 1,
     "O(log n)": 2,
     "O(n)": 3,
+    "O(V + E)": 3.5,
     "O(n log n)": 4,
     "O(n²)": 5,
     "O(n³)": 6,
@@ -860,10 +1104,27 @@ function getComplexityWeight(complexity: ComplexityType): number {
   return weights[complexity] || 0;
 }
 
+function getComplexityPower(complexity: ComplexityType): number | null {
+  const powers: Record<string, number> = {
+    "O(1)": 0,
+    "O(n)": 1,
+    "O(n²)": 2,
+    "O(n³)": 3,
+  };
+  return powers[complexity] ?? null;
+}
+
+function powerToComplexity(power: number): ComplexityType {
+  if (power <= 0) return "O(1)";
+  if (power === 1) return "O(n)";
+  if (power === 2) return "O(n²)";
+  return "O(n³)";
+}
+
 function generateExplanation(
   timeComplexity: ComplexityType,
   spaceComplexity: ComplexityType,
-  patterns: string[]
+  patterns: string[],
 ): string {
   let explanation = `Time: ${timeComplexity}, Space: ${spaceComplexity}. `;
 
@@ -884,23 +1145,26 @@ export default function ComplexityAnalyzer() {
   const [selectedSample, setSelectedSample] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const runAnalysis = async () => {
-    if (code.trim()) {
+  const codeRef = useRef(code);
+  codeRef.current = code;
+
+  const runAnalysis = useCallback(() => {
+    if (codeRef.current.trim()) {
       setIsAnalyzing(true);
       // Add a small delay to show loading state
       setTimeout(() => {
-        setResult(analyzeComplexity(code));
+        setResult(analyzeComplexity(codeRef.current));
         setIsAnalyzing(false);
       }, 300);
     } else {
       setResult(null);
       setIsAnalyzing(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (autoAnalyze) runAnalysis();
-  }, [code, autoAnalyze]);
+  }, [code, autoAnalyze, runAnalysis]);
 
   const handleReset = () => {
     setCode("");
@@ -912,7 +1176,7 @@ export default function ComplexityAnalyzer() {
     if (result) {
       try {
         await navigator.clipboard.writeText(
-          `Time: ${result.timeComplexity}, Space: ${result.spaceComplexity}\nExplanation: ${result.explanation}`
+          `Time: ${result.timeComplexity}, Space: ${result.spaceComplexity}\nExplanation: ${result.explanation}`,
         );
         // You could add a toast notification here
       } catch (err) {
@@ -1081,7 +1345,7 @@ function example(arr) {
                         className="text-2xl font-bold px-3 py-1 rounded-lg text-white text-center"
                         style={{
                           backgroundColor: getComplexityColor(
-                            result.timeComplexity
+                            result.timeComplexity,
                           ),
                         }}
                       >
@@ -1098,7 +1362,7 @@ function example(arr) {
                         className="text-2xl font-bold px-3 py-1 rounded-lg text-white text-center"
                         style={{
                           backgroundColor: getComplexityColor(
-                            result.spaceComplexity
+                            result.spaceComplexity,
                           ),
                         }}
                       >
@@ -1119,8 +1383,8 @@ function example(arr) {
                             result.languageSupport === "full"
                               ? "bg-green-100 text-green-800 text-xs"
                               : result.languageSupport === "partial"
-                              ? "bg-yellow-100 text-yellow-800 text-xs"
-                              : "bg-red-100 text-red-800 text-xs"
+                                ? "bg-yellow-100 text-yellow-800 text-xs"
+                                : "bg-red-100 text-red-800 text-xs"
                           }
                         >
                           {result.languageSupport?.toUpperCase()}
@@ -1194,7 +1458,7 @@ function example(arr) {
                         <ResponsiveContainer width="100%" height="100%">
                           <LineChart
                             data={generateComplexityGraphData(
-                              result.timeComplexity
+                              result.timeComplexity,
                             )}
                             margin={{
                               top: 20,
@@ -1263,7 +1527,7 @@ function example(arr) {
                                 value: data.value,
                                 isYourAlgorithm:
                                   complexity === result.timeComplexity,
-                              })
+                              }),
                             )}
                             margin={{
                               top: 20,
@@ -1310,7 +1574,7 @@ function example(arr) {
                                         : "#94a3b8"
                                     }
                                   />
-                                )
+                                ),
                               )}
                             </Bar>
                           </BarChart>

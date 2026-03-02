@@ -13,11 +13,12 @@ import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
 import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
 import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
 import QRScannerPage from "@/pages/devtools/QRScannerPage";
-import AlgorithmComplexityAnalyzerPage from "@/pages/devtools/AlgorithmComplexityAnalyzerPage";
+import ASTComplexityAnalyzerPage from "@/pages/devtools/ASTComplexityAnalyzerPage";
 import Topup from "@/pages/Topup";
 import ModernResume from "@/pages/ModernResume";
 import LandingChooser from "@/pages/LandingChooser";
 import TerminalPage from "@/pages/TerminalPage";
+import RoadmapPage from "@/pages/RoadmapPage";
 
 const router = createBrowserRouter([
   {
@@ -96,8 +97,8 @@ const router = createBrowserRouter([
         element: <QRScannerPage />,
       },
       {
-        path: "/algorithm-complexity-analyzer",
-        element: <AlgorithmComplexityAnalyzerPage />,
+        path: "/code-complexity-analyzer",
+        element: <ASTComplexityAnalyzerPage />,
       },
       {
         path: "/topup",
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
   {
     path: "/cv",
     element: <ModernResume />,
+  },
+  {
+    path: "/roadmap-for-product-based-company",
+    element: <RoadmapPage />,
   },
 ]);
 

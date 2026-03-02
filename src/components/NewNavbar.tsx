@@ -83,6 +83,10 @@ export function NewNavbar() {
           name: "Java Q & A",
           link: "/java-interview-question-answers",
         },
+        {
+          name: "Roadmap",
+          link: "/roadmap-for-product-based-company",
+        },
       ],
     },
   ];
