@@ -1,8 +1,37 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState, useMemo } from "react";
 import { Transformer } from "markmap-lib";
 import { Markmap } from "markmap-view";
 import { Toolbar } from "markmap-toolbar";
 import "markmap-toolbar/dist/style.css";
+import { useTheme } from "@/components/theme-provider";
+import {
+  FiCheckSquare,
+  FiChevronDown,
+  FiChevronRight,
+  FiRotateCcw,
+} from "react-icons/fi";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 const markdownContent = `
 # Deep Dive Roadmap to Switch from Service-Based to Product-Based Company
@@ -13,6 +42,7 @@ const markdownContent = `
 
 #### Topics
 - **Arrays**: Sorting, Searching, Sliding Window
+- **Strings**: Manipulation, Pattern Matching, Anagrams
 - **Linked Lists**: Reversal, Cycle Detection, Merging
 - **Stacks & Queues**: Implementations, Parentheses Matching
 - **Hashing**: Hash Maps, Collision Handling
@@ -249,10 +279,259 @@ const markdownContent = `
 
 const transformer = new Transformer();
 
+// ── Progress tracking helpers ──────────────────────────────────────────────────
+
+interface ProgressSection {
+  section: string;
+  topics: string[];
+}
+
+function parseProgressTopics(md: string): ProgressSection[] {
+  const sections: ProgressSection[] = [];
+  let currentSection = "";
+
+  for (const line of md.split("\n")) {
+    const h2 = line.match(/^##\s+\d+\.\s+\*\*(.+?)\*\*/);
+    if (h2) {
+      currentSection = h2[1].trim();
+      sections.push({ section: currentSection, topics: [] });
+      continue;
+    }
+    // Skip resource links (start with `- [`)
+    if (line.match(/^-\s+\[/)) continue;
+    // Collect topic bullets
+    if (sections.length > 0 && line.startsWith("- ")) {
+      const topic = line
+        .replace(/^-\s+/, "")
+        .replace(/\*\*/g, "")
+        .replace(/`[^`]+`/g, (m) => m.slice(1, -1))
+        .replace(/:.*/, "")
+        .trim();
+      if (topic) sections[sections.length - 1].topics.push(topic);
+    }
+  }
+  return sections.filter((s) => s.topics.length > 0);
+}
+
+const PROGRESS_SECTIONS = parseProgressTopics(markdownContent);
+const ALL_TOPICS = PROGRESS_SECTIONS.flatMap((s) =>
+  s.topics.map((t) => `${s.section}::${t}`),
+);
+const STORAGE_KEY = "roadmap-progress";
+
+// ── Progress Panel UI ─────────────────────────────────────────────────────────
+
+function ProgressPanel({
+  open,
+  onOpenChange,
+  checked,
+  onToggle,
+  onReset,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  checked: Set<string>;
+  onToggle: (key: string) => void;
+  onReset: () => void;
+}) {
+  const [openSections, setOpenSections] = useState<Set<string>>(
+    () => new Set(PROGRESS_SECTIONS.map((s) => s.section)),
+  );
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
+
+  const totalDone = checked.size;
+  const totalAll = ALL_TOPICS.length;
+  const pct = Math.round((totalDone / totalAll) * 100);
+
+  const toggleSection = (s: string) => {
+    setOpenSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(s)) next.delete(s);
+      else next.add(s);
+      return next;
+    });
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="right" className="w-80 p-0 flex flex-col gap-0">
+        {/* Header */}
+        <SheetHeader className="px-4 py-3 border-b flex-row items-center justify-between space-y-0 pr-12">
+          <SheetTitle className="flex items-center gap-2 text-sm">
+            <FiCheckSquare className="text-emerald-500" size={16} />
+            Progress Tracker
+          </SheetTitle>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 text-muted-foreground shrink-0"
+            onClick={() => setResetDialogOpen(true)}
+            title="Reset all progress"
+          >
+            <FiRotateCcw size={13} />
+          </Button>
+        </SheetHeader>
+
+        {/* Reset confirmation dialog */}
+        <Dialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
+          <DialogContent className="max-w-xs">
+            <DialogHeader>
+              <DialogTitle>Reset Progress?</DialogTitle>
+              <DialogDescription>
+                This will clear all your checked topics. This action cannot be
+                undone.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="gap-2">
+              <DialogClose asChild>
+                <Button variant="outline" size="sm">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => {
+                  onReset();
+                  setResetDialogOpen(false);
+                }}
+              >
+                Reset
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Overall progress */}
+        <div className="px-4 py-3 border-b space-y-1.5">
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-muted-foreground">
+              {totalDone} / {totalAll} topics completed
+            </span>
+            <Badge
+              variant="outline"
+              className="text-xs text-emerald-500 border-emerald-500/30 bg-emerald-500/10"
+            >
+              {pct}%
+            </Badge>
+          </div>
+          <Progress value={pct} className="h-2 [&>*]:bg-emerald-500" />
+        </div>
+
+        {/* Sections */}
+        <ScrollArea className="flex-1">
+          {PROGRESS_SECTIONS.map((sec, i) => {
+            const secDone = sec.topics.filter((t) =>
+              checked.has(`${sec.section}::${t}`),
+            ).length;
+            const isOpen = openSections.has(sec.section);
+
+            return (
+              <div key={sec.section}>
+                {i > 0 && <Separator />}
+                <button
+                  onClick={() => toggleSection(sec.section)}
+                  className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-muted/60 transition-colors text-left"
+                >
+                  <span className="text-xs font-semibold truncate pr-2">
+                    {sec.section}
+                  </span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Badge variant="secondary" className="text-xs h-5 px-1.5">
+                      {secDone}/{sec.topics.length}
+                    </Badge>
+                    {isOpen ? (
+                      <FiChevronDown size={12} />
+                    ) : (
+                      <FiChevronRight size={12} />
+                    )}
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="pb-1 px-2">
+                    {sec.topics.map((topic) => {
+                      const key = `${sec.section}::${topic}`;
+                      const done = checked.has(key);
+                      return (
+                        <div
+                          key={key}
+                          className="flex items-start gap-2.5 px-2 py-1.5 rounded-md hover:bg-muted/60 transition-colors"
+                        >
+                          <Checkbox
+                            id={key}
+                            checked={done}
+                            onCheckedChange={() => onToggle(key)}
+                            className="mt-0.5 shrink-0 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
+                          />
+                          <Label
+                            htmlFor={key}
+                            className={`text-xs leading-relaxed cursor-pointer transition-colors ${
+                              done
+                                ? "line-through text-muted-foreground"
+                                : "text-foreground"
+                            }`}
+                          >
+                            {topic}
+                          </Label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </ScrollArea>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+// ── Main Page ──────────────────────────────────────────────────────────────────
+
 export default function RoadmapPage() {
   const svgRef = useRef<SVGSVGElement>(null);
   const mmRef = useRef<Markmap | null>(null);
   const toolbarRef = useRef<HTMLDivElement | null>(null);
+  const { theme, setTheme } = useTheme();
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [checked, setChecked] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? new Set(JSON.parse(saved) as string[]) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
+
+  // Persist to localStorage whenever checked changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...checked]));
+  }, [checked]);
+
+  const handleToggle = useCallback((key: string) => {
+    setChecked((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setChecked(new Set());
+  }, []);
+
+  const totalPct = useMemo(
+    () => Math.round((checked.size / ALL_TOPICS.length) * 100),
+    [checked],
+  );
+
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   const renderToolbar = useCallback((mm: Markmap, wrapper: HTMLElement) => {
     if (toolbarRef.current) return;
@@ -282,13 +561,16 @@ export default function RoadmapPage() {
     const mm = Markmap.create(
       svg,
       {
-        autoFit: true,
+        autoFit: false,
         duration: 300,
         maxWidth: 400,
       },
       root,
     );
     mmRef.current = mm;
+
+    // Fit once on initial render only
+    setTimeout(() => mm.fit(), 100);
 
     const wrapper = svg.parentElement;
     if (wrapper) {
@@ -320,9 +602,117 @@ export default function RoadmapPage() {
     };
   }, [renderToolbar]);
 
+  // Sync markmap CSS variables with app theme
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    if (isDark) {
+      svg.style.setProperty("--markmap-text-color", "#e4e4e7");
+      svg.style.setProperty("--markmap-circle-open-bg", "#27272a");
+      svg.style.setProperty("--markmap-code-bg", "#27272a");
+      svg.style.setProperty("--markmap-code-color", "#d4d4d8");
+      svg.style.setProperty("--markmap-highlight-bg", "#854d0e");
+      svg.style.setProperty("--markmap-a-color", "#60a5fa");
+      svg.style.setProperty("--markmap-a-hover-color", "#93bbfd");
+    } else {
+      svg.style.removeProperty("--markmap-text-color");
+      svg.style.removeProperty("--markmap-circle-open-bg");
+      svg.style.removeProperty("--markmap-code-bg");
+      svg.style.removeProperty("--markmap-code-color");
+      svg.style.removeProperty("--markmap-highlight-bg");
+      svg.style.removeProperty("--markmap-a-color");
+      svg.style.removeProperty("--markmap-a-hover-color");
+    }
+  }, [isDark]);
+
+  // Sync markmap-dark class on documentElement with app theme,
+  // and observe toolbar's toggle to update app theme
+  useEffect(() => {
+    const el = document.documentElement;
+    if (isDark) {
+      el.classList.add("markmap-dark");
+    } else {
+      el.classList.remove("markmap-dark");
+    }
+
+    // Watch for toolbar toggling the class
+    const observer = new MutationObserver(() => {
+      const hasDark = el.classList.contains("markmap-dark");
+      if (hasDark && !isDark) {
+        setTheme("dark");
+      } else if (!hasDark && isDark) {
+        setTheme("light");
+      }
+    });
+    observer.observe(el, { attributes: true, attributeFilter: ["class"] });
+
+    return () => {
+      observer.disconnect();
+      el.classList.remove("markmap-dark");
+    };
+  }, [isDark, setTheme]);
+
   return (
-    <div className="relative w-full h-screen bg-background">
+    <div
+      className={`relative w-full h-screen bg-background ${isDark ? "markmap-dark" : ""}`}
+    >
       <svg ref={svgRef} className="w-full h-full" />
+
+      {/* Floating progress button — bottom-left */}
+      <button
+        onClick={() => setPanelOpen((o) => !o)}
+        title="Open progress tracker"
+        className="absolute bottom-5 left-5 z-20 group flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-background border border-border shadow-lg hover:shadow-xl hover:border-emerald-500/40 transition-all duration-200"
+      >
+        {/* Circular progress ring */}
+        <div className="relative shrink-0 w-9 h-9">
+          <svg className="w-9 h-9 -rotate-90" viewBox="0 0 36 36">
+            <circle
+              cx="18"
+              cy="18"
+              r="15"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              className="text-muted-foreground/20"
+            />
+            <circle
+              cx="18"
+              cy="18"
+              r="15"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeDasharray={`${2 * Math.PI * 15}`}
+              strokeDashoffset={`${2 * Math.PI * 15 * (1 - totalPct / 100)}`}
+              strokeLinecap="round"
+              className="text-emerald-500 transition-all duration-500"
+            />
+          </svg>
+          <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-emerald-500">
+            {totalPct}%
+          </span>
+        </div>
+        {/* Text */}
+        <div className="flex flex-col items-start">
+          <span className="text-xs font-semibold leading-tight group-hover:text-emerald-500 transition-colors">
+            Track Progress
+          </span>
+          <span className="text-[10px] text-muted-foreground leading-tight">
+            {checked.size} / {ALL_TOPICS.length} done
+          </span>
+        </div>
+      </button>
+
+      {/* Progress panel */}
+      <ProgressPanel
+        open={panelOpen}
+        onOpenChange={setPanelOpen}
+        checked={checked}
+        onToggle={handleToggle}
+        onReset={handleReset}
+      />
     </div>
   );
 }

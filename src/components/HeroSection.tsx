@@ -1,24 +1,11 @@
 import { FlipWords } from "@/components/ui/flip-words";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  FiDownload,
-  FiMail,
-  FiGithub,
-  FiLinkedin,
-  FiChevronDown,
-  FiBriefcase,
-  FiUsers,
-  FiTool,
-  FiCode,
-  FiAward,
-} from "react-icons/fi";
+import { FiBriefcase, FiUsers, FiCode, FiAward } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import FloatingImage from "@/components/MyImage";
 import mainImage from "../../public/assets/abhishekkumaryadav-ghibli.png";
 import altMainImage from "../../public/assets/abhishekkumaryadav-new.jpg";
-import ResumeButton from "./DownloadResumeBtn";
 import { settings } from "@/config/settings";
 
 export default function HeroSection(): JSX.Element {
@@ -39,7 +26,7 @@ export default function HeroSection(): JSX.Element {
         start: number,
         end: number,
         duration: number,
-        setter: (value: number) => void
+        setter: (value: number) => void,
       ) => {
         const startTime = Date.now();
         const animate = () => {
@@ -55,16 +42,16 @@ export default function HeroSection(): JSX.Element {
       };
 
       animateValue(0, 2, 1500, (val) =>
-        setAnimatedStats((prev) => ({ ...prev, experience: val }))
+        setAnimatedStats((prev) => ({ ...prev, experience: val })),
       );
       animateValue(0, 7000, 2000, (val) =>
-        setAnimatedStats((prev) => ({ ...prev, followers: val }))
+        setAnimatedStats((prev) => ({ ...prev, followers: val })),
       );
       animateValue(0, 30, 1200, (val) =>
-        setAnimatedStats((prev) => ({ ...prev, tools: val }))
+        setAnimatedStats((prev) => ({ ...prev, tools: val })),
       );
       animateValue(0, 200, 1800, (val) =>
-        setAnimatedStats((prev) => ({ ...prev, leetcode: val }))
+        setAnimatedStats((prev) => ({ ...prev, leetcode: val })),
       );
     }, 1000);
 
@@ -160,33 +147,37 @@ export default function HeroSection(): JSX.Element {
 
           <FlipWords words={greetings} duration={3000} />
           <br />
-          <span className="text-base">I am Abhishek. I am a </span>
-          <FlipWords
-            words={["<Developer/>", "Learner", "<Coder/>", "Programmer"]}
-            duration={15000}
-            className="dark:text-emerald-500 text-emerald-600 text-base"
-          />
+
           <TextGenerateEffect
             words={"Welcome to my over-engineered portfolio site."}
             className="text-base"
           />
 
-          {/* Call-to-Action Buttons */}
-          <div className="flex flex-wrap gap-2 mt-8">
-            <ResumeButton />
-            <Button
-              variant="link"
-              className="flex items-center gap-2 rounded-2xl"
-              onClick={() =>
-                document
-                  .getElementById("contact")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              <FiMail size={16} />
-              Get In Touch
-            </Button>
-          </div>
+          {/* Java Builder Pattern */}
+          <code className="text-xs font-mono mt-3 inline-block">
+            <span className="text-blue-600 dark:text-blue-400">Developer</span>
+            <span className="text-gray-500">.</span>
+            <span className="text-amber-600 dark:text-amber-400">builder</span>
+            <span className="text-gray-500">().</span>
+            <span className="text-amber-600 dark:text-amber-400">name</span>
+            <span className="text-gray-500">(</span>
+            <span className="text-emerald-600 dark:text-emerald-400">
+              "Abhishek"
+            </span>
+            <span className="text-gray-500">).</span>
+            <span className="text-amber-600 dark:text-amber-400">stack</span>
+            <span className="text-gray-500">(</span>
+            <span className="text-emerald-600 dark:text-emerald-400">
+              "Java"
+            </span>
+            <span className="text-gray-500">, </span>
+            <span className="text-emerald-600 dark:text-emerald-400">
+              "Spring Boot"
+            </span>
+            <span className="text-gray-500">).</span>
+            <span className="text-amber-600 dark:text-amber-400">build</span>
+            <span className="text-gray-500">();</span>
+          </code>
 
           {/* Interactive Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 text-center">
