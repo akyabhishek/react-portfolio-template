@@ -179,7 +179,8 @@ export default function CVEducation() {
                       {cert.title}
                     </p>
                     <p className="text-[11px] text-gray-400 dark:text-gray-500 font-light tracking-wide">
-                      {cert.platform} · {cert.year}
+                      {cert.platform}
+                      {cert.year && ` · ${cert.year}`}
                     </p>
                   </div>
                 </div>

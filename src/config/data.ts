@@ -64,7 +64,7 @@ export interface AchievementItem {
 export interface CertificationItem {
   title: string;
   platform: string;
-  year: string;
+  year?: string;
   url: string;
 }
 
@@ -126,8 +126,9 @@ export const experienceData: ExperienceItem[] = [
     ],
     achievements: [],
     bullets: [
-      "Developed and enhanced the ECS backend application for American Airlines, enabling communication between client applications and pilots.",
-      "Implemented admin functionality, pilot lookup, and a two-way communication feature using Java, Spring Boot, Spring Security, Spring Data JPA, SQL Server.",
+      "Designed and implemented RESTful APIs using a modular service architecture for a large U.S. airline client, enabling reusable backend components across multiple microservices supporting 45K+ users.",
+      "Developed Spring Boot microservices for preferences management, contact details, and message history as part of a 10+ microservice architecture, handling 20K+ API requests and enabling scalable admin and user workflows.",
+      "Reduced average response time of preference update APIs from >1000ms to 300ms by introducing selective update logic that updates only modified channels, minimizing unnecessary database writes.",
     ],
   },
   {
@@ -156,10 +157,8 @@ export const experienceData: ExperienceItem[] = [
       "Contributed to team codebase with 95% code review approval",
     ],
     bullets: [
-      "Developed RESTful APIs using Java and Spring Boot, integrating MySQL for backend data management.",
-      "Implemented microservices architecture to enhance modularity and scalability of the application.",
-      "Gained proficiency in Java, Spring Boot, Spring Security, Spring Data JPA, MySQL, ReactJS, and microservices during the internship.",
-      "Won the GenC Super Squad award.",
+      "Developed a JWT-secured discussion forum application supporting user signup/login, password reset, posting questions, and submitting answers using Java, Spring Boot, Hibernate, MySQL, and Microservices.",
+      "Received the GenC Super Squad Award in Cognizant GenC training for a high scoring project assignment.",
     ],
   },
 ];
@@ -192,6 +191,31 @@ export const projectsData: ProjectItem[] = [
     imageUrl: "/assets/edorbit-thumb.png",
     liveUrl: "https://app.edorbit.com/",
     live: true,
+    bullets: [
+      "Built a 3D educational visualization platform enabling exploration of diagrams by developing backend services using Java, Spring Boot, Hibernate, MySQL and rendering GLB models using React, TypeScript, ThreeJS (R3F).",
+      "Improved platform security and user experience by implementing JWT-based authentication, role-based access control, email verification, magic-link login, and reCAPTCHA using Spring Security and SMTP services.",
+      "Automated build and deployment pipeline reducing manual deployment effort by configuring CI/CD with GitHub Actions and deploying frontend and backend services on Google Cloud Platform (App Engine).",
+    ],
+  },
+  {
+    title: "OrbitAI",
+    description:
+      "AI-powered assistant for educational queries and explanations, integrated into the edorbit platform.",
+    techStack: [
+      "Java",
+      "Spring Boot",
+      "Spring AI",
+      "Google Vertex AI",
+      "TypeScript",
+      "React.Js",
+      "TailwindCSS",
+    ],
+    imageUrl: "/assets/orbitai-thumb.png",
+    liveUrl: "https://app.edorbit.com/orbit-ai",
+    live: true,
+    bullets: [
+      "Built an AI assistant enabling natural language queries and LLM-powered responses for educational content by integrating Spring AI with Google Vertex AI.",
+    ],
   },
   {
     title: "Bhraman",
@@ -306,16 +330,16 @@ export const projectsData: ProjectItem[] = [
 export const educationData: EducationItem[] = [
   {
     institution:
-      "Shri Ramswaroop Memorial College of Engineering and Management",
+      "Shri Ramswaroop Memorial College of Engineering and Management, Lucknow (AKTU)",
     degree: "Bachelor of Technology - CSE",
     score: "CGPA: 8.33/10",
-    year: "2023",
+    year: "Aug 2019 – Jun 2023",
   },
   {
-    institution: "Hewett Polytechnic Lucknow",
+    institution: "Hewett Polytechnic, Lucknow",
     degree: "Diploma in Information Technology",
     score: "Percentage: 75%",
-    year: "2019",
+    year: "Aug 2016 – Jun 2019",
   },
 ];
 
@@ -323,11 +347,12 @@ export const educationData: EducationItem[] = [
 
 export const achievementsData: AchievementItem[] = [
   {
-    title: "200+ Problems Solved",
+    title: "220+ Problems Solved",
     platform: "Leetcode",
     year: "2024",
     url: "https://leetcode.com/mrabk121/",
   },
+
   {
     title: "Best Academic Project Award (2019 - 2023)",
     platform: "SRMCEM",
@@ -346,22 +371,34 @@ export const achievementsData: AchievementItem[] = [
 
 export const certificationsData: CertificationItem[] = [
   {
-    title: "Advanced Data Structures in Java",
-    platform: "Udemy",
-    year: "2024",
-    url: "https://drive.google.com/file/d/1OhJbdhYn1LhzN6_tnD4ks6ZzCDVHrGjr/view?usp=drive_link",
+    title: "Prompt Design in Vertex AI Skill Badge",
+    platform: "Google Cloud",
+    year: "2025",
+    url: "https://www.credly.com/earner/earned/badge/3eedeb2a-1a54-4916-9739-c0ca8ef2a466",
   },
   {
-    title: "Java Programming",
-    platform: "Coursera",
-    year: "2023",
-    url: "https://drive.google.com/file/d/1yfZ7h8oYsfLhH5hOqZW8tr2tmr60h4sy/view?usp=drive_link",
+    title: "Spring Framework Master Class",
+    platform: "Udemy",
+    // year: "2023",
+    url: "https://ude.my/UC-e1397330-6682-4502-bda8-a38d94ef5ed2",
   },
   {
-    title: "Building Java Microservices with Spring Boot and Spring Cloud",
+    title: "Software Architecture: REST API Design - The Complete Guide",
     platform: "Udemy",
-    year: "2023",
-    url: "https://www.udemy.com/certificate/UC-47c5ff68-0ed1-42d8-b501-902b503dc382/",
+    // year: "2023",
+    url: "https://ude.my/UC-472a515e-3397-4441-a1d1-d591c78fbec1",
+  },
+  {
+    title: "Docker Essentials: A Developer Introduction",
+    platform: "IBM",
+    // year: "2023",
+    url: "https://www.credly.com/badges/72988c57-4df1-4535-8f8b-7ab33dc0de90",
+  },
+  {
+    title: "Vibe Code Hackathon – Cognizant",
+    platform: "Cognizant",
+    year: "2025",
+    url: "https://www.credly.com/earner/earned/badge/200fa83d-d74d-4d50-8855-749e2bfecc27",
   },
 ];
 
@@ -370,7 +407,7 @@ export const certificationsData: CertificationItem[] = [
 export const skillSummaryData: SkillSummary[] = [
   {
     category: "Languages",
-    items: ["Java", "TypeScript", "JavaScript", "Python", "HTML", "CSS"],
+    items: ["Java", "TypeScript", "JavaScript", "Python", "SQL", "HTML", "CSS"],
   },
   {
     category: "Frameworks",
