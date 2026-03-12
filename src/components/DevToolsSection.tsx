@@ -3,10 +3,11 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { FiCode, FiSearch, FiStar } from "react-icons/fi";
 import { GiLogicGateXor } from "react-icons/gi";
 import { PiHashStraightFill } from "react-icons/pi";
-import { LuFileJson } from "react-icons/lu";
+import { LuFileJson, LuFileDiff } from "react-icons/lu";
 import { SiJsonwebtokens } from "react-icons/si";
 import { MdQrCode, MdQrCodeScanner, MdConstruction } from "react-icons/md";
 import { BiGitBranch } from "react-icons/bi";
+import { TbRegex } from "react-icons/tb";
 import { CometCard } from "./ui/comet-card";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
@@ -38,6 +39,27 @@ const tools = [
     icon: <LuFileJson className="inline-block text-3xl text-emerald-600" />,
     category: "Data Processing",
     tags: ["json", "format", "validate"],
+    popular: true,
+    inDevelopment: false,
+  },
+  {
+    name: "JSON Diff Tool",
+    description:
+      "Compare two JSON objects with visual, structural & patch views",
+    link: "/json-diff",
+    icon: <LuFileDiff className="inline-block text-3xl text-emerald-600" />,
+    category: "Data Processing",
+    tags: ["json", "diff", "compare", "patch"],
+    popular: true,
+    inDevelopment: false,
+  },
+  {
+    name: "Regex Tester",
+    description: "Test regular expressions with live matching & capture groups",
+    link: "/regex-tester",
+    icon: <TbRegex className="inline-block text-3xl text-emerald-600" />,
+    category: "Programming",
+    tags: ["regex", "regular expression", "match", "test", "capture group"],
     popular: true,
     inDevelopment: false,
   },

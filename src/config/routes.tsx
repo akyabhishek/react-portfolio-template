@@ -14,6 +14,8 @@ import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
 import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
 import QRScannerPage from "@/pages/devtools/QRScannerPage";
 import ASTComplexityAnalyzerPage from "@/pages/devtools/ASTComplexityAnalyzerPage";
+import JSONDiffPage from "@/pages/devtools/JSONDiffPage";
+import RegexTesterPage from "@/pages/devtools/RegexTesterPage";
 import Topup from "@/pages/Topup";
 import ModernResume from "@/pages/ModernResume";
 import LandingChooser from "@/pages/LandingChooser";
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
       {
         path: "/code-complexity-analyzer",
         element: <ASTComplexityAnalyzerPage />,
+      },
+      {
+        path: "/json-diff",
+        element: <JSONDiffPage />,
+      },
+      {
+        path: "/regex-tester",
+        element: <RegexTesterPage />,
       },
       {
         path: "/topup",
