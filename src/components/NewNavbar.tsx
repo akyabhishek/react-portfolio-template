@@ -87,6 +87,10 @@ export function NewNavbar() {
           name: "Roadmap",
           link: "/roadmap-for-product-based-company",
         },
+        {
+          name: "Git Cheatsheet",
+          link: "/git-cheatsheet",
+        },
       ],
     },
   ];

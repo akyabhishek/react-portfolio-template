@@ -21,6 +21,7 @@ import ModernResume from "@/pages/ModernResume";
 import LandingChooser from "@/pages/LandingChooser";
 import TerminalPage from "@/pages/TerminalPage";
 import RoadmapPage from "@/pages/RoadmapPage";
+import GitCheatsheet from "@/pages/GitCheatsheet";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
       {
         path: "/topup",
         element: <Topup />,
+      },
+      {
+        path: "/git-cheatsheet",
+        element: <GitCheatsheet />,
       },
     ],
   },
