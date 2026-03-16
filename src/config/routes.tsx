@@ -22,6 +22,9 @@ import LandingChooser from "@/pages/LandingChooser";
 import TerminalPage from "@/pages/TerminalPage";
 import RoadmapPage from "@/pages/RoadmapPage";
 import GitCheatsheet from "@/pages/GitCheatsheet";
+import NotFound from "@/pages/NotFound";
+import LinksPage from "@/pages/LinksPage";
+import ClockPage from "@/pages/ClockPage";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +48,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "*",
-        element: <NotFoundPage />,
+        element: <NotFound />,
       },
       {
         path: "/home",
@@ -54,10 +57,6 @@ const router = createBrowserRouter([
       {
         path: "/stats",
         element: <Stats />,
-      },
-      {
-        path: "/contact",
-        element: <Contact />,
       },
       {
         path: "/resume",
@@ -126,13 +125,17 @@ const router = createBrowserRouter([
     element: <ModernResume />,
   },
   {
+    path: "/links",
+    element: <LinksPage />,
+  },
+  {
+    path: "/clock",
+    element: <ClockPage />,
+  },
+  {
     path: "/roadmap-for-product-based-company",
     element: <RoadmapPage />,
   },
 ]);
-
-function NotFoundPage(): JSX.Element {
-  return <h1>404 - Page Not Found</h1>;
-}
 
 export default router;

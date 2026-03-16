@@ -17,56 +17,25 @@ import {
   SiX,
   SiYoutube,
 } from "react-icons/si";
+import { socialLinksData } from "@/config/data";
+
+const iconMap: Record<string, React.ReactNode> = {
+  LinkedIn: <SiLinkedin />,
+  GitHub: <SiGithub />,
+  LeetCode: <SiLeetcode />,
+  GeeksforGeeks: <SiGeeksforgeeks />,
+  Medium: <SiMedium />,
+  Instagram: <SiInstagram />,
+  YouTube: <SiYoutube />,
+  Twitter: <SiX />,
+  Facebook: <SiFacebook />,
+  Snapchat: <SiSnapchat />,
+};
 
 export default function Contact(): JSX.Element {
-  const links = [
-    {
-      title: "LinkedIn",
-      url: "https://www.linkedin.com/in/abhishekkumaryadav/",
-      icon: <SiLinkedin />,
-    },
-    {
-      title: "GitHub",
-      url: "https://github.com/akyabhishek",
-      icon: <SiGithub />,
-    },
-    {
-      title: "LeetCode",
-      url: "https://leetcode.com/mrabk121/",
-      icon: <SiLeetcode />,
-    },
-    {
-      title: "GeeksforGeeks",
-      url: "https://www.geeksforgeeks.org/user/akyabhishek/",
-      icon: <SiGeeksforgeeks />,
-    },
-    {
-      title: "Medium",
-      url: "https://medium.com/@akyabhishek",
-      icon: <SiMedium />,
-    },
-    {
-      title: "Instagram",
-      url: "https://instagram.com/abhishekkumaryadav.aky",
-      icon: <SiInstagram />,
-    },
-    {
-      title: "YouTube",
-      url: "https://www.youtube.com/@abhishekaky",
-      icon: <SiYoutube />,
-    },
-    { title: "Twitter", url: "https://x.com/akyabhishek", icon: <SiX /> },
-    {
-      title: "Facebook",
-      url: "https://www.facebook.com/abhishekkumaryadav.aky",
-      icon: <SiFacebook />,
-    },
-    {
-      title: "Snapchat",
-      url: "https://www.snapchat.com/add/mrabk121",
-      icon: <SiSnapchat />,
-    },
-  ];
+  const links = socialLinksData
+    .filter((l) => l.title in iconMap)
+    .map((l) => ({ title: l.title, url: l.url, icon: iconMap[l.title] }));
 
   return (
     <div id="contact">
@@ -120,7 +89,7 @@ export default function Contact(): JSX.Element {
                         icon={element.icon}
                       />
                     </div>
-                  )
+                  ),
               )}
             </div>
             <div className="text-center text-xs text-muted-foreground pt-10">

@@ -73,6 +73,11 @@ export interface SkillSummary {
   items: string[];
 }
 
+export interface SocialLink {
+  title: string;
+  url: string;
+}
+
 // ─── Personal Info ──────────────────────────────────────────────────────────
 
 export const personalInfo: PersonalInfo = {
@@ -457,6 +462,59 @@ export const skillSummaryData: SkillSummary[] = [
   {
     category: "Areas of Interest",
     items: ["Programming", "Web Development", "Machine Learning"],
+  },
+];
+
+// ─── Social / Contact Links ─────────────────────────────────────────────────
+
+export const socialLinksData: SocialLink[] = [
+  {
+    title: "LinkedIn",
+    url: "https://www.linkedin.com/in/abhishekkumaryadav/",
+  },
+  {
+    title: "GitHub",
+    url: "https://github.com/akyabhishek",
+  },
+  {
+    title: "LeetCode",
+    url: "https://leetcode.com/mrabk121/",
+  },
+  {
+    title: "GeeksforGeeks",
+    url: "https://www.geeksforgeeks.org/user/akyabhishek/",
+  },
+  {
+    title: "Medium",
+    url: "https://medium.com/@akyabhishek",
+  },
+  {
+    title: "Instagram",
+    url: "https://instagram.com/abhishekkumaryadav.aky",
+  },
+  {
+    title: "YouTube",
+    url: "https://www.youtube.com/@abhishekaky",
+  },
+  {
+    title: "Twitter",
+    url: "https://x.com/akyabhishek",
+  },
+  {
+    title: "Facebook",
+    url: "https://www.facebook.com/abhishekkumaryadav.aky",
+  },
+  {
+    title: "Snapchat",
+    url: "https://www.snapchat.com/add/mrabk121",
+  },
+  {
+    title: "Behance",
+    url: "https://www.behance.net/abhisheyadav17",
+  },
+  {
+    title: "Play Store",
+    url: "https://play.google.com/store/apps/developer?id=akyabhishek",
   },
 ];
 

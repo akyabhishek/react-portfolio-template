@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { skillsData } from "@/config/skillsData";
+import CVSkillRadar from "./CVSkillRadar";
 
 const levelColors: Record<string, string> = {
   Expert: "from-emerald-500 to-emerald-400",
@@ -122,6 +123,11 @@ export default function CVSkills() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Radar chart */}
+        <div className="mt-16">
+          <CVSkillRadar />
         </div>
       </div>
     </section>

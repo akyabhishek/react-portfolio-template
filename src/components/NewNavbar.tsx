@@ -10,7 +10,7 @@ import {
   NavItems,
 } from "@/components/ui/resizable-navbar";
 import { useEffect, useState, useRef } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import ResumeButton from "./DownloadResumeBtn";
 import { Switch } from "./ui/switch";
 import { useTheme } from "./theme-provider";
@@ -33,6 +33,8 @@ interface NavItem {
 export function NewNavbar() {
   const { theme, setTheme } = useTheme();
   const terminalRef = useRef<InteractiveTerminalHandle>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const isDark = theme === "dark";
 
@@ -48,15 +50,15 @@ export function NewNavbar() {
   const navItems: NavItem[] = [
     {
       name: "About",
-      link: "/#about",
+      link: "/home#about",
     },
     {
       name: "Skills",
-      link: "/#skills",
+      link: "/home#skills",
     },
     {
       name: "Projects",
-      link: "/#projects",
+      link: "/home#projects",
     },
 
     {
@@ -65,7 +67,7 @@ export function NewNavbar() {
     },
     {
       name: "Contact",
-      link: "/#contact",
+      link: "/home#contact",
     },
     {
       name: "Resources",
@@ -101,10 +103,10 @@ export function NewNavbar() {
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100); // small delay after route loads
+        }, 100);
       }
     }
-  }, [location]);
+  }, [location.pathname, location.hash]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
