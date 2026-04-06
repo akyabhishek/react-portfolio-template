@@ -13,7 +13,7 @@ import { GiBreakingChain, GiGroundbreaker } from "react-icons/gi";
 
 export default function Home(): JSX.Element {
   return (
-    <div>
+    <div className="font-mono">
       <HeroSection />
       <TracingBeam className="px-6">
         <AboutMe />

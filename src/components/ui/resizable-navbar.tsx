@@ -28,6 +28,7 @@ interface NavItemsProps {
     dropdown?: {
       name: string;
       link: string;
+      icon?: React.ReactNode;
     }[];
   }[];
   className?: string;
@@ -78,9 +79,9 @@ export const Navbar = ({ children, className }: NavbarProps) => {
         React.isValidElement(child)
           ? React.cloneElement(
               child as React.ReactElement<{ visible?: boolean }>,
-              { visible }
+              { visible },
             )
-          : child
+          : child,
       )}
     </motion.div>
   );
@@ -112,7 +113,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       className={cn(
         "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full px-4 py-2 lg:flex  bg-white/80 dark:bg-neutral-950/80",
         visible && "bg-white/80 dark:bg-neutral-950/80",
-        className
+        className,
       )}
     >
       <ScrollProgress
@@ -135,7 +136,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       }}
       className={cn(
         "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
-        className
+        className,
       )}
     >
       {items.map((item, idx) => (
@@ -206,8 +207,13 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                       key={`dropdown-${idx}-${dropIdx}`}
                       href={dropdownItem.link}
                       onClick={onItemClick}
-                      className="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-500 dark:hover:text-emerald-400"
+                      className="flex items-center gap-2.5 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-500 dark:hover:text-emerald-400"
                     >
+                      {dropdownItem.icon && (
+                        <span className="text-emerald-500 dark:text-emerald-400 shrink-0">
+                          {dropdownItem.icon}
+                        </span>
+                      )}
                       {dropdownItem.name}
                     </a>
                   ))}
@@ -242,7 +248,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
       className={cn(
         "relative z-50 mx-auto flex w-full max-w-full flex-col items-center justify-between px-0 py-2 lg:hidden bg-white/80 dark:bg-neutral-950/80",
         visible && "bg-white/80 dark:bg-neutral-950/80",
-        className
+        className,
       )}
     >
       <ScrollProgress className={"top-[52px]"} />
@@ -259,7 +265,7 @@ export const MobileNavHeader = ({
     <div
       className={cn(
         "flex w-full flex-row items-center justify-between",
-        className
+        className,
       )}
     >
       {children}
@@ -282,7 +288,7 @@ export const MobileNavMenu = ({
           exit={{ opacity: 0 }}
           className={cn(
             "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
-            className
+            className,
           )}
         >
           {children}
@@ -315,7 +321,7 @@ export const NavbarLogo = () => {
       <span className="text-xl bg-gradient-to-r from-emerald-500 to-emerald-900 dark:from-emerald-300 dark:to-emerald-600 bg-clip-text text-transparent">
         Abhishek
       </span>
-      <span className="text-xl text-gray-900 dark:text-white hidden md:block">
+      <span className="text-xl tracking-tight text-gray-900 dark:text-white hidden md:block">
         {" "}
         Kr. Yadav
       </span>

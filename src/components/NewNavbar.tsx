@@ -15,7 +15,10 @@ import ResumeButton from "./DownloadResumeBtn";
 import { Switch } from "./ui/switch";
 import { useTheme } from "./theme-provider";
 import { motion, AnimatePresence } from "motion/react";
-import { FiTerminal } from "react-icons/fi";
+import { FiTerminal, FiGitBranch, FiExternalLink } from "react-icons/fi";
+import { VscTools } from "react-icons/vsc";
+import { MdOutlineQuiz } from "react-icons/md";
+import { TbMap2 } from "react-icons/tb";
 import InteractiveTerminal, {
   type InteractiveTerminalHandle,
 } from "./InteractiveTerminal";
@@ -27,6 +30,7 @@ interface NavItem {
   dropdown?: {
     name: string;
     link: string;
+    icon?: React.ReactNode;
   }[];
 }
 
@@ -76,22 +80,27 @@ export function NewNavbar() {
         {
           name: "DevTools",
           link: "/devtools",
+          icon: <VscTools size={14} />,
         },
         {
           name: "BS Visualizer",
           link: "https://binary-search-visualizer-mauve.vercel.app/",
+          icon: <FiExternalLink size={14} />,
         },
         {
           name: "Java Q & A",
           link: "/java-interview-question-answers",
+          icon: <MdOutlineQuiz size={14} />,
         },
         {
           name: "Roadmap",
           link: "/roadmap-for-product-based-company",
+          icon: <TbMap2 size={14} />,
         },
         {
           name: "Git Cheatsheet",
           link: "/git-cheatsheet",
+          icon: <FiGitBranch size={14} />,
         },
       ],
     },

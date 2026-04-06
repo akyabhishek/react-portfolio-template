@@ -2,6 +2,7 @@ export type GitCommand = {
   command: string;
   description: string;
   example?: string;
+  danger?: boolean;
 };
 
 export type GitCategory = {
@@ -58,10 +59,21 @@ export const gitCheatsheet: GitCategory[] = [
           "Stage all changed and new files in the current directory and below.",
       },
       {
+        command: "git add -A / git add --all",
+        description:
+          "Stage all changes in the entire repository — new, modified, and deleted files — regardless of the current directory. --all is the long-form alias of -A.",
+      },
+      {
         command: 'git commit -m "message"',
         description:
           "Save staged changes as a new snapshot with a short descriptive message.",
         example: 'git commit -m "fix: resolve login redirect bug"',
+      },
+      {
+        command: 'git commit -am "message"',
+        description:
+          "Stage all tracked (modified/deleted) files and commit in one step — skips a separate git add. Does not include untracked new files.",
+        example: 'git commit -am "fix: update button styles"',
       },
       {
         command: "git commit --amend",
@@ -208,14 +220,23 @@ export const gitCheatsheet: GitCategory[] = [
           "Unstage a file (remove from staging area) without losing the changes.",
       },
       {
-        command: "git reset HEAD~1",
+        command: "git reset --soft HEAD~1",
         description:
-          "Undo the last commit but keep the changes in your working directory (soft undo).",
+          "Undo the last commit but keep all changes staged (in the index). The safest reset — nothing is lost.",
+        example: "git reset --soft HEAD~1",
+      },
+      {
+        command: "git reset --mixed HEAD~1",
+        description:
+          "Undo the last commit and unstage the changes, but keep them in your working directory. This is the default when no flag is specified.",
+        example: "git reset HEAD~1",
       },
       {
         command: "git reset --hard HEAD~1",
         description:
-          "Undo the last commit and discard all its changes. Destructive — cannot be recovered easily.",
+          "Undo the last commit and permanently discard all its changes from both the index and working directory. Destructive — cannot be recovered easily.",
+        example: "git reset --hard HEAD~1",
+        danger: true,
       },
       {
         command: "git revert <commit>",
@@ -322,11 +343,44 @@ export const gitCheatsheet: GitCategory[] = [
         command: "git clean -fd",
         description:
           "Remove all untracked files and directories. Useful to get a clean working directory. Destructive — double-check first.",
+        danger: true,
       },
       {
         command: "git clean -n",
         description:
           "Dry run — shows what untracked files would be removed without actually deleting anything.",
+      },
+    ],
+  },
+  {
+    category: "Help & Documentation",
+    commands: [
+      {
+        command: "git help <command>",
+        description:
+          "Open the full manual page for a specific git command in your browser or terminal.",
+        example: "git help commit",
+      },
+      {
+        command: "git <command> --help",
+        description:
+          "Alternative syntax to open the manual page for a command. Same as git help <command>.",
+        example: "git commit --help",
+      },
+      {
+        command: "git <command> -h",
+        description:
+          "Show a short usage summary for a command directly in the terminal — quicker than --help.",
+        example: "git commit -h",
+      },
+      {
+        command: "git help -a",
+        description: "List all available git commands.",
+      },
+      {
+        command: "git help -g",
+        description:
+          "List available git concept guides such as workflows, glossary, and everyday usage.",
       },
     ],
   },

@@ -1,8 +1,16 @@
-import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
-import { useMemo } from "react";
+﻿import { useMemo } from "react";
 import { settings } from "@/config/settings";
-import { FiMapPin, FiMail, FiCalendar, FiAward } from "react-icons/fi";
+import {
+  FiMapPin,
+  FiCalendar,
+  FiAward,
+  FiCode,
+  FiUsers,
+  FiTrendingUp,
+  FiHeart,
+} from "react-icons/fi";
 import { getExperienceString } from "@/config/data";
+import { motion } from "motion/react";
 
 export default function AboutMe() {
   // Calculate experience dynamically
@@ -10,13 +18,24 @@ export default function AboutMe() {
 
   // Quick stats for visual appeal
   const quickStats = [
-    { icon: <FiCalendar size={16} />, label: "Experience", value: experience },
+    {
+      icon: <FiCalendar size={16} />,
+      label: "Experience",
+      value: experience,
+      color: "text-blue-500",
+    },
     {
       icon: <FiMapPin size={16} />,
       label: "Location",
       value: "Noida, India",
+      color: "text-emerald-500",
     },
-    { icon: <FiAward size={16} />, label: "Competitions", value: "5+ Won" },
+    {
+      icon: <FiAward size={16} />,
+      label: "Competitions",
+      value: "5+ Won",
+      color: "text-orange-500",
+    },
   ];
   return (
     <div className="pt-10 mb-10" id="about">
@@ -35,9 +54,7 @@ export default function AboutMe() {
                 key={index}
                 className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-200 dark:hover:border-emerald-700 transition-colors duration-300"
               >
-                <div className="text-emerald-600 dark:text-emerald-400">
-                  {stat.icon}
-                </div>
+                <div className={stat.color}>{stat.icon}</div>
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {stat.label}
@@ -51,41 +68,64 @@ export default function AboutMe() {
           </div>
         )}
 
-        <HeroHighlight className="max-w-3xl mx-auto p-6 text-justify text-gray-800 dark:text-gray-200 leading-loose">
-          <p className="mb-4">
-            I'm a <Highlight>Software Developer at Cognizant</Highlight> with
-            over <Highlight>{experience} of experience</Highlight>, having
-            contributed to <Highlight>American Airlines</Highlight> projects
-            using Java, Spring Boot, TypeScript, Playwright, Selenium, and more.
-            I graduated from{" "}
-            <Highlight>Shri Ramswaroop Memorial College</Highlight> (AKTU) and
-            also hold a diploma from <Highlight>Hewett Polytechnic</Highlight>.
-            Through personal projects, I’ve explored React, Tailwind, Axios, and
-            Spring Security.
+        <div className="relative my-6 flex items-center max-w-3xl mx-auto">
+          <div className="flex-grow border-t border-gray-200 dark:border-gray-700" />
+          <span className="mx-3 text-xs text-muted-foreground tracking-widest uppercase select-none">
+            my story
+          </span>
+          <div className="flex-grow border-t border-gray-200 dark:border-gray-700" />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="max-w-3xl mx-auto px-6 pb-6 text-gray-800 dark:text-gray-200 leading-loose space-y-5"
+        >
+          <p className="flex gap-3">
+            <span className="mt-1.5 shrink-0 text-emerald-500">
+              <FiCode size={16} />
+            </span>
+            <span>
+              I'm a Software Developer at Cognizant with over {experience} of
+              experience, having contributed to American Airlines projects using
+              Java, Spring Boot, TypeScript, Playwright, Selenium, and more. I
+              graduated from Shri Ramswaroop Memorial College (AKTU) and also
+              hold a diploma from Hewett Polytechnic. Through personal projects,
+              I've explored React, Tailwind, Axios, and Spring Security.
+            </span>
           </p>
-          <p className="mb-4">
-            I enjoy <Highlight>collaborating in agile teams</Highlight>, solving
-            real-world problems, and always learning something new.
+          <p className="flex gap-3">
+            <span className="mt-1.5 shrink-0 text-blue-500">
+              <FiUsers size={16} />
+            </span>
+            <span>
+              I enjoy collaborating in agile teams, solving real-world problems,
+              and always learning something new.
+            </span>
           </p>
-          <p className="mb-4">
-            My journey so far includes reaching the{" "}
-            <Highlight>
-              Grand Finale of the Smart India Hackathon 2022
-            </Highlight>
-            , winning{" "}
-            <Highlight>
-              India’s Biggest Entrepreneurship Conclave 2022
-            </Highlight>
-            , securing{" "}
-            <Highlight>1st prize at Start UP Conclave 2k22</Highlight> and{" "}
-            <Highlight>SRMU’s Awasar</Highlight>, and participating in the{" "}
-            <Highlight>G20 platform</Highlight>.
+          <p className="flex gap-3">
+            <span className="mt-1.5 shrink-0 text-orange-500">
+              <FiTrendingUp size={16} />
+            </span>
+            <span>
+              My journey so far includes reaching the Grand Finale of the Smart
+              India Hackathon 2022, winning India's Biggest Entrepreneurship
+              Conclave 2022, securing 1st prize at Start UP Conclave 2k22 and
+              SRMU's Awasar, and participating in the G20 platform.
+            </span>
           </p>
-          <p>
-            I'm always open to new opportunities that challenge me and help me
-            grow.
+          <p className="flex gap-3">
+            <span className="mt-1.5 shrink-0 text-pink-500">
+              <FiHeart size={16} />
+            </span>
+            <span>
+              I'm always open to new opportunities that challenge me and help me
+              grow.
+            </span>
           </p>
-        </HeroHighlight>
+        </motion.div>
       </div>
     </div>
   );

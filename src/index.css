@@ -84,9 +84,6 @@ html {
   font-weight: normal;
   font-style: normal;
 }
-body {
-  font-family: 'JetBrains Mono', sans-serif;
-}
 
 @theme inline {
   @keyframes aurora {
