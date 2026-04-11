@@ -1,4 +1,4 @@
-import {
+﻿import {
   useState,
   useEffect,
   useRef,
@@ -53,6 +53,10 @@ const InteractiveTerminal = forwardRef<
       setTimeout(() => fullscreenInputRef.current?.focus(), 100);
     },
   }));
+
+  const appendToOutput = (lines: TerminalLine[]) => {
+    setTerminalOutput((prev) => [...prev, ...lines]);
+  };
 
   // Blinking cursor
   useEffect(() => {
@@ -135,7 +139,7 @@ const InteractiveTerminal = forwardRef<
 
       // version
       if (cmd === "version" || cmd === "--version" || cmd === "-v") {
-        setTerminalOutput([
+        appendToOutput([
           { text: `${personalInfo.name} portfolio v2.0.0`, type: "info" },
           { text: "built with React + Vite + TailwindCSS", type: "info" },
         ]);
@@ -145,7 +149,7 @@ const InteractiveTerminal = forwardRef<
 
       // help
       if (cmd === "help" || cmd === "--help" || cmd === "-h") {
-        setTerminalOutput([
+        appendToOutput([
           { text: "Available commands:", type: "info" },
           { text: "  cd portfolio  → open portfolio", type: "success" },
           { text: "  cd cv         → open résumé", type: "success" },
@@ -230,7 +234,7 @@ const InteractiveTerminal = forwardRef<
           newTheme = cmd === "theme dark" ? "dark" : "light";
         }
         setTheme(newTheme);
-        setTerminalOutput([
+        appendToOutput([
           { text: `✓ Theme switched to ${newTheme} mode`, type: "success" },
         ]);
         setTerminalInput("");
@@ -238,7 +242,7 @@ const InteractiveTerminal = forwardRef<
       }
 
       if (cmd === "theme") {
-        setTerminalOutput([
+        appendToOutput([
           { text: `Current theme: ${theme}`, type: "info" },
           { text: "Usage:", type: "info" },
           { text: "  theme dark    → switch to dark mode", type: "success" },
@@ -289,7 +293,7 @@ const InteractiveTerminal = forwardRef<
 
       // joke
       if (cmd === "joke") {
-        setTerminalOutput([{ text: "Fetching joke...", type: "info" }]);
+        appendToOutput([{ text: "Fetching joke...", type: "info" }]);
         setTerminalInput("");
         fetch(
           "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&format=txt",
@@ -304,7 +308,7 @@ const InteractiveTerminal = forwardRef<
             );
           })
           .catch(() => {
-            setTerminalOutput([
+            appendToOutput([
               { text: "Failed to fetch joke. Try again!", type: "error" },
             ]);
           });
@@ -320,7 +324,7 @@ const InteractiveTerminal = forwardRef<
           `Greetings, human! 🤖 Ready to explore?`,
           `Namaste! 🙏 Welcome aboard.`,
         ];
-        setTerminalOutput([
+        appendToOutput([
           {
             text: greetings[Math.floor(Math.random() * greetings.length)],
             type: "success",
@@ -338,7 +342,7 @@ const InteractiveTerminal = forwardRef<
         cmd === "datetime"
       ) {
         const now = new Date();
-        setTerminalOutput([
+        appendToOutput([
           {
             text: `📅 ${now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}`,
             type: "info",
@@ -358,7 +362,7 @@ const InteractiveTerminal = forwardRef<
 
       // socials
       if (cmd === "socials" || cmd === "social" || cmd === "links") {
-        setTerminalOutput([
+        appendToOutput([
           { text: "Connect with me:", type: "info" },
           { text: "", type: "info" },
           {
@@ -384,13 +388,13 @@ const InteractiveTerminal = forwardRef<
 
       // quote
       if (cmd === "quote") {
-        setTerminalOutput([{ text: "Fetching quote...", type: "info" }]);
+        appendToOutput([{ text: "Fetching quote...", type: "info" }]);
         setTerminalInput("");
         fetch("https://api.quotable.io/quotes/random")
           .then((res) => res.json())
           .then((data) => {
             const q = Array.isArray(data) ? data[0] : data;
-            setTerminalOutput([
+            appendToOutput([
               { text: `"${q.content}"`, type: "success" },
               { text: `  — ${q.author}`, type: "info" },
             ]);
@@ -420,7 +424,7 @@ const InteractiveTerminal = forwardRef<
               },
             ];
             const q = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-            setTerminalOutput([
+            appendToOutput([
               { text: q.text, type: "success" },
               { text: `  — ${q.author}`, type: "info" },
             ]);
@@ -444,7 +448,7 @@ const InteractiveTerminal = forwardRef<
         const interval = setInterval(() => {
           if (frame >= maxFrames) {
             clearInterval(interval);
-            setTerminalOutput([
+            appendToOutput([
               { text: "Wake up, Neo...", type: "success" },
               { text: "The Matrix has you.", type: "success" },
               { text: "", type: "info" },
@@ -617,7 +621,7 @@ const InteractiveTerminal = forwardRef<
 
       // contact
       if (cmd === "contact" || cmd === "reach" || cmd === "phone") {
-        setTerminalOutput([
+        appendToOutput([
           { text: "┌─────────────────────────────────────────┐", type: "info" },
           { text: "│  📨  Contact                            │", type: "info" },
           { text: "└─────────────────────────────────────────┘", type: "info" },
@@ -639,7 +643,7 @@ const InteractiveTerminal = forwardRef<
       // ping
       if (cmd === "ping" || cmd.startsWith("ping ")) {
         const target = cmd === "ping" ? personalInfo.website : raw.slice(5);
-        setTerminalOutput([{ text: `PING ${target}...`, type: "info" }]);
+        appendToOutput([{ text: `PING ${target}...`, type: "info" }]);
         setTerminalInput("");
         const pings: TerminalLine[] = [];
         let i = 0;
@@ -680,7 +684,7 @@ const InteractiveTerminal = forwardRef<
           cmd === "weather"
             ? personalInfo.location.split(",")[0].trim()
             : raw.slice(8).trim();
-        setTerminalOutput([
+        appendToOutput([
           { text: `Fetching weather for ${city}...`, type: "info" },
         ]);
         setTerminalInput("");
@@ -762,7 +766,7 @@ const InteractiveTerminal = forwardRef<
             ];
             const windDir = dirs[Math.round(windDeg / 22.5) % 16];
 
-            setTerminalOutput([
+            appendToOutput([
               {
                 text: "┌─────────────────────────────────────────┐",
                 type: "info",
@@ -789,7 +793,7 @@ const InteractiveTerminal = forwardRef<
             ]);
           })
           .catch(() => {
-            setTerminalOutput([
+            appendToOutput([
               {
                 text: `Failed to fetch weather for "${city}". Try again!`,
                 type: "error",
@@ -806,7 +810,7 @@ const InteractiveTerminal = forwardRef<
         cmd === "ls -a" ||
         cmd === "dir"
       ) {
-        setTerminalOutput([
+        appendToOutput([
           { text: "📂 portfolio/", type: "success" },
           { text: "📂 cv/", type: "success" },
         ]);
@@ -853,7 +857,7 @@ const InteractiveTerminal = forwardRef<
         if (catMap[file]) {
           setTerminalOutput(catMap[file]);
         } else {
-          setTerminalOutput([
+          appendToOutput([
             { text: `cat: ${file}: No such file or directory`, type: "error" },
           ]);
         }
@@ -872,7 +876,7 @@ const InteractiveTerminal = forwardRef<
           "💀 npm ERR! 418 I'm a teapot. Try 'help' instead.",
           "🙃 npm: Sorry, we don't serve JavaScript runtimes at this terminal.",
         ];
-        setTerminalOutput([
+        appendToOutput([
           {
             text: responses[Math.floor(Math.random() * responses.length)],
             type: "error",
@@ -891,7 +895,7 @@ const InteractiveTerminal = forwardRef<
           "🙅 Access denied. Not even sudo can save you here.",
           '"With great power comes great responsibility" — denied.',
         ];
-        setTerminalOutput([
+        appendToOutput([
           {
             text: responses[Math.floor(Math.random() * responses.length)],
             type: "error",
@@ -965,7 +969,7 @@ const InteractiveTerminal = forwardRef<
         };
         const key = cmd.split(" ")[0] as keyof typeof responses;
         const pool = responses[key] || responses["rm"];
-        setTerminalOutput([
+        appendToOutput([
           {
             text: pool[Math.floor(Math.random() * pool.length)],
             type: "error",
@@ -1025,7 +1029,7 @@ const InteractiveTerminal = forwardRef<
       // hack
       if (cmd === "hack") {
         setTerminalInput("");
-        setTerminalOutput([
+        appendToOutput([
           { text: "Initializing hack sequence...", type: "success" },
         ]);
         const steps = [
@@ -1052,7 +1056,7 @@ const InteractiveTerminal = forwardRef<
 
       // 404
       if (cmd === "404") {
-        setTerminalOutput([
+        appendToOutput([
           { text: "", type: "info" },
           { text: "    ██╗  ██╗ ██████╗ ██╗  ██╗", type: "error" },
           { text: "    ██║  ██║██╔═████╗██║  ██║", type: "error" },
@@ -1080,22 +1084,20 @@ const InteractiveTerminal = forwardRef<
         if (isNaN(seconds) || seconds <= 0) seconds = 10;
         if (seconds > 60) seconds = 60;
         setTerminalInput("");
-        setTerminalOutput([
-          { text: `⏱️  Countdown: ${seconds}s`, type: "info" },
-        ]);
+        appendToOutput([{ text: `⏱️  Countdown: ${seconds}s`, type: "info" }]);
         let remaining = seconds;
         const interval = setInterval(() => {
           remaining--;
           if (remaining <= 0) {
             clearInterval(interval);
-            setTerminalOutput([
+            appendToOutput([
               { text: "🎉🎉🎉 TIME'S UP! 🎉🎉🎉", type: "success" },
             ]);
             return;
           }
           const filled = Math.round(((seconds - remaining) / seconds) * 20);
           const bar = "█".repeat(filled) + "░".repeat(20 - filled);
-          setTerminalOutput([
+          appendToOutput([
             { text: `⏱️  Countdown: ${remaining}s`, type: "info" },
             { text: `  [${bar}]`, type: remaining <= 3 ? "error" : "success" },
           ]);
@@ -1107,7 +1109,7 @@ const InteractiveTerminal = forwardRef<
       if (cmd === "color" || cmd.startsWith("color ")) {
         const hex = cmd.slice(6).trim().replace(/^#/, "");
         if (!hex || !/^[0-9a-fA-F]{3,8}$/.test(hex)) {
-          setTerminalOutput([
+          appendToOutput([
             { text: "Usage: color <hex>", type: "info" },
             { text: "  e.g. color ff5733", type: "info" },
             { text: "  e.g. color #2ecc71", type: "info" },
@@ -1123,7 +1125,7 @@ const InteractiveTerminal = forwardRef<
                 .join("")
             : hex;
         const block = "████████████████";
-        setTerminalOutput([
+        appendToOutput([
           { text: `  Color: #${fullHex.toUpperCase()}`, type: "info" },
           { text: "", type: "info" },
           { text: `  ${block}`, type: "success" },
@@ -1143,7 +1145,7 @@ const InteractiveTerminal = forwardRef<
       if (cmd === "base64" || cmd.startsWith("base64 ")) {
         const arg = raw.slice(7).trim();
         if (!arg) {
-          setTerminalOutput([
+          appendToOutput([
             { text: "Usage: base64 <text>       → encode", type: "info" },
             { text: "       base64 -d <text>   → decode", type: "info" },
           ]);
@@ -1154,19 +1156,19 @@ const InteractiveTerminal = forwardRef<
           if (arg.startsWith("-d ") || arg.startsWith("--decode ")) {
             const encoded = arg.replace(/^(-d|--decode)\s+/, "");
             const decoded = atob(encoded);
-            setTerminalOutput([
+            appendToOutput([
               { text: "Decoded:", type: "info" },
               { text: `  ${decoded}`, type: "success" },
             ]);
           } else {
             const encoded = btoa(arg);
-            setTerminalOutput([
+            appendToOutput([
               { text: "Encoded:", type: "info" },
               { text: `  ${encoded}`, type: "success" },
             ]);
           }
         } catch {
-          setTerminalOutput([
+          appendToOutput([
             { text: "Error: Invalid base64 input", type: "error" },
           ]);
         }
@@ -1184,7 +1186,7 @@ const InteractiveTerminal = forwardRef<
         if (hrs > 0) parts.push(`${hrs}h`);
         if (mins % 60 > 0) parts.push(`${mins % 60}m`);
         parts.push(`${secs % 60}s`);
-        setTerminalOutput([
+        appendToOutput([
           { text: `⏳ Session uptime: ${parts.join(" ")}`, type: "success" },
           {
             text: `   Started: ${new Date(sessionStart.current).toLocaleTimeString()}`,
@@ -1265,7 +1267,7 @@ const InteractiveTerminal = forwardRef<
           if (gameOver) {
             clearInterval(gameLoop);
             window.removeEventListener("keydown", handleKey);
-            setTerminalOutput([
+            appendToOutput([
               {
                 text: `  🐍 Game Over! Final Score: ${score}`,
                 type: "success",
@@ -1280,7 +1282,7 @@ const InteractiveTerminal = forwardRef<
             gameOver = true;
             clearInterval(gameLoop);
             window.removeEventListener("keydown", handleKey);
-            setTerminalOutput([
+            appendToOutput([
               {
                 text: `  💀 Game Over! You hit a wall. Score: ${score}`,
                 type: "error",
@@ -1294,7 +1296,7 @@ const InteractiveTerminal = forwardRef<
             gameOver = true;
             clearInterval(gameLoop);
             window.removeEventListener("keydown", handleKey);
-            setTerminalOutput([
+            appendToOutput([
               {
                 text: `  💀 Game Over! You ate yourself. Score: ${score}`,
                 type: "error",
@@ -1318,9 +1320,7 @@ const InteractiveTerminal = forwardRef<
       // fireworks
       if (cmd === "fireworks") {
         setTerminalInput("");
-        setTerminalOutput([
-          { text: "  🎆 Launching fireworks...", type: "info" },
-        ]);
+        appendToOutput([{ text: "  🎆 Launching fireworks...", type: "info" }]);
         const cols = terminalFullscreen ? 60 : 30;
         const rows = terminalFullscreen ? 16 : 10;
         let frame = 0;
@@ -1341,7 +1341,7 @@ const InteractiveTerminal = forwardRef<
         const interval = setInterval(() => {
           if (frame >= maxFrames) {
             clearInterval(interval);
-            setTerminalOutput([
+            appendToOutput([
               { text: "", type: "info" },
               {
                 text: "  🎆🎇🎆🎇🎆 Happy celebrations! 🎆🎇🎆🎇🎆",
@@ -1402,7 +1402,7 @@ const InteractiveTerminal = forwardRef<
         const interval = setInterval(() => {
           if (frame >= maxFrames) {
             clearInterval(interval);
-            setTerminalOutput([
+            appendToOutput([
               { text: "", type: "info" },
               { text: "  🌈 That was colorful! ✨", type: "success" },
               { text: "", type: "info" },
@@ -1433,7 +1433,7 @@ const InteractiveTerminal = forwardRef<
 
       // cd with invalid path
       if (cmd.startsWith("cd ")) {
-        setTerminalOutput([
+        appendToOutput([
           {
             text: `bash: cd: ${raw.slice(3)}: No such directory`,
             type: "error",
@@ -1444,7 +1444,7 @@ const InteractiveTerminal = forwardRef<
       }
 
       // unknown command
-      setTerminalOutput([
+      appendToOutput([
         {
           text: `bash: ${raw.split(" ")[0]}: command not found`,
           type: "error",
