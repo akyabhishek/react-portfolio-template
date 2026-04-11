@@ -66,12 +66,12 @@ export function NewNavbar() {
     },
 
     {
-      name: "Stats",
-      link: "/stats",
-    },
-    {
       name: "Contact",
       link: "/home#contact",
+    },
+    {
+      name: "More About Me",
+      link: "/about",
     },
     {
       name: "Resources",

@@ -1,6 +1,6 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
-import Stats from "@/pages/Stats";
+import Stats from "@/pages/MoreAboutMe";
 import Contact from "@/pages/Contact";
 import Resume from "@/pages/Resume";
 import { NewNavbar } from "@/components/NewNavbar";
@@ -55,8 +55,12 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/stats",
+        path: "/about",
         element: <Stats />,
+      },
+      {
+        path: "/stats",
+        element: <Navigate to="/about" replace />,
       },
       {
         path: "/resume",
