@@ -4,6 +4,7 @@ import LeetCodeStatsSection from "@/components/more-about-me/LeetCodeStatsSectio
 import SiteStatsSection from "@/components/more-about-me/SiteStatsSection";
 import GitHubCalendarSection from "@/components/more-about-me/GitHubCalendarSection";
 import BooksSection from "@/components/more-about-me/BooksSection";
+import PlacesSection from "@/components/more-about-me/PlacesSection";
 
 export default function About(): JSX.Element {
   return (
@@ -17,6 +18,7 @@ export default function About(): JSX.Element {
             <LeetCodeStatsSection />
             <SiteStatsSection />
             <BooksSection />
+            <PlacesSection />
             <GitHubCalendarSection />
           </div>
         </TracingBeam>
