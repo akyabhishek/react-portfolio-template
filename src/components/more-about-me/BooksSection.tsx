@@ -22,7 +22,7 @@ const books: Book[] = [
     title: "How to Win Friends and Influence People",
     author: "Dale Carnegie",
     genres: ["Self-help", "Personal Development"],
-    note: "Helped me understand how to understand people in a better way.",
+    note: "A practical guide on improving communication skills and building meaningful relationships by understanding human psychology.",
     status: "Read",
     startDate: "Jul 20, 2021",
     finishDate: "Jan 31, 2022",
@@ -54,11 +54,22 @@ const books: Book[] = [
     title: "The Metamorphosis",
     author: "Franz Kafka",
     genres: ["Fiction", "Absurdism", "Existentialism"],
-    note: "Currently reading — a surreal tale of alienation and transformation that cuts deep into the human condition.",
-    status: "Reading",
-    startDate: "Apr 11, 2026",
+    note: "A haunting story about alienation and identity that reflects how society treats individuals when they no longer fit norms.",
+    status: "Read",
+    startDate: "Apr 14, 2026",
+    finishDate: "Apr 17, 2026",
     coverUrl:
       "https://rekhtabooks.com/cdn/shop/products/9789355201065_c2f2320a-78c3-4145-8eac-a117e720ecf3.jpg",
+  },
+  {
+    title: "The Subtle Art of Not Giving a F*ck",
+    author: "Mark Manson",
+    genres: ["Self-help", "Personal Development"],
+    note: "Currently reading — Just started, but so far it's a refreshing take on self-improvement.",
+    status: "Reading",
+    startDate: "Apr 18, 2026",
+    coverUrl:
+      "https://m.media-amazon.com/images/I/71QKQ9mwV7L._AC_UF1000,1000_QL80_.jpg",
   },
 ];
 

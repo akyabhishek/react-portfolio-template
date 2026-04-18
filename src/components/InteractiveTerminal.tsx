@@ -620,14 +620,13 @@ const InteractiveTerminal = forwardRef<
       }
 
       // contact
-      if (cmd === "contact" || cmd === "reach" || cmd === "phone") {
+      if (cmd === "contact" || cmd === "reach") {
         appendToOutput([
           { text: "┌─────────────────────────────────────────┐", type: "info" },
           { text: "│  📨  Contact                            │", type: "info" },
           { text: "└─────────────────────────────────────────┘", type: "info" },
           { text: "", type: "info" },
           { text: `  📧 Email     ${personalInfo.email}`, type: "success" },
-          { text: `  📱 Phone     ${personalInfo.phone}`, type: "success" },
           { text: `  📍 Location  ${personalInfo.location}`, type: "info" },
           {
             text: `  🔗 LinkedIn  ${personalInfo.linkedinUrl}`,

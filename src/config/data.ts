@@ -8,7 +8,6 @@
 export interface PersonalInfo {
   name: string;
   title: string;
-  phone: string;
   email: string;
   linkedin: string;
   linkedinUrl: string;
@@ -82,8 +81,7 @@ export interface SocialLink {
 
 export const personalInfo: PersonalInfo = {
   name: "Abhishek Kumar Yadav",
-  title: "Programmer Analyst",
-  phone: "8299837402",
+  title: "Associate",
   email: "aky.abhishekkumaryadav@gmail.com",
   linkedin: "abhishekkumaryadav",
   linkedinUrl: "https://www.linkedin.com/in/abhishekkumaryadav/",
@@ -101,7 +99,7 @@ export const personalInfo: PersonalInfo = {
 
 export const experienceData: ExperienceItem[] = [
   {
-    title: "Programmer Analyst - GN",
+    title: "Associate",
     company: "Cognizant Technology Solutions",
     logoPath: "/assets/CTSH.png",
     location: "Noida, Uttar Pradesh",
@@ -375,6 +373,12 @@ export const achievementsData: AchievementItem[] = [
 // ─── Certifications ─────────────────────────────────────────────────────────
 
 export const certificationsData: CertificationItem[] = [
+  {
+    title: "GH-300: GitHub Copilot",
+    platform: "Microsoft",
+    year: "2026",
+    url: "https://learn.microsoft.com/en-us/users/akyabhishek/credentials/7f06bd6a9606cd73",
+  },
   {
     title: "Prompt Design in Vertex AI Skill Badge",
     platform: "Google Cloud",

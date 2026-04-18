@@ -1,10 +1,43 @@
 import { motion } from "framer-motion";
-import { FiFileText } from "react-icons/fi";
+import { FiBriefcase, FiFileText } from "react-icons/fi";
+import {
+  SiCognizant,
+  SiCoursera,
+  SiGooglecloud,
+  SiUdemy,
+} from "react-icons/si";
+import { TfiMicrosoftAlt } from "react-icons/tfi";
+
 import {
   educationData,
   achievementsData,
   certificationsData,
 } from "@/config/data";
+
+const getCertificationPlatformIcon = (platform: string) => {
+  const key = platform.toLowerCase();
+
+  if (key.includes("microsoft")) {
+    return <TfiMicrosoftAlt size={14} />;
+  }
+
+  if (key.includes("google")) {
+    return <SiGooglecloud size={14} />;
+  }
+
+  if (key.includes("udemy")) {
+    return <SiUdemy size={14} />;
+  }
+
+  if (key.includes("coursera")) {
+    return <SiCoursera size={14} />;
+  }
+  if (key.includes("cognizant")) {
+    return <SiCognizant size={14} />;
+  }
+
+  return <FiBriefcase size={14} />;
+};
 
 export default function CVEducation() {
   return (
@@ -171,8 +204,8 @@ export default function CVEducation() {
                 className="flex items-center justify-between p-4 rounded-xl bg-white/80 dark:bg-white/[0.02] border border-gray-200/60 dark:border-white/[0.06] hover:border-cyan-300 dark:hover:border-cyan-500/20 hover:scale-[1.01] transition-all duration-500 group cursor-pointer shadow-sm dark:shadow-none"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 text-sm font-bold">
-                    {idx + 1}
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center text-cyan-700 dark:text-cyan-300">
+                    {getCertificationPlatformIcon(cert.platform)}
                   </div>
                   <div>
                     <p className="text-[14px] font-medium text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">

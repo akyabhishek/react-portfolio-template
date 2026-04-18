@@ -2,7 +2,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import {
   FiMail,
-  FiPhone,
   FiMapPin,
   FiGithub,
   FiLinkedin,
@@ -158,12 +157,6 @@ export default function CVHero() {
               className="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               <FiGithub size={16} />
-            </a>
-            <a
-              href={`tel:+91${personalInfo.phone}`}
-              className="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              <FiPhone size={15} />
             </a>
           </div>
         </motion.div>

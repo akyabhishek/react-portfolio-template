@@ -1,8 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
 import Stats from "@/pages/MoreAboutMe";
-import Contact from "@/pages/Contact";
-import Resume from "@/pages/Resume";
 import { NewNavbar } from "@/components/NewNavbar";
 import JavaQA from "@/pages/JavaQA";
 import Base64Page from "@/pages/devtools/Base64page";
@@ -25,6 +23,7 @@ import GitCheatsheet from "@/pages/GitCheatsheet";
 import NotFound from "@/pages/NotFound";
 import LinksPage from "@/pages/LinksPage";
 import ClockPage from "@/pages/ClockPage";
+import SystemDesign from "@/pages/SystemDesign";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +63,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/resume",
-        element: <Resume />,
+        element: <Navigate to="/cv" replace />,
       },
       {
         path: "/java-interview-question-answers",
@@ -121,6 +120,10 @@ const router = createBrowserRouter([
       {
         path: "/git-cheatsheet",
         element: <GitCheatsheet />,
+      },
+      {
+        path: "/system-design",
+        element: <SystemDesign />,
       },
     ],
   },

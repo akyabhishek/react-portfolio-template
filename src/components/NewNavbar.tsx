@@ -102,6 +102,11 @@ export function NewNavbar() {
           link: "/git-cheatsheet",
           icon: <FiGitBranch size={14} />,
         },
+        {
+          name: "System Design",
+          link: "/system-design",
+          icon: <MdOutlineQuiz size={14} />,
+        },
       ],
     },
   ];
