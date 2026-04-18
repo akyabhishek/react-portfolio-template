@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ComposableMap,
@@ -6,7 +6,7 @@ import {
   Geography,
   Marker,
 } from "react-simple-maps";
-import { MapPin, Plus, Minus, RotateCcw } from "lucide-react";
+import { House, MapPin, Minus, Plus, RotateCcw } from "lucide-react";
 
 // India state-level GeoJSON following India's official claimed boundaries
 // (includes J&K full extent with PoK, Aksai Chin, Arunachal Pradesh)
@@ -168,6 +168,7 @@ const dotVariants = {
 export default function PlacesSection() {
   const [tooltip, setTooltip] = useState<City | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [expandedCity, setExpandedCity] = useState<string | null>(null);
   const [zoom, setZoom] = useState(800);
   const [center, setCenter] = useState<[number, number]>([82, 22]);
   const [isDragging, setIsDragging] = useState(false);
@@ -180,6 +181,24 @@ export default function PlacesSection() {
   const STEP = 200;
   const DEFAULT_CENTER: [number, number] = [82, 22];
   const DEFAULT_ZOOM = 800;
+
+  const stateVisitData = useMemo(() => {
+    const counts = cities.reduce(
+      (acc, city) => {
+        acc[city.state] = (acc[city.state] ?? 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([state, count]) => ({ state, count }));
+  }, []);
+
+  const maxStateVisits = stateVisitData[0]?.count ?? 1;
+  const selectedCity =
+    cities.find((city) => city.name === expandedCity) ?? null;
 
   function degreesPerPixel(scale: number) {
     // Approximate: 360° / circumference in pixels at this scale
@@ -419,26 +438,121 @@ export default function PlacesSection() {
         </AnimatePresence>
       </div>
 
-      {/* City pills below map */}
+      {/* City buttons */}
       <motion.div
-        className="flex flex-wrap gap-2 mt-3"
+        className="mt-3 rounded-2xl border border-border/50 bg-card/60 p-3 backdrop-blur-xl"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.2 }}
       >
-        {cities.map((city) => (
-          <motion.span
-            key={city.name}
-            className="flex items-center gap-1.5 text-[11px] font-medium px-3 py-1 rounded-full border border-border/50 bg-card/60 text-muted-foreground backdrop-blur"
-            variants={dotVariants}
-          >
-            {city.isHome && (
-              <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
-            )}
-            {city.name}
-          </motion.span>
-        ))}
+        <div className="flex flex-wrap gap-2">
+          {cities.map((city) => {
+            const isActive = expandedCity === city.name;
+
+            return (
+              <motion.button
+                key={city.name}
+                type="button"
+                onClick={() => setExpandedCity(isActive ? null : city.name)}
+                aria-pressed={isActive}
+                className={[
+                  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30",
+                  city.isHome
+                    ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                    : "border-border/60 bg-background/55 text-muted-foreground hover:bg-background/75",
+                  isActive
+                    ? city.isHome
+                      ? "ring-1 ring-emerald-500/40"
+                      : "border-primary/40 bg-primary/10 text-foreground"
+                    : "",
+                ].join(" ")}
+                variants={dotVariants}
+              >
+                {city.isHome && <House className="h-3 w-3" />}
+                <span>{city.name}</span>
+              </motion.button>
+            );
+          })}
+        </div>
+
+        <AnimatePresence initial={false}>
+          {selectedCity && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="mt-3 rounded-xl border border-border/50 bg-background/45 px-4 py-3"
+            >
+              <div className="flex items-center gap-1.5">
+                {selectedCity.isHome && (
+                  <House className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                )}
+                <p className="text-[11px] font-medium text-foreground">
+                  {selectedCity.name}
+                </p>
+              </div>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">
+                {selectedCity.state}
+                {selectedCity.isHome ? " - Home" : ""}
+              </p>
+              <p className="mt-1 text-[10px] text-muted-foreground tabular-nums">
+                {selectedCity.coordinates[1].toFixed(4)},{" "}
+                {selectedCity.coordinates[0].toFixed(4)}
+              </p>
+              {selectedCity.note && (
+                <p className="mt-1.5 text-[10px] leading-relaxed text-muted-foreground">
+                  {selectedCity.note}
+                </p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* State-wise visits chart */}
+      <motion.div
+        className="mt-4 rounded-2xl border border-border/50 bg-card/50 p-3.5 backdrop-blur"
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ type: "spring", stiffness: 240, damping: 22 }}
+      >
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/70">
+            State-wise visits
+          </p>
+          <span className="text-[10px] text-muted-foreground">
+            Cities counted
+          </span>
+        </div>
+
+        <div className="space-y-2.5">
+          {stateVisitData.map((item) => (
+            <div key={item.state}>
+              <div className="mb-1 flex items-center justify-between gap-3 text-[11px]">
+                <span className="truncate text-foreground/90">
+                  {item.state}
+                </span>
+                <span className="tabular-nums text-muted-foreground">
+                  {item.count}
+                </span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-muted/70 overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full bg-primary/80"
+                  initial={{ width: 0 }}
+                  whileInView={{
+                    width: `${(item.count / maxStateVisits) * 100}%`,
+                  }}
+                  viewport={{ once: false, amount: 0.4 }}
+                  transition={{ type: "spring", stiffness: 180, damping: 26 }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </motion.div>
     </motion.section>
   );

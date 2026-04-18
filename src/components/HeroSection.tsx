@@ -58,7 +58,7 @@ export default function HeroSection(): JSX.Element {
           animateValue(0, 2, 1500, (val) =>
             setAnimatedStats((prev) => ({ ...prev, experience: val })),
           );
-          animateValue(0, 7000, 2000, (val) =>
+          animateValue(0, 7500, 2000, (val) =>
             setAnimatedStats((prev) => ({ ...prev, followers: val })),
           );
           animateValue(0, 30, 1200, (val) =>

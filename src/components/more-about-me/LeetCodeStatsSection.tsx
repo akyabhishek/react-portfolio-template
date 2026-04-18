@@ -77,15 +77,18 @@ export default function LeetCodeStatsSection() {
       viewport={{ once: false, amount: 0.15 }}
       transition={{ duration: 0.5 }}
     >
-      <motion.h2
-        className="text-lg mb-4 font-bold uppercase tracking-widest"
+      <motion.div
+        className="mb-4"
         initial={{ opacity: 0, x: -16 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: false }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
-        LeetCode Stats
-      </motion.h2>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/80 mb-2">
+          Problem Solving
+        </p>
+        <h2 className="text-xl font-bold tracking-tight">LeetCode Stats</h2>
+      </motion.div>
 
       {/* Chart */}
       <motion.div

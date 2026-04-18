@@ -60,8 +60,8 @@ export default function SiteStatsSection() {
       viewport={{ once: false, amount: 0.2 }}
       transition={{ type: "spring", stiffness: 240, damping: 22 }}
     >
-      <motion.h2
-        className="text-lg mb-6 font-bold uppercase tracking-widest"
+      <motion.div
+        className="mb-6"
         initial={{ opacity: 0, x: -12 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: false }}
@@ -72,8 +72,11 @@ export default function SiteStatsSection() {
           delay: 0.08,
         }}
       >
-        This Site
-      </motion.h2>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/80 mb-2">
+          Portfolio
+        </p>
+        <h2 className="text-xl font-bold tracking-tight">Site Stats</h2>
+      </motion.div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-border rounded-2xl overflow-hidden border border-border">
         {stats.map(({ label, value, sub }, i) => (

@@ -64,12 +64,14 @@ export default function PersonalStatsSection() {
       viewport={{ once: false, amount: 0.15 }}
       variants={containerVariants}
     >
-      <motion.h2
-        className="text-lg mb-4 font-bold uppercase tracking-widest"
-        variants={itemVariants}
-      >
-        Some Stats About Me
-      </motion.h2>
+      <motion.div className="mb-4" variants={itemVariants}>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/80 mb-2">
+          About Me
+        </p>
+        <h2 className="text-xl font-bold tracking-tight">
+          Some Stats About Me
+        </h2>
+      </motion.div>
 
       <div className="grid grid-cols-1 gap-px bg-border rounded-2xl overflow-hidden border border-border">
         {/* Age — full-width live ticker */}
