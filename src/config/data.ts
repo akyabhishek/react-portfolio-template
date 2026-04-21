@@ -339,10 +339,28 @@ export const educationData: EducationItem[] = [
     year: "Aug 2019 – Jun 2023",
   },
   {
+    institution: "National Skill Training Institute, Kanpur",
+    degree: "CITS - Computer Software Application",
+    score: "Percentage: 86.34%%",
+    year: "Aug 2019 – Jun 2020",
+  },
+  {
     institution: "Hewett Polytechnic, Lucknow",
     degree: "Diploma in Information Technology",
     score: "Percentage: 75%",
     year: "Aug 2016 – Jun 2019",
+  },
+  {
+    institution: "Techno Academic Inter College, Lucknow",
+    degree: "Intermediate (10+2)",
+    score: "Percentage: 72.8%",
+    year: "Aug 2014 – Jun 2016",
+  },
+  {
+    institution: "Techno Academic Inter College, Lucknow",
+    degree: "High School (10th)",
+    score: "Percentage: 80.67%",
+    year: "Aug 2011 – Jun 2014",
   },
 ];
 

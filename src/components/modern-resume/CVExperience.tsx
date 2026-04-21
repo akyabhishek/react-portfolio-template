@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { FiMapPin } from "react-icons/fi";
 import { experienceData, calculateDuration } from "@/config/data";
 
 export default function CVExperience() {
@@ -106,8 +107,9 @@ export default function CVExperience() {
                     </div>
 
                     {exp.location && (
-                      <p className="text-xs text-gray-400 dark:text-gray-600 mb-3">
-                        📍 {exp.location}
+                      <p className="mb-3 flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-600">
+                        <FiMapPin className="shrink-0" aria-hidden="true" />
+                        <span>{exp.location}</span>
                       </p>
                     )}
 
