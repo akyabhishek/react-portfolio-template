@@ -54,7 +54,7 @@
     "markmap-view": "^0.18.12",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^12.9.1",
-    "next": "^15.0.3",
+    "next": "15.0.7",
     "prismjs": "^1.30.0",
     "qrcode": "^1.5.4",
     "qrcode-reader": "^1.0.4",
