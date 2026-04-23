@@ -25,8 +25,8 @@ export default function SiteStatsSection() {
 
   const stats = [
     { label: "Lines of Code", value: "38,000+", sub: "approx." },
-    { label: "Human Written", value: "70%", sub: "of codebase" },
-    { label: "AI Assisted", value: "30%", sub: "of codebase" },
+    { label: "AI Assisted", value: "70%", sub: "of codebase" },
+    { label: "Human Written", value: "30%", sub: "of codebase" },
     {
       label: "Stars",
       value: String(gitHubData.stargazers_count),

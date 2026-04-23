@@ -2,17 +2,34 @@ const { SitemapStream, streamToPromise } = require("sitemap");
 const { createWriteStream } = require("fs");
 const path = require("path");
 
-const domain = 'https://akyabhishek.vercel.app';
+const domain = 'https://abhishekkumaryadav.in';
 
 const staticRoutes = [
   '/',
+  '/terminal',
+  '/t',
+  '/home',
+  '/about',
   '/stats',
-  '/contact',
   '/resume',
   '/java-interview-question-answers',
   '/base64-tool',
   '/bitwise-visualizer',
   '/hash-generator',
+  '/devtools',
+  '/json-formatter',
+  '/jwt-decoder',
+  '/qr-generator',
+  '/qr-scanner',
+  '/code-complexity-analyzer',
+  '/json-diff',
+  '/regex-tester',
+  '/topup',
+  '/git-cheatsheet',
+  '/system-design',
+  '/cv',
+  '/links',
+  '/roadmap-for-product-based-company',
 ];
 
 const sitemap = new SitemapStream({ hostname: domain });
