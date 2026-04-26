@@ -18,7 +18,7 @@ export default function HashGeneratorPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/hash-generator"
+          href="https://abhishekkumaryadav.in/hash-generator"
         />
       </Helmet>
 

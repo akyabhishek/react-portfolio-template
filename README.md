@@ -6,7 +6,7 @@ Welcome to the personal portfolio of Abhishek Kumar Yadav (AKY). This website sh
 
 ## Live Demo
 
-Check out the live demo of the portfolio at [https://akyabhishek.vercel.app/](https://akyabhishek.vercel.app/).
+Check out the live demo of the portfolio at [https://abhishekkumaryadav.in/](https://abhishekkumaryadav.in/).
 
 ## Technologies and Libraries Used
 

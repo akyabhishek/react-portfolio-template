@@ -18,7 +18,7 @@ export default function JSONDiffPage() {
           content="json diff, json compare, online, tool, visual diff, structural diff, json patch, side by side"
         />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://akyabhishek.vercel.app/json-diff" />
+        <link rel="canonical" href="https://abhishekkumaryadav.in/json-diff" />
       </Helmet>
 
       <main className="mt-14">

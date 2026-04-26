@@ -20,7 +20,7 @@ export default function Base64Page() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/base64-tool"
+          href="https://abhishekkumaryadav.in/base64-tool"
         />
       </Helmet>
 

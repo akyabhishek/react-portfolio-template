@@ -21,7 +21,7 @@ export default function ASTComplexityAnalyzerPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/code-complexity-analyzer"
+          href="https://abhishekkumaryadav.in/code-complexity-analyzer"
         />
       </Helmet>
 

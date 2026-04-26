@@ -88,7 +88,7 @@ export const personalInfo: PersonalInfo = {
   github: "akyabhishek",
   githubUrl: "https://github.com/akyabhishek",
   location: "Noida, Uttar Pradesh",
-  website: "https://akyabhishek.vercel.app/",
+  website: "https://abhishekkumaryadav.in/",
   resumePdfUrl: "/ABHISHEK_KUMAR_YADAV_RESUME.pdf",
   aboutSummary:
     "Software Developer at Cognizant with experience contributing to American Airlines projects using Java, Spring Boot, TypeScript, Playwright, Selenium, and more. Passionate about building scalable applications and solving real-world problems.",
@@ -314,7 +314,7 @@ export const projectsData: ProjectItem[] = [
     imageUrl: "/assets/portfolio-thumb.png",
     github: "https://github.com/akyabhishek/react-portfolio-template",
     live: true,
-    liveUrl: "https://akyabhishek.vercel.app/",
+    liveUrl: "https://abhishekkumaryadav.in/",
   },
   {
     title: "Stylish Analog Clock",

@@ -21,7 +21,7 @@ export default function AlgorithmComplexityAnalyzerPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/algorithm-complexity-analyzer"
+          href="https://abhishekkumaryadav.in/algorithm-complexity-analyzer"
         />
       </Helmet>
 

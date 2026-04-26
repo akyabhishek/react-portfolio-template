@@ -18,7 +18,7 @@ export default function JWTDecoderPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/jwt-decoder"
+          href="https://abhishekkumaryadav.in/jwt-decoder"
         />
       </Helmet>
 

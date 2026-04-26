@@ -19,7 +19,7 @@ export default function DevToolsPage() {
           content="developer tools, online, utilities, base64, hash generator, bitwise, encode, decode, programming, utilities"
         />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://akyabhishek.vercel.app/devtools" />
+        <link rel="canonical" href="https://abhishekkumaryadav.in/devtools" />
       </Helmet>
 
       <main className="mt-14">

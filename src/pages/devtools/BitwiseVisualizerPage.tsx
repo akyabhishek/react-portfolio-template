@@ -20,7 +20,7 @@ export default function BitwiseVisualizerPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/bitwise-visualizer"
+          href="https://abhishekkumaryadav.in/bitwise-visualizer"
         />
       </Helmet>
 

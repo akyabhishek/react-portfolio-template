@@ -18,10 +18,7 @@ export default function QRScannerPage() {
           content="qr scanner, qr code reader, camera scanner, image upload, qr decode, barcode scanner, mobile scanner"
         />
         <meta name="robots" content="index, follow" />
-        <link
-          rel="canonical"
-          href="https://akyabhishek.vercel.app/qr-scanner"
-        />
+        <link rel="canonical" href="https://abhishekkumaryadav.in/qr-scanner" />
       </Helmet>
 
       <main className="mt-14">

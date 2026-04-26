@@ -20,7 +20,7 @@ export default function QRCodeGeneratorPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/qr-generator"
+          href="https://abhishekkumaryadav.in/qr-generator"
         />
       </Helmet>
 

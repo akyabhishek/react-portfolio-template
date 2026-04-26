@@ -20,7 +20,7 @@ export default function RegexTesterPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/regex-tester"
+          href="https://abhishekkumaryadav.in/regex-tester"
         />
       </Helmet>
 

@@ -20,7 +20,7 @@ export default function JSONFormatterPage() {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href="https://akyabhishek.vercel.app/json-formatter"
+          href="https://abhishekkumaryadav.in/json-formatter"
         />
       </Helmet>
 
