@@ -88,12 +88,13 @@ export default function AboutMe() {
               <FiCode size={16} />
             </span>
             <span>
-              I'm a Software Developer at Cognizant with over {experience} of
-              experience, having contributed to American Airlines projects using
-              Java, Spring Boot, TypeScript, Playwright, Selenium, and more. I
-              graduated from Shri Ramswaroop Memorial College (AKTU) and also
-              hold a diploma from Hewett Polytechnic. Through personal projects,
-              I've explored React, Tailwind, Axios, and Spring Security.
+              I'm a Software Engineer at Cognizant with over {experience} of
+              experience, having contributed to a leading U.S. airline client on
+              projects using Java, Spring Boot, TypeScript, Playwright,
+              Selenium, and more. I graduated from Shri Ramswaroop Memorial
+              College (AKTU) and also hold a diploma from Hewett Polytechnic.
+              Through personal projects, I've explored React, Tailwind, Axios,
+              and Spring Security.
             </span>
           </p>
           <p className="flex gap-3">

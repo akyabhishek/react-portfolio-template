@@ -9,7 +9,7 @@ import { experienceData, calculateDuration } from "@/config/data";
 interface TimelineItemProps {
   title: string;
   company: string;
-  description: string;
+  description?: string;
   from: string;
   to: string;
   logoPath?: string;
@@ -69,9 +69,11 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
                 title
               )}
             </h4>
-            <p className="mt-1 max-w-screen-sm text-sm text-gray-500">
-              {description}
-            </p>
+            {description && (
+              <p className="mt-1 max-w-screen-sm text-sm text-gray-500">
+                {description}
+              </p>
+            )}
             <span className="mt-1 block text-sm text-gray-400">
               {from} — {to} · {calculateDuration(from, to)}
             </span>

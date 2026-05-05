@@ -23,7 +23,7 @@ export interface PersonalInfo {
 export interface ExperienceItem {
   title: string;
   company: string;
-  description: string;
+  description?: string;
   from: string;
   to: string;
   location?: string;
@@ -103,9 +103,9 @@ export const experienceData: ExperienceItem[] = [
     company: "Cognizant Technology Solutions",
     logoPath: "/assets/CTSH.png",
     location: "Noida, Uttar Pradesh",
-    description:
-      "Developed and enhanced the ECS backend application for American Airlines, enabling communication between client applications and pilots",
-    from: "09/2023",
+    // description:
+    //   "Developed and enhanced the ECS backend application for American Airlines, enabling communication between client applications and pilots",
+    from: "04/2026",
     to: "Present",
     technologies: [
       "Java",
@@ -128,11 +128,47 @@ export const experienceData: ExperienceItem[] = [
       "Gen AI",
     ],
     achievements: [],
-    bullets: [
-      "Designed and implemented RESTful APIs using a modular service architecture for a large U.S. airline client, enabling reusable backend components across multiple microservices supporting 45K+ users.",
-      "Developed Spring Boot microservices for preferences management, contact details, and message history as part of a 10+ microservice architecture, handling 20K+ API requests and enabling scalable admin and user workflows.",
-      "Reduced average response time of preference update APIs from >1000ms to 300ms by introducing selective update logic that updates only modified channels, minimizing unnecessary database writes.",
+    // bullets: [
+    //   "Designed and implemented RESTful APIs using a modular service architecture for a large U.S. airline client, enabling reusable backend components across multiple microservices supporting 45K+ users.",
+    //   "Developed Spring Boot microservices for preferences management, contact details, and message history as part of a 10+ microservice architecture, handling 20K+ API requests and enabling scalable admin and user workflows.",
+    //   "Reduced average response time of preference update APIs from >1000ms to 300ms by introducing selective update logic that updates only modified channels, minimizing unnecessary database writes.",
+    // ],
+  },
+  {
+    title: "Programmer Analsyt - GN",
+    company: "Cognizant Technology Solutions",
+    logoPath: "/assets/CTSH.png",
+    location: "Noida, Uttar Pradesh",
+    // description:
+    //   "Developed and enhanced the ECS backend application for American Airlines, enabling communication between client applications and pilots",
+    from: "09/2023",
+    to: "03/2026",
+    technologies: [
+      "Java",
+      "Spring Boot",
+      "Spring Data",
+      "Spring Framework",
+      "REST APIs",
+      "Microservices",
+      "SQL Server",
+      "JWT",
+      "TypeScript",
+      "JavaScript",
+      "Git",
+      "GitHub",
+      "GitHub Actions",
+      "CI/CD",
+      "Playwright",
+      "GitHub Copilot",
+      "Cursor",
+      "Gen AI",
     ],
+    achievements: [],
+    // bullets: [
+    //   "Designed and implemented RESTful APIs using a modular service architecture for a large U.S. airline client, enabling reusable backend components across multiple microservices supporting 45K+ users.",
+    //   "Developed Spring Boot microservices for preferences management, contact details, and message history as part of a 10+ microservice architecture, handling 20K+ API requests and enabling scalable admin and user workflows.",
+    //   "Reduced average response time of preference update APIs from >1000ms to 300ms by introducing selective update logic that updates only modified channels, minimizing unnecessary database writes.",
+    // ],
   },
   {
     title: "Intern",
