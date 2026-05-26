@@ -135,7 +135,7 @@ export const experienceData: ExperienceItem[] = [
     // ],
   },
   {
-    title: "Programmer Analsyt - GN",
+    title: "Programmer Analyst - GN",
     company: "Cognizant Technology Solutions",
     logoPath: "/assets/CTSH.png",
     location: "Noida, Uttar Pradesh",
@@ -208,7 +208,7 @@ export const projectsData: ProjectItem[] = [
   {
     title: "edorbit webapp",
     description:
-      "An educational platform that transforms complex concepts into clear, interactive 3D visual",
+      "An educational platform that transforms complex concepts into clear, interactive 3D visuals",
     techStack: [
       "Java",
       "Spring Boot",
@@ -338,7 +338,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     title: "Personal Portfolio",
-    description: "A personal portfolio site portfolio site",
+    description: "A personal portfolio template built with React, Vite, Tailwind CSS, and Framer Motion.",
     techStack: [
       "React.js",
       "Tailwind CSS",

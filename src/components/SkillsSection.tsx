@@ -50,9 +50,25 @@ const getProficiencyWidth = (level: Skill["level"]): string => {
   return `${(levelNum / 4) * 100}%`;
 };
 
+const getProficiencyColor = (level: Skill["level"]): string => {
+  switch (level) {
+    case "Expert":
+      return "text-cyan-500 dark:text-cyan-400";
+    case "Advanced":
+      return "text-emerald-500 dark:text-emerald-400";
+    case "Intermediate":
+      return "text-amber-500 dark:text-amber-400";
+    case "Beginner":
+      return "text-slate-400 dark:text-slate-500";
+    default:
+      return "text-emerald-500 dark:text-emerald-400";
+  }
+};
+
 // Circular Proficiency Indicator Component
 export const CircularIndicator = ({ level }: { level: Skill["level"] }) => {
   const quarters = getProficiencyLevel(level);
+  const colorClass = getProficiencyColor(level);
 
   return (
     <div className="w-4 h-4 relative">
@@ -79,7 +95,7 @@ export const CircularIndicator = ({ level }: { level: Skill["level"] }) => {
             strokeWidth="2"
             strokeDasharray="9.42 37.68"
             strokeDashoffset={-i * 9.42}
-            className="text-emerald-500 transition-all duration-300"
+            className={`${colorClass} transition-all duration-300`}
           />
         ))}
       </svg>
