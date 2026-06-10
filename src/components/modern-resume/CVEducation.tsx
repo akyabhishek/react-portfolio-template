@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FiBriefcase, FiFileText } from "react-icons/fi";
 import {
+  SiAnthropic,
   SiCognizant,
   SiCoursera,
   SiGooglecloud,
@@ -34,6 +35,9 @@ const getCertificationPlatformIcon = (platform: string) => {
   }
   if (key.includes("cognizant")) {
     return <SiCognizant size={14} />;
+  }
+  if (key.includes("anthropic")) {
+    return <SiAnthropic size={14} />;
   }
 
   return <FiBriefcase size={14} />;

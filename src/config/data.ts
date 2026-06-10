@@ -429,6 +429,12 @@ export const achievementsData: AchievementItem[] = [
 
 export const certificationsData: CertificationItem[] = [
   {
+    title: "Claude Certified Architect – Foundations",
+    platform: "Anthropic",
+    year: "2026",
+    url: "https://verify.skilljar.com/c/zn8oppbvfwi9",
+  },
+  {
     title: "GH-300: GitHub Copilot",
     platform: "Microsoft",
     year: "2026",
