@@ -338,7 +338,8 @@ export const projectsData: ProjectItem[] = [
   },
   {
     title: "Personal Portfolio",
-    description: "A personal portfolio template built with React, Vite, Tailwind CSS, and Framer Motion.",
+    description:
+      "A personal portfolio template built with React, Vite, Tailwind CSS, and Framer Motion.",
     techStack: [
       "React.js",
       "Tailwind CSS",
@@ -372,7 +373,7 @@ export const educationData: EducationItem[] = [
       "Shri Ramswaroop Memorial College of Engineering and Management, Lucknow (AKTU)",
     degree: "Bachelor of Technology - CSE",
     score: "CGPA: 8.33/10",
-    year: "Aug 2019 – Jun 2023",
+    year: "Aug 2020 – Jun 2023",
   },
   {
     institution: "National Skill Training Institute, Kanpur",
