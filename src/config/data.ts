@@ -378,7 +378,7 @@ export const educationData: EducationItem[] = [
     institution: "National Skill Training Institute, Kanpur",
     degree: "CITS - Computer Software Application",
     score: "Percentage: 86.34%%",
-    year: "Aug 2019 – Jun 2020",
+    year: "Aug 2020 – Jun 2020",
   },
   {
     institution: "Hewett Polytechnic, Lucknow",
