@@ -154,7 +154,8 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         >
           <a
             onClick={(e) => {
-              if (item.dropdown) {
+              const isPlaceholderLink = !item.link || item.link === "#";
+              if (item.dropdown && isPlaceholderLink) {
                 e.preventDefault();
               } else if (onItemClick) {
                 onItemClick();

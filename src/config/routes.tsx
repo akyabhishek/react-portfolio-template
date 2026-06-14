@@ -24,6 +24,7 @@ import NotFound from "@/pages/NotFound";
 import LinksPage from "@/pages/LinksPage";
 import ClockPage from "@/pages/ClockPage";
 import SystemDesign from "@/pages/SystemDesign";
+import ResourcesPage from "@/pages/ResourcesPage";
 
 const router = createBrowserRouter([
   {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
       {
         path: "/system-design",
         element: <SystemDesign />,
+      },
+      {
+        path: "/resources",
+        element: <ResourcesPage />,
       },
     ],
   },

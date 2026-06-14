@@ -75,7 +75,7 @@ export function NewNavbar() {
     },
     {
       name: "Resources",
-      link: "#",
+      link: "/resources",
       dropdown: [
         {
           name: "DevTools",
@@ -165,31 +165,41 @@ export function NewNavbar() {
               <div key={`mobile-link-${idx}`} className="w-full">
                 {item.dropdown ? (
                   <div className="mb-2">
-                    <div
-                      className="relative text-neutral-600 dark:text-neutral-300 font-medium mb-1 flex items-center justify-between cursor-pointer py-2"
-                      onClick={() =>
-                        setOpenMobileDropdown(
-                          openMobileDropdown === idx ? null : idx,
-                        )
-                      }
-                    >
-                      <span>{item.name}</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className={`h-4 w-4 transition-transform duration-300 ${
-                          openMobileDropdown === idx ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    <div className="relative text-neutral-600 dark:text-neutral-300 font-medium mb-1 flex items-center justify-between py-2">
+                      <a
+                        href={item.link}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex-1"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
+                        <span>{item.name}</span>
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenMobileDropdown(
+                            openMobileDropdown === idx ? null : idx,
+                          )
+                        }
+                        className="ml-2 p-1"
+                        aria-label={`Toggle ${item.name} menu`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-4 w-4 transition-transform duration-300 ${
+                            openMobileDropdown === idx ? "rotate-180" : ""
+                          }`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
                     </div>
                     <AnimatePresence>
                       {openMobileDropdown === idx && (
