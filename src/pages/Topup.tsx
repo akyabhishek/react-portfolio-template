@@ -27,6 +27,9 @@ import {
   ChevronUp,
 } from "lucide-react";
 
+const hourOptions = Array.from({ length: 11 }, (_, i) => i);
+const minuteOptions = Array.from({ length: 6 }, (_, i) => i * 10);
+
 export default function Topup() {
   const [workedHours, setWorkedHours] = useState<string>("");
   const [workedMinutes, setWorkedMinutes] = useState<string>("");
@@ -140,9 +143,9 @@ export default function Topup() {
                       <SelectValue placeholder="Hours" />
                     </SelectTrigger>
                     <SelectContent>
-                      {Array.from({ length: 24 }, (_, i) => (
-                        <SelectItem key={i} value={i.toString()}>
-                          {i} {i === 1 ? "hour" : "hours"}
+                      {hourOptions.map((hour) => (
+                        <SelectItem key={hour} value={hour.toString()}>
+                          {hour} {hour === 1 ? "hour" : "hours"}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -155,9 +158,9 @@ export default function Topup() {
                       <SelectValue placeholder="Minutes" />
                     </SelectTrigger>
                     <SelectContent>
-                      {Array.from({ length: 60 }, (_, i) => (
-                        <SelectItem key={i} value={i.toString()}>
-                          {i} {i === 1 ? "min" : "mins"}
+                      {minuteOptions.map((minute) => (
+                        <SelectItem key={minute} value={minute.toString()}>
+                          {minute} mins
                         </SelectItem>
                       ))}
                     </SelectContent>
