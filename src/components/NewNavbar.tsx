@@ -88,7 +88,7 @@ export function NewNavbar() {
           icon: <FiExternalLink size={14} />,
         },
         {
-          name: "Java Q & A",
+          name: "Java Interview Questions and Answers",
           link: "/java-interview-question-answers",
           icon: <MdOutlineQuiz size={14} />,
         },

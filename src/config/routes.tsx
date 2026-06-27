@@ -130,6 +130,10 @@ const router = createBrowserRouter([
         path: "/resources",
         element: <ResourcesPage />,
       },
+      {
+        path: "/guides",
+        element: <Navigate to="/resources" replace />,
+      },
     ],
   },
   {
