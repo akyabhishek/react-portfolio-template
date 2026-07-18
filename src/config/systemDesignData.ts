@@ -8,7 +8,8 @@ export const systemDesignQuestions = [
   },
   {
     question: "What is CAP theorem?",
-    solution: "https://www.geeksforgeeks.org/cap-theorem-in-system-design/",
+    solution:
+      "https://github.com/akyabhishek/system-design-notes/blob/main/basics/03-CAP-theorem.md",
   },
   {
     question: "Design a scalable system - how do you approach?",
