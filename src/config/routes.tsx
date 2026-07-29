@@ -25,6 +25,7 @@ import LinksPage from "@/pages/LinksPage";
 import ClockPage from "@/pages/ClockPage";
 import SystemDesign from "@/pages/SystemDesign";
 import ResourcesPage from "@/pages/ResourcesPage";
+import NewHome from "@/pages/NewHome";
 
 const router = createBrowserRouter([
   {
@@ -147,6 +148,10 @@ const router = createBrowserRouter([
   {
     path: "/clock",
     element: <ClockPage />,
+  },
+  {
+    path: "/v2",
+    element: <NewHome />,
   },
   {
     path: "/roadmap-for-product-based-company",
