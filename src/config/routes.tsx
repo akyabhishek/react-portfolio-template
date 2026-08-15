@@ -26,6 +26,7 @@ import ClockPage from "@/pages/ClockPage";
 import SystemDesign from "@/pages/SystemDesign";
 import ResourcesPage from "@/pages/ResourcesPage";
 import NewHome from "@/pages/NewHome";
+import BooksPage from "@/pages/BooksPage";
 
 const router = createBrowserRouter([
   {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
         element: <GitCheatsheet />,
       },
       {
+        path: "/git",
+        element: <Navigate to="/git-cheatsheet" replace />,
+      },
+      {
         path: "/system-design",
         element: <SystemDesign />,
       },
@@ -134,6 +139,14 @@ const router = createBrowserRouter([
       {
         path: "/guides",
         element: <Navigate to="/resources" replace />,
+      },
+      {
+        path: "/books",
+        element: <BooksPage />,
+      },
+      {
+        path: "/book",
+        element: <Navigate to="/books" replace />,
       },
     ],
   },
