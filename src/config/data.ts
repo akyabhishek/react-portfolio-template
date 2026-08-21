@@ -405,10 +405,10 @@ export const educationData: EducationItem[] = [
 
 export const achievementsData: AchievementItem[] = [
   {
-    title: "220+ Problems Solved",
+    title: "300+ Problems Solved",
     platform: "Leetcode",
-    year: "2024",
     url: "https://leetcode.com/mrabk121/",
+    year: "",
   },
 
   {
@@ -418,8 +418,8 @@ export const achievementsData: AchievementItem[] = [
     url: "https://drive.google.com/file/d/1QvwWHfBMd7lhCty6nPicp3VrSjPCE4nE/view?usp=drive_link",
   },
   {
-    title: "Grand Finalist",
-    platform: "Smart India Hackathon",
+    title: "Grand Finalist - Smart India Hackathon 2022 (Top 5% Nationally)",
+    platform: "",
     year: "2022",
     url: "https://www.linkedin.com/posts/abhishekkumaryadav_sih2022-ministryofeducation-ministryofculture-activity-6971838432453046272-0L-h?utm_source=share&utm_medium=member_desktop",
   },

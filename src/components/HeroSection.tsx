@@ -54,16 +54,16 @@ export default function HeroSection(): JSX.Element {
       ([entry]) => {
         if (entry.isIntersecting && !isStatsVisible) {
           setIsStatsVisible(true);
-          animateValue(0, 2, 1500, (val) =>
+          animateValue(0, 3, 1500, (val) =>
             setAnimatedStats((prev) => ({ ...prev, experience: val })),
           );
-          animateValue(0, 7500, 2000, (val) =>
+          animateValue(0, 8000, 2000, (val) =>
             setAnimatedStats((prev) => ({ ...prev, followers: val })),
           );
-          animateValue(0, 30, 1200, (val) =>
+          animateValue(0, 40, 1200, (val) =>
             setAnimatedStats((prev) => ({ ...prev, tools: val })),
           );
-          animateValue(0, 250, 1800, (val) =>
+          animateValue(0, 300, 1800, (val) =>
             setAnimatedStats((prev) => ({ ...prev, leetcode: val })),
           );
         }

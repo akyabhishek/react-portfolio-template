@@ -1,6 +1,8 @@
-import { useState, useMemo } from "react";
-import { gitCheatsheet } from "@/config/gitCheatsheetData";
+import { useState, useMemo, useEffect } from "react";
+import { gitCheatsheet, type GitCommand } from "@/config/gitCheatsheetData";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +16,9 @@ import {
   FiCheck,
   FiChevronDown,
   FiChevronUp,
+  FiAlertTriangle,
+  FiGrid,
+  FiList,
 } from "react-icons/fi";
 import {
   VscGitCommit,
@@ -44,25 +49,43 @@ const categoryIcons: Record<string, React.ReactNode> = {
   "Help & Documentation": <VscQuestion size={14} />,
 };
 
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
+// Shorter labels for the filter chips; full names remain in section headers.
+const categoryShortLabels: Record<string, string> = {
+  "Setup & Configuration": "Setup",
+  "Staging & Committing": "Staging",
+  Branching: "Branching",
+  "Merging & Rebasing": "Merge & Rebase",
+  "Remote Repositories": "Remotes",
+  "Undoing Changes": "Undo",
+  Stashing: "Stash",
+  "Inspecting History": "History",
+  Tags: "Tags",
+  "Cherry-pick & Clean": "Cherry-pick",
+  "Help & Documentation": "Help",
+};
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-
+function CopyButton({
+  copied,
+  onCopy,
+}: {
+  copied: boolean;
+  onCopy: () => void;
+}) {
   return (
     <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <button
-            onClick={handleCopy}
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground"
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              onCopy();
+            }}
+            className="h-6 w-6 p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-muted-foreground hover:text-foreground [&_svg]:size-3"
           >
             {copied ? <FiCheck size={12} /> : <FiCopy size={12} />}
-          </button>
+          </Button>
         </TooltipTrigger>
         <TooltipContent side="left">
           <p>{copied ? "Copied!" : "Copy"}</p>
@@ -94,9 +117,121 @@ function Highlight({ text, query }: { text: string; query: string }) {
   );
 }
 
+function CommandCard({
+  cmd,
+  search,
+  compact = false,
+}: {
+  cmd: GitCommand;
+  search: string;
+  compact?: boolean;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(cmd.command);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  if (compact) {
+    return (
+      <div
+        onClick={handleCopy}
+        className="group relative flex min-w-0 flex-col gap-0.5 border border-border bg-card p-2 hover:bg-accent/40 transition-colors cursor-pointer"
+      >
+        <div className="flex min-w-0 items-start justify-between gap-1.5">
+          <div className="flex items-start gap-1 min-w-0">
+            <code className="text-[13px] font-mono font-semibold text-foreground break-all">
+              <Highlight text={cmd.command} query={search} />
+            </code>
+            {cmd.danger && (
+              <FiAlertTriangle
+                className="text-destructive shrink-0 mt-0.5"
+                size={11}
+              />
+            )}
+          </div>
+          <div className="shrink-0 mt-0.5">
+            <CopyButton copied={copied} onCopy={handleCopy} />
+          </div>
+        </div>
+        <p className="min-w-0 text-[10.5px] text-muted-foreground break-words">
+          <Highlight text={cmd.description} query={search} />
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      onClick={handleCopy}
+      className="group relative flex flex-col gap-1.5 p-3 hover:bg-accent/40 transition-colors cursor-pointer"
+    >
+      {/* Top row: command + copy */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 min-w-0">
+          <code className="text-base font-mono font-semibold text-foreground break-all">
+            <Highlight text={cmd.command} query={search} />
+          </code>
+          {cmd.danger && (
+            <Badge
+              variant="outline"
+              className="text-[10px] px-1.5 py-0.5 gap-1 leading-none font-medium shrink-0 border-destructive/30 bg-destructive/10 text-destructive"
+            >
+              <FiAlertTriangle size={10} />
+              destructive
+            </Badge>
+          )}
+        </div>
+        <div className="shrink-0 mt-0.5">
+          <CopyButton copied={copied} onCopy={handleCopy} />
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="text-xs text-muted-foreground leading-relaxed">
+        <Highlight text={cmd.description} query={search} />
+      </p>
+
+      {/* Example */}
+      {cmd.example && (
+        <div className="rounded-md bg-muted/50 border border-border px-2.5 py-1.5">
+          <span className="text-[10px] text-muted-foreground uppercase tracking-widest select-none block mb-0.5">
+            example
+          </span>
+          <code className="text-[12px] font-mono text-foreground/80 leading-snug break-all">
+            <Highlight text={cmd.example} query={search} />
+          </code>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Groups items into fixed-size rows so a connected grid can divide columns and rows separately.
+function chunkPairs<T>(items: T[], size: number): T[][] {
+  const rows: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    rows.push(items.slice(i, i + size));
+  }
+  return rows;
+}
+
+const COMPACT_VIEW_STORAGE_KEY = "git-cheatsheet-compact-view";
+
 export default function GitCheatsheet() {
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+  const [compact, setCompact] = useState(
+    () => localStorage.getItem(COMPACT_VIEW_STORAGE_KEY) === "true",
+  );
+
+  useEffect(() => {
+    localStorage.setItem(COMPACT_VIEW_STORAGE_KEY, String(compact));
+  }, [compact]);
+
   const toggleCollapse = (category: string) => {
     setCollapsed((prev) => {
       const next = new Set(prev);
@@ -109,6 +244,9 @@ export default function GitCheatsheet() {
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     return gitCheatsheet
+      .filter(
+        (section) => !selectedCategory || section.category === selectedCategory,
+      )
       .map((section) => ({
         ...section,
         commands: section.commands.filter(
@@ -120,9 +258,14 @@ export default function GitCheatsheet() {
         ),
       }))
       .filter((section) => section.commands.length > 0);
-  }, [search]);
+  }, [search, selectedCategory]);
 
   const totalCommands = filtered.reduce((acc, s) => acc + s.commands.length, 0);
+
+  const flatCommands = useMemo(
+    () => filtered.flatMap((section) => section.commands),
+    [filtered],
+  );
 
   return (
     <>
@@ -138,70 +281,106 @@ export default function GitCheatsheet() {
         />
       </Helmet>
 
-      <div className="max-w-5xl mx-auto mt-14 px-4 pb-12">
+      <div
+        className={`mx-auto mt-14 px-4 pb-12 ${compact ? "max-w-full" : "max-w-5xl"}`}
+      >
         {/* Sticky header */}
         <div className="sticky top-14 z-20 bg-background/80 backdrop-blur-lg -mx-4 px-4 pt-3 pb-3">
-          <div className="flex items-center justify-between max-w-5xl mx-auto mb-2">
-            <h1 className="text-xl font-bold tracking-tight">Git Cheatsheet</h1>
-            <span className="text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-3 max-w-5xl mx-auto">
+            <h1 className="text-xl font-bold tracking-tight shrink-0">
+              Git Cheatsheet
+            </h1>
+            <span className="text-xs text-muted-foreground shrink-0">
               {totalCommands} command{totalCommands !== 1 && "s"}
             </span>
-          </div>
-          <div className="relative max-w-5xl mx-auto">
-            <FiSearch
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-              size={14}
-            />
-            <Input
-              type="text"
-              placeholder="Search commands… (e.g., stash, rebase, push)"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-8 h-9 text-sm"
-            />
-          </div>
-          <div className="flex flex-wrap gap-1.5 mt-2 max-w-5xl mx-auto">
-            {gitCheatsheet.map((section) => (
-              <button
-                key={section.category}
-                onClick={() =>
-                  document
-                    .getElementById(`cat-${section.category}`)
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
-                }
-                className="shrink-0 flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors cursor-pointer"
-              >
-                <span className="text-emerald-600 dark:text-emerald-400">
-                  {categoryIcons[section.category] ?? <VscTerminal size={11} />}
-                </span>
-                {section.category}
-              </button>
-            ))}
+            <div className="relative flex-1 min-w-[160px]">
+              <FiSearch
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                size={14}
+              />
+              <Input
+                type="text"
+                placeholder="Search commands… (e.g., stash, rebase, push)"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-8 h-9 text-sm"
+              />
+            </div>
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={compact ? "default" : "outline"}
+                    size="icon"
+                    aria-pressed={compact}
+                    onClick={() => setCompact((c) => !c)}
+                    className="h-9 w-9 shrink-0"
+                  >
+                    {compact ? <FiGrid size={14} /> : <FiList size={14} />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>{compact ? "Compact view" : "Detailed view"}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
 
+        {/* Category filter chips (scrolls with content) */}
+        <div className="flex flex-wrap gap-1.5 max-w-5xl mx-auto">
+          {gitCheatsheet.map((section) => {
+            const isActive = selectedCategory === section.category;
+            return (
+              <Button
+                key={section.category}
+                variant={isActive ? "default" : "secondary"}
+                size="sm"
+                title={section.category}
+                onClick={() =>
+                  setSelectedCategory((prev) =>
+                    prev === section.category ? null : section.category,
+                  )
+                }
+                className="h-7 rounded-full px-3 text-[11px] gap-1.5 [&_svg]:size-3"
+              >
+                {categoryIcons[section.category] ?? <VscTerminal size={11} />}
+                {categoryShortLabels[section.category] ?? section.category}
+              </Button>
+            );
+          })}
+        </div>
+
         {/* Tables */}
-        <div className="mt-4 space-y-6 max-w-5xl mx-auto">
+        <div
+          className={`mt-4 mx-auto ${compact ? "max-w-full" : "max-w-5xl space-y-6"}`}
+        >
           {filtered.length === 0 ? (
             <div className="text-center py-10">
               <p className="text-sm text-muted-foreground">
                 No commands match your search.
               </p>
             </div>
+          ) : compact ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+              {flatCommands.map((cmd, i) => (
+                <CommandCard key={i} cmd={cmd} search={search} compact />
+              ))}
+            </div>
           ) : (
             filtered.map((section) => (
               <div
                 key={section.category}
                 id={`cat-${section.category}`}
-                className="scroll-mt-52"
+                className="scroll-mt-28"
               >
                 {/* Category label */}
                 <div
-                  className="flex items-center justify-between gap-2 mb-2 cursor-pointer select-none group/header"
+                  className="flex items-center justify-between gap-2 mb-2 px-3 py-2 rounded-lg bg-muted/50 cursor-pointer select-none group/header"
                   onClick={() => toggleCollapse(section.category)}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-600 dark:text-emerald-400">
+                    <span className="flex items-center justify-center rounded-md bg-muted p-1.5 text-foreground [&_svg]:size-3.5">
                       {categoryIcons[section.category] ?? (
                         <VscTerminal size={14} />
                       )}
@@ -223,46 +402,16 @@ export default function GitCheatsheet() {
                 </div>
 
                 <div
-                  className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${collapsed.has(section.category) ? "hidden" : ""}`}
+                  className={`flex flex-col rounded-2xl border border-border bg-card divide-y divide-border overflow-hidden ${collapsed.has(section.category) ? "hidden" : ""}`}
                 >
-                  {section.commands.map((cmd, i) => (
+                  {chunkPairs(section.commands, 2).map((row, rowIdx) => (
                     <div
-                      key={i}
-                      className="group relative flex flex-col gap-2 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-card p-3 hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors"
+                      key={rowIdx}
+                      className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border"
                     >
-                      {/* Top row: command + copy */}
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 min-w-0">
-                          <code className="text-base font-mono font-semibold text-emerald-600 dark:text-emerald-400 break-all">
-                            <Highlight text={cmd.command} query={search} />
-                          </code>
-                          {cmd.danger && (
-                            <span className="inline-flex items-center text-[10px] text-red-500 border border-red-500/30 bg-red-500/10 rounded px-1.5 py-0.5 leading-none font-medium shrink-0">
-                              ⚠ destructive
-                            </span>
-                          )}
-                        </div>
-                        <div className="shrink-0 mt-0.5">
-                          <CopyButton text={cmd.command} />
-                        </div>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        <Highlight text={cmd.description} query={search} />
-                      </p>
-
-                      {/* Example */}
-                      {cmd.example && (
-                        <div className="rounded-md bg-neutral-950 dark:bg-neutral-900 border border-neutral-800 px-3 py-2">
-                          <span className="text-[10px] text-neutral-500 uppercase tracking-widest select-none block mb-1">
-                            example
-                          </span>
-                          <code className="text-[12px] font-mono text-neutral-300 leading-snug break-all">
-                            <Highlight text={cmd.example} query={search} />
-                          </code>
-                        </div>
-                      )}
+                      {row.map((cmd, i) => (
+                        <CommandCard key={i} cmd={cmd} search={search} />
+                      ))}
                     </div>
                   ))}
                 </div>
