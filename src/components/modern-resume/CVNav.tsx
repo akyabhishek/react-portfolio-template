@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiDownload, FiSun, FiMoon } from "react-icons/fi";
+import { FiDownload, FiSun, FiMoon, FiArrowLeft } from "react-icons/fi";
 import { personalInfo } from "@/config/data";
 import { useTheme } from "@/components/theme-provider";
 import { Switch } from "@/components/ui/switch";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
   { label: "Experience", href: "#experience" },
@@ -16,6 +17,7 @@ export default function CVNav() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
 
   const isDark =
     theme === "dark" ||
@@ -57,16 +59,25 @@ export default function CVNav() {
           className="fixed top-0 left-0 right-0 z-50 px-4 py-3"
         >
           <div className="max-w-4xl mx-auto flex items-center justify-between px-5 py-2.5 rounded-2xl bg-white/80 dark:bg-slate-950/80 border border-gray-200/60 dark:border-white/[0.06] backdrop-blur-xl shadow-sm dark:shadow-none">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className="text-sm font-semibold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
-            >
-              {personalInfo.name.split(" ")[0]}
-            </a>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate(-1)}
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                title="Go back"
+              >
+                <FiArrowLeft size={16} />
+              </button>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="text-sm font-semibold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
+              >
+                {personalInfo.name.split(" ")[0]}
+              </a>
+            </div>
 
             <div className="hidden md:flex items-center gap-6">
               {navItems.map((item) => (

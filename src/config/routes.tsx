@@ -27,8 +27,50 @@ import SystemDesign from "@/pages/SystemDesign";
 import ResourcesPage from "@/pages/ResourcesPage";
 import BooksPage from "@/pages/BooksPage";
 import ProjectsPage from "@/pages/ProjectsPage";
+import HiddenPages from "@/pages/HiddenPages";
+import WellKnown from "@/pages/WellKnown";
 
 const router = createBrowserRouter([
+  {
+    path: "/.well-known/*",
+    element: <WellKnown />,
+  },
+  {
+    path: "/.env",
+    element: <WellKnown />,
+  },
+  {
+    path: "/.git/config",
+    element: <WellKnown />,
+  },
+  {
+    path: "/wp-admin",
+    element: <WellKnown />,
+  },
+  {
+    path: "/phpinfo.php",
+    element: <WellKnown />,
+  },
+  {
+    path: "/server-status",
+    element: <WellKnown />,
+  },
+  {
+    path: "/.DS_Store",
+    element: <WellKnown />,
+  },
+  {
+    path: "/config.yml",
+    element: <WellKnown />,
+  },
+  {
+    path: "/debug",
+    element: <WellKnown />,
+  },
+  {
+    path: "/actuator",
+    element: <WellKnown />,
+  },
   {
     path: "/landing",
     element: <LandingChooser />,
@@ -155,6 +197,14 @@ const router = createBrowserRouter([
       {
         path: "/projects",
         element: <ProjectsPage />,
+      },
+      {
+        path: "/x",
+        element: <HiddenPages />,
+      },
+      {
+        path: "/hidden",
+        element: <Navigate to="/x" replace />,
       },
     ],
   },
