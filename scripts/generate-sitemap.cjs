@@ -6,17 +6,15 @@ const domain = 'https://abhishekkumaryadav.in';
 
 const staticRoutes = [
   '/',
-  '/terminal',
-  '/t',
-  '/home',
   '/about',
-  '/stats',
-  '/resume',
+  '/projects',
+  '/cv',
+  '/terminal',
   '/java-interview-question-answers',
+  '/devtools',
   '/base64-tool',
   '/bitwise-visualizer',
   '/hash-generator',
-  '/devtools',
   '/json-formatter',
   '/jwt-decoder',
   '/qr-generator',
@@ -24,12 +22,14 @@ const staticRoutes = [
   '/code-complexity-analyzer',
   '/json-diff',
   '/regex-tester',
-  '/topup',
   '/git-cheatsheet',
   '/system-design',
-  '/cv',
+  '/resources',
+  '/books',
   '/links',
   '/roadmap-for-product-based-company',
+  '/clock',
+  '/x',
 ];
 
 const sitemap = new SitemapStream({ hostname: domain });
