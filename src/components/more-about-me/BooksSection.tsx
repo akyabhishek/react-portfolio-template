@@ -65,11 +65,21 @@ const books: Book[] = [
     title: "The Subtle Art of Not Giving a F*ck",
     author: "Mark Manson",
     genres: ["Self-help", "Personal Development"],
-    note: "Currently reading — Just started, but so far it's a refreshing take on self-improvement.",
-    status: "Reading",
+    note: "A refreshing take on self-improvement that challenges conventional ideas about happiness, values, and what truly deserves our attention.",
+    status: "Read",
     startDate: "Apr 18, 2026",
+    finishDate: "Aug 18, 2026",
     coverUrl:
       "https://m.media-amazon.com/images/I/71QKQ9mwV7L._AC_UF1000,1000_QL80_.jpg",
+  },
+  {
+    title: "Why I Am an Atheist",
+    author: "Bhagat Singh",
+    genres: ["Non-fiction", "Philosophy", "Political"],
+    note: "A clear and fearless reflection on reason, belief, and the intellectual journey behind rejecting religious faith.",
+    status: "Reading",
+    startDate: "Aug 19, 2026",
+    coverUrl: "https://m.media-amazon.com/images/I/61Gq8EZk2uL._SL1360_.jpg",
   },
 ];
 
@@ -126,20 +136,20 @@ function FeaturedBookCard({
 
   return (
     <motion.div
-      className="group relative rounded-3xl overflow-hidden border border-border/50 bg-card/60 backdrop-blur-xl cursor-default"
+      className="group relative rounded-3xl overflow-hidden border border-border/50 bg-transparent backdrop-blur-xl cursor-default"
       variants={itemVariants}
       whileHover={{ scale: 1.012 }}
       transition={{ type: "spring", stiffness: 320, damping: 28 }}
     >
       {/* Blurred cover ambience */}
       <div
-        className="absolute inset-0 opacity-20 bg-cover bg-center scale-110"
+        className="absolute inset-0 opacity-15 bg-cover bg-center scale-110"
         style={{
           backgroundImage: `url(${book.coverUrl})`,
-          filter: "blur(40px)",
+          filter: "blur(34px)",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-background/85 via-background/70 to-background/90" />
+      <div className="absolute inset-0 bg-gradient-to-br from-background/60 via-background/50 to-background/75" />
 
       <div className="relative z-10 flex gap-5 p-5 sm:p-6">
         {/* Cover */}
