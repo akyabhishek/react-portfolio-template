@@ -1,14 +1,19 @@
 import {
   MobileNav,
   MobileNavHeader,
-  MobileNavMenu,
   MobileNavToggle,
-  Navbar,
+  Navbar as NavbarWrapper,
   NavbarButton,
   NavbarLogo,
   NavBody,
   NavItems,
 } from "@/components/ui/resizable-navbar";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { useEffect, useState, useRef } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ThemeToggle } from "./ui/theme-toggle";
@@ -32,7 +37,7 @@ interface NavItem {
   }[];
 }
 
-export function NewNavbar() {
+export function Navbar() {
   const terminalRef = useRef<InteractiveTerminalHandle>(null);
   const location = useLocation();
 
@@ -119,7 +124,7 @@ export function NewNavbar() {
 
   return (
     <div className="relative w-full">
-      <Navbar>
+      <NavbarWrapper>
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
@@ -145,25 +150,32 @@ export function NewNavbar() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             />
           </MobileNavHeader>
+        </MobileNav>
+      </NavbarWrapper>
 
-          <MobileNavMenu
-            isOpen={isMobileMenuOpen}
-            onClose={() => {
-              setIsMobileMenuOpen(false);
-              setOpenMobileDropdown(null);
-            }}
-          >
+      <Sheet
+        open={isMobileMenuOpen}
+        onOpenChange={(open) => {
+          setIsMobileMenuOpen(open);
+          if (!open) setOpenMobileDropdown(null);
+        }}
+      >
+        <SheetContent side="right" className="overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>Navigation</SheetTitle>
+          </SheetHeader>
+          <nav className="flex flex-col gap-1 px-2">
             {navItems.map((item, idx) => (
-              <div key={`mobile-link-${idx}`} className="w-full">
+              <div key={`mobile-link-${idx}`}>
                 {item.dropdown ? (
-                  <div className="mb-2">
-                    <div className="relative text-neutral-600 dark:text-neutral-300 font-medium mb-1 flex items-center justify-between py-2">
+                  <div>
+                    <div className="flex items-center justify-between py-2">
                       <Link
                         to={item.link}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex-1"
+                        className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-emerald-500 dark:hover:text-emerald-400"
                       >
-                        <span>{item.name}</span>
+                        {item.name}
                       </Link>
                       <button
                         type="button"
@@ -172,7 +184,7 @@ export function NewNavbar() {
                             openMobileDropdown === idx ? null : idx,
                           )
                         }
-                        className="ml-2 p-1"
+                        className="p-1"
                         aria-label={`Toggle ${item.name} menu`}
                       >
                         <svg
@@ -200,7 +212,7 @@ export function NewNavbar() {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="pl-4 border-l border-emerald-300 dark:border-emerald-700 space-y-2 mt-1 overflow-hidden"
+                          className="pl-4 border-l border-emerald-300 dark:border-emerald-700 space-y-1 overflow-hidden"
                         >
                           {item.dropdown.map((dropdownItem, dropIdx) =>
                             /^https?:\/\//.test(dropdownItem.link) ? (
@@ -210,8 +222,13 @@ export function NewNavbar() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex items-center gap-1 text-neutral-600 dark:text-neutral-300 text-sm hover:text-emerald-500 dark:hover:text-emerald-400 py-1"
+                                className="flex items-center gap-2 text-neutral-600 dark:text-neutral-300 text-sm hover:text-emerald-500 dark:hover:text-emerald-400 py-1.5"
                               >
+                                {dropdownItem.icon && (
+                                  <span className="text-emerald-500 dark:text-emerald-400">
+                                    {dropdownItem.icon}
+                                  </span>
+                                )}
                                 {dropdownItem.name}
                                 <FiExternalLink className="h-3 w-3 opacity-50" />
                               </a>
@@ -220,8 +237,13 @@ export function NewNavbar() {
                                 key={`mobile-dropdown-${idx}-${dropIdx}`}
                                 to={dropdownItem.link}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="block text-neutral-600 dark:text-neutral-300 text-sm hover:text-emerald-500 dark:hover:text-emerald-400 py-1"
+                                className="flex items-center gap-2 text-neutral-600 dark:text-neutral-300 text-sm hover:text-emerald-500 dark:hover:text-emerald-400 py-1.5"
                               >
+                                {dropdownItem.icon && (
+                                  <span className="text-emerald-500 dark:text-emerald-400">
+                                    {dropdownItem.icon}
+                                  </span>
+                                )}
                                 {dropdownItem.name}
                               </Link>
                             ),
@@ -234,19 +256,29 @@ export function NewNavbar() {
                   <Link
                     to={item.link}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="relative text-neutral-600 dark:text-neutral-300 block mb-2 py-2"
+                    className="block text-neutral-600 dark:text-neutral-300 py-2 hover:text-emerald-500 dark:hover:text-emerald-400"
                   >
-                    <span className="block">{item.name}</span>
+                    {item.name}
                   </Link>
                 )}
               </div>
             ))}
-            <div className="flex w-full flex-col gap-4">
-              <ThemeToggle />
-            </div>
-          </MobileNavMenu>
-        </MobileNav>
-      </Navbar>
+          </nav>
+          <div className="mt-6 px-2 flex items-center gap-4">
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                terminalRef.current?.openFullscreen();
+              }}
+              className="text-neutral-500 dark:text-neutral-400 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+              title="Open Terminal"
+            >
+              <FiTerminal size={18} />
+            </button>
+            <ThemeToggle />
+          </div>
+        </SheetContent>
+      </Sheet>
       <div className="min-h-screen pt-4 ">
         <Outlet />
       </div>

@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
 import Stats from "@/pages/MoreAboutMe";
-import { NewNavbar } from "@/components/NewNavbar";
+import { Navbar } from "@/components/Navbar";
 import JavaQA from "@/pages/JavaQA";
 import Base64Page from "@/pages/devtools/Base64page";
 import BitwiseVisualizerPage from "@/pages/devtools/BitwiseVisualizerPage";
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
   {
     element: (
       <>
-        <NewNavbar />
+        <Navbar />
       </>
     ),
     children: [

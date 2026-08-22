@@ -251,7 +251,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
     <motion.div
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-full flex-col items-center justify-between px-4 h-14 lg:hidden backdrop-blur-lg bg-white/30 dark:bg-neutral-950/30 border-b border-white/20 dark:border-neutral-800/50 shadow-sm",
+        "relative z-50 mx-auto flex w-full max-w-full items-center px-4 h-14 lg:hidden backdrop-blur-lg bg-white/30 dark:bg-neutral-950/30 border-b border-white/20 dark:border-neutral-800/50 shadow-sm",
         className,
       )}
     >
