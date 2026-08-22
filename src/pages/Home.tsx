@@ -13,24 +13,22 @@ import { GiBreakingChain, GiGroundbreaker } from "react-icons/gi";
 
 export default function Home(): JSX.Element {
   return (
-    <div className="font-mono">
+    <div>
       <HeroSection />
-      <TracingBeam className="px-6">
-        <AboutMe />
-        <ExperienceSection />
-        <SkillsSection />
-        <ProjectsSection />
+      <AboutMe />
+      <ExperienceSection />
+      <SkillsSection />
+      <ProjectsSection />
 
-        <CodeQuote />
+      <CodeQuote />
 
-        <TextReveal className="font-display">
-          I learn
-          <SiFuturelearn /> fast—mostly because I break
-          <GiGroundbreaker /> things faster.
-        </TextReveal>
-        <ToolsForDev />
-        <Contact />
-      </TracingBeam>
+      <TextReveal className="font-display">
+        I learn
+        <SiFuturelearn /> fast—mostly because I break
+        <GiGroundbreaker /> things faster.
+      </TextReveal>
+      <ToolsForDev />
+      <Contact />
     </div>
   );
 }

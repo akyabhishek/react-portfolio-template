@@ -153,8 +153,8 @@ export default function ToolsForDev() {
   const categories = ["All", ...new Set(tools.map((tool) => tool.category))];
 
   return (
-    <div id="devtools">
-      <section className="p-4 md:p-8 bg-gradient-to-b max-w-6xl mx-auto transition-colors duration-300">
+    <div id="devtools" className="pt-10">
+      <section className="p-6 md:p-8 max-w-5xl mx-auto transition-colors duration-300">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-4">DEV TOOLS</h1>
           <p className="text-gray-600 dark:text-gray-400 mb-6">

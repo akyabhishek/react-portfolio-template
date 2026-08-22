@@ -1,4 +1,6 @@
 ﻿import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { settings } from "@/config/settings";
 import {
   FiMapPin,
@@ -8,6 +10,7 @@ import {
   FiUsers,
   FiTrendingUp,
   FiHeart,
+  FiArrowRight,
 } from "react-icons/fi";
 import { getExperienceString } from "@/config/data";
 import { motion } from "motion/react";
@@ -22,24 +25,24 @@ export default function AboutMe() {
       icon: <FiCalendar size={16} />,
       label: "Experience",
       value: experience,
-      color: "text-blue-500",
+      color: "text-slate-700 dark:text-gray-300",
     },
     {
       icon: <FiMapPin size={16} />,
       label: "Location",
       value: "Noida, India",
-      color: "text-emerald-500",
+      color: "text-slate-700 dark:text-gray-300",
     },
     {
       icon: <FiAward size={16} />,
       label: "Competitions",
       value: "5+ Won",
-      color: "text-orange-500",
+      color: "text-slate-700 dark:text-gray-300",
     },
   ];
   return (
-    <div className="pt-10 mb-10" id="about">
-      <div className="max-w-4xl mx-auto">
+    <div className="pt-10" id="about">
+      <div className="p-6 md:p-8 max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">ABOUT ME</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
           Get to know me better - my journey, achievements, and passion for
@@ -52,7 +55,7 @@ export default function AboutMe() {
             {quickStats.map((stat, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-emerald-200 dark:hover:border-emerald-700 transition-colors duration-300"
+                className="flex items-center gap-3 p-4 rounded-xl border border-neutral-200/60 dark:border-neutral-800/60 hover:bg-gray-100 dark:hover:bg-white/10 hover:shadow-md transition-all duration-300"
               >
                 <div className={stat.color}>{stat.icon}</div>
                 <div>
@@ -84,7 +87,7 @@ export default function AboutMe() {
           className="max-w-3xl mx-auto px-6 pb-6 text-gray-800 dark:text-gray-200 leading-loose space-y-5"
         >
           <p className="flex gap-3">
-            <span className="mt-1.5 shrink-0 text-emerald-500">
+            <span className="mt-1.5 shrink-0 text-slate-500 dark:text-gray-400">
               <FiCode size={16} />
             </span>
             <span>
@@ -98,7 +101,7 @@ export default function AboutMe() {
             </span>
           </p>
           <p className="flex gap-3">
-            <span className="mt-1.5 shrink-0 text-blue-500">
+            <span className="mt-1.5 shrink-0 text-slate-500 dark:text-gray-400">
               <FiUsers size={16} />
             </span>
             <span>
@@ -107,7 +110,7 @@ export default function AboutMe() {
             </span>
           </p>
           <p className="flex gap-3">
-            <span className="mt-1.5 shrink-0 text-orange-500">
+            <span className="mt-1.5 shrink-0 text-slate-500 dark:text-gray-400">
               <FiTrendingUp size={16} />
             </span>
             <span>
@@ -118,7 +121,7 @@ export default function AboutMe() {
             </span>
           </p>
           <p className="flex gap-3">
-            <span className="mt-1.5 shrink-0 text-pink-500">
+            <span className="mt-1.5 shrink-0 text-slate-500 dark:text-gray-400">
               <FiHeart size={16} />
             </span>
             <span>
@@ -127,6 +130,15 @@ export default function AboutMe() {
             </span>
           </p>
         </motion.div>
+
+        <div className="text-center mt-8">
+          <Button variant="link" asChild className="hover:text-emerald-600">
+            <Link to="/about" className="gap-2">
+              More about me
+              <FiArrowRight size={14} />
+            </Link>
+          </Button>
+        </div>
       </div>
     </div>
   );

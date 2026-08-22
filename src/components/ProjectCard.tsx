@@ -38,7 +38,7 @@ export default function ProjectCard(props: ProjectCardProps) {
   } = props;
   const cardContent = (
     <CardContainer className="inter-var h-full" containerClassName="h-full">
-      <Card className="max-w-sm w-full h-full shadow-md hover:shadow-lg transition-shadow duration-300 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:border-white/[0.2] border-black/[0.1] flex flex-col">
+      <Card className="w-full h-full shadow-md hover:shadow-lg transition-shadow duration-300 relative group/card dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1] dark:border-white/[0.1] border-black/[0.05] flex flex-col">
         <CardHeader className="flex-shrink-0">
           <img
             src={imageUrl}
@@ -59,7 +59,7 @@ export default function ProjectCard(props: ProjectCardProps) {
         </CardHeader>
         <CardContent className="flex-grow">
           <div className="flex flex-wrap gap-2">
-            {techStack.map((tech, index) => (
+            {techStack.slice(0, 4).map((tech, index) => (
               <Badge
                 key={index}
                 variant="outline"
@@ -68,6 +68,14 @@ export default function ProjectCard(props: ProjectCardProps) {
                 {tech}
               </Badge>
             ))}
+            {techStack.length > 4 && (
+              <Badge
+                variant="outline"
+                className="font-normal rounded-2xl border-0 bg-black/[0.04] text-black/70 dark:bg-white/[0.08] dark:text-white/80"
+              >
+                +{techStack.length - 4} more
+              </Badge>
+            )}
           </div>
         </CardContent>
         <CardFooter className="flex justify-between flex-shrink-0 mt-auto">

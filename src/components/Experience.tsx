@@ -185,12 +185,12 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
 
 // Main Experience section component
 const ExperienceSection: React.FC = () => (
-  <div className="pt-5" id="experience">
-    <h1 className="text-3xl font-bold mb-2">EXPERIENCE</h1>
-    <p className="text-neutral-600 dark:text-neutral-400 mb-6">
-      My professional journey and key accomplishments
-    </p>
-    <section className="p-3 md:p-6 max-w-4xl mx-auto transition-colors duration-300">
+  <div className="pt-10" id="experience">
+    <section className="p-6 md:p-8 max-w-5xl mx-auto transition-colors duration-300">
+      <h1 className="text-3xl font-bold mb-2">EXPERIENCE</h1>
+      <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+        My professional journey and key accomplishments
+      </p>
       <div className="space-y-4">
         {experienceData.map((item, index) => (
           <ExperienceCard key={index} {...item} defaultExpanded={index === 0} />

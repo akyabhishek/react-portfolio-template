@@ -25,12 +25,12 @@ import LinksPage from "@/pages/LinksPage";
 import ClockPage from "@/pages/ClockPage";
 import SystemDesign from "@/pages/SystemDesign";
 import ResourcesPage from "@/pages/ResourcesPage";
-import NewHome from "@/pages/NewHome";
 import BooksPage from "@/pages/BooksPage";
+import ProjectsPage from "@/pages/ProjectsPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/landing",
     element: <LandingChooser />,
   },
   {
@@ -53,8 +53,12 @@ const router = createBrowserRouter([
         element: <NotFound />,
       },
       {
-        path: "/home",
+        path: "/",
         element: <Home />,
+      },
+      {
+        path: "/home",
+        element: <Navigate to="/" replace />,
       },
       {
         path: "/about",
@@ -148,6 +152,10 @@ const router = createBrowserRouter([
         path: "/book",
         element: <Navigate to="/books" replace />,
       },
+      {
+        path: "/projects",
+        element: <ProjectsPage />,
+      },
     ],
   },
   {
@@ -161,10 +169,6 @@ const router = createBrowserRouter([
   {
     path: "/clock",
     element: <ClockPage />,
-  },
-  {
-    path: "/v2",
-    element: <NewHome />,
   },
   {
     path: "/roadmap-for-product-based-company",

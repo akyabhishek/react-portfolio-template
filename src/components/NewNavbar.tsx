@@ -44,20 +44,24 @@ export function NewNavbar() {
   const navItems: NavItem[] = [
     {
       name: "Experience",
-      link: "/home#experience",
+      link: "/#experience",
     },
     {
       name: "Skills",
-      link: "/home#skills",
+      link: "/#skills",
     },
     {
       name: "Projects",
-      link: "/home#projects",
+      link: "/projects",
     },
 
     {
       name: "Contact",
-      link: "/home#contact",
+      link: "/#contact",
+    },
+    {
+      name: "CV",
+      link: "/cv",
     },
     {
       name: "More About Me",

@@ -86,7 +86,7 @@ export default function PrinciplesValuesSection() {
             >
               <button
                 onClick={() => setOpenId(isOpen ? null : principle.id)}
-                className="group relative w-full flex items-center justify-between px-5 sm:px-7 md:px-10 py-6 cursor-pointer transition-colors duration-300 hover:bg-foreground/[0.03]"
+                className={`group relative w-full flex items-center justify-between px-5 sm:px-7 md:px-10 py-6 cursor-pointer transition-colors duration-300 ${isOpen ? "" : "hover:bg-foreground/[0.03]"}`}
               >
                 <span
                   className={`text-2xl sm:text-3xl font-semibold tabular-nums tracking-tight transition-all duration-300 ${

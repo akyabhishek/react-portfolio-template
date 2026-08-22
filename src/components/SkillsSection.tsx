@@ -90,40 +90,17 @@ export default function SkillsSection() {
   };
 
   return (
-    <div className="pt-5" id="skills">
-      <h1 className="text-3xl font-bold mb-2">SKILLS</h1>
-      <p className="text-gray-600 dark:text-gray-400">
-        My technical skills and expertise
-      </p>
-
-      <section className="p-6 md:p-12 bg-gradient-to-b max-w-4xl mx-auto transition-colors duration-300">
-        {/* Proficiency Level Legend */}
-        <div className="max-w-4xl mx-auto mb-4">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-            Proficiency Levels:
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {(["Beginner", "Intermediate", "Advanced", "Expert"] as const).map(
-              (level) => (
-                <div
-                  key={level}
-                  className="flex items-center gap-3 px-3 py-2 bg-gray-100 dark:bg-neutral-800 rounded-2xl"
-                >
-                  <CircularIndicator level={level} />
-                  <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                    {level}
-                  </span>
-                </div>
-              ),
-            )}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+    <div className="pt-10" id="skills">
+      <section className="p-6 md:p-8 max-w-5xl mx-auto transition-colors duration-300">
+        <h1 className="text-3xl font-bold mb-2">SKILLS</h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
+          My technical skills and expertise
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {skillsData.map((skill) => (
             <CardSpotlight
               key={skill.category}
-              className="p-4 rounded-2xl shadow-sm hover:shadow-lg duration-500 ease-in-out transition-all cursor-pointer"
+              className="p-4 cursor-pointer"
               onClick={() =>
                 handleCategoryClick(
                   skill.category,
@@ -132,26 +109,30 @@ export default function SkillsSection() {
                 )
               }
             >
-              <h3 className="text-xl mb-3 text-grey-700 font-bold dark:text-gray-100 relative z-20 flex items-center gap-2">
+              <h3 className="text-sm mb-3 font-bold dark:text-gray-100 relative z-20 flex items-center gap-2">
                 {skill.categoryIcon && (
                   <span className="text-emerald-600">{skill.categoryIcon}</span>
                 )}
                 {skill.category}
               </h3>
 
-              <ul className="flex flex-wrap gap-2">
+              <div className="relative z-20 grid grid-cols-4 sm:grid-cols-5 gap-2">
                 {skill.items.map((item) => (
-                  <li key={item.name}>
-                    <span className="relative z-20 flex items-center gap-2 px-3 py-2 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-900 text-slate-900 dark:text-gray-200 hover:shadow-lg hover:translate-y-[-2px] transition-all duration-500 cursor-pointer">
-                      {item.icon && (
-                        <span className="text-xl">{item.icon}</span>
-                      )}
-                      <span className="font-medium">{item.name}</span>
-                      <CircularIndicator level={item.level} />
+                  <div
+                    key={item.name}
+                    className="flex flex-col items-center justify-center gap-1 p-2 rounded-lg hover:bg-white/30 hover:dark:bg-white/10 hover:backdrop-blur-md hover:shadow-lg transition-all duration-300"
+                  >
+                    {item.icon && (
+                      <span className="text-3xl text-black dark:text-gray-200">
+                        {item.icon}
+                      </span>
+                    )}
+                    <span className="text-[10px] font-medium text-center text-slate-700 dark:text-gray-300 leading-tight break-words w-full">
+                      {item.name}
                     </span>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </CardSpotlight>
           ))}
         </div>

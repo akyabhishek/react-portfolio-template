@@ -29,10 +29,10 @@ export default function About(): JSX.Element {
             <PersonalStatsSection />
             <PrinciplesValuesSection />
             <LeetCodeStatsSection />
-            <SiteStatsSection />
             <BooksSection />
             <PlacesSection />
             <GitHubCalendarSection />
+            <SiteStatsSection />
             <ColophonSection />
           </div>
         </TracingBeam>

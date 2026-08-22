@@ -59,8 +59,13 @@ export default function Contact(): JSX.Element {
     }));
 
   return (
-    <div id="contact">
-      <h1 className="text-3xl my-5">CONTACT</h1>
+    <div id="contact" className="pt-10">
+      <div className="max-w-5xl mx-auto px-6 md:px-8">
+        <h1 className="text-3xl font-bold mb-2">CONTACT</h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
+          Get in touch with me
+        </p>
+      </div>
       <BackgroundBeamsWithCollision className="w-full h-auto z-10 translate-y-7">
         <Card className="border-none py-28">
           <CardBody className="w-full h-auto  z-20 ">
