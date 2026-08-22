@@ -340,7 +340,6 @@ export default function RegexTester() {
             rows={6}
             spellCheck={false}
             className="w-full font-mono text-sm p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-muted dark:bg-[#23272f] text-gray-900 dark:text-gray-100 resize-y transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            style={{ fontFamily: "JetBrains Mono" }}
             placeholder="Enter text to test against..."
           />
 
@@ -352,7 +351,6 @@ export default function RegexTester() {
               </span>
               <div
                 className="font-mono text-sm p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-muted dark:bg-[#23272f] text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words overflow-auto max-h-[300px]"
-                style={{ fontFamily: "JetBrains Mono" }}
                 dangerouslySetInnerHTML={{ __html: getHighlightedHtml() }}
               />
             </div>

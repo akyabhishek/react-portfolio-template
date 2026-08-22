@@ -208,7 +208,7 @@ export default function ToolsForDev() {
           </div>
         </div>
 
-        <div className="space-y-6 border-l-2 border-dotted border-emerald-300 pl-6 py-3 rounded-2xl">
+        <div className="space-y-6 py-3">
           {filteredTools.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">

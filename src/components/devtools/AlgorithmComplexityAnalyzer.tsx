@@ -1268,7 +1268,6 @@ export default function ComplexityAnalyzer() {
                 padding={16}
                 className="min-h-[300px] font-mono text-sm bg-gray-50 dark:bg-gray-800 dark:text-gray-100"
                 style={{
-                  fontFamily: '"Fira code", "Fira Mono", monospace',
                   fontSize: 14,
                 }}
                 placeholder="// Enter your algorithm code here...

@@ -32,10 +32,31 @@ const iconMap: Record<string, React.ReactNode> = {
   Snapchat: <SiSnapchat />,
 };
 
+const brandColors: Record<string, string> = {
+  LinkedIn: "hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2]",
+  GitHub:
+    "hover:bg-[#333] hover:text-white hover:border-[#333] dark:hover:bg-[#f0f0f0] dark:hover:text-black dark:hover:border-[#f0f0f0]",
+  LeetCode: "hover:bg-[#FFA116] hover:text-black hover:border-[#FFA116]",
+  GeeksforGeeks: "hover:bg-[#2F8D46] hover:text-white hover:border-[#2F8D46]",
+  Medium:
+    "hover:bg-[#000] hover:text-white hover:border-[#000] dark:hover:bg-[#fff] dark:hover:text-black dark:hover:border-[#fff]",
+  Instagram: "hover:bg-[#E4405F] hover:text-white hover:border-[#E4405F]",
+  YouTube: "hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000]",
+  Twitter:
+    "hover:bg-[#000] hover:text-white hover:border-[#000] dark:hover:bg-[#fff] dark:hover:text-black dark:hover:border-[#fff]",
+  Facebook: "hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2]",
+  Snapchat: "hover:bg-[#FFFC00] hover:text-black hover:border-[#FFFC00]",
+};
+
 export default function Contact(): JSX.Element {
   const links = socialLinksData
     .filter((l) => l.title in iconMap)
-    .map((l) => ({ title: l.title, url: l.url, icon: iconMap[l.title] }));
+    .map((l) => ({
+      title: l.title,
+      url: l.url,
+      icon: iconMap[l.title],
+      colorClass: brandColors[l.title],
+    }));
 
   return (
     <div id="contact">
@@ -87,6 +108,7 @@ export default function Contact(): JSX.Element {
                         title={element.title}
                         url={element.url}
                         icon={element.icon}
+                        colorClass={element.colorClass}
                       />
                     </div>
                   ),

@@ -10,10 +10,8 @@ import {
   NavItems,
 } from "@/components/ui/resizable-navbar";
 import { useEffect, useState, useRef } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import ResumeButton from "./DownloadResumeBtn";
-import { Switch } from "./ui/switch";
-import { useTheme } from "./theme-provider";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { ThemeToggle } from "./ui/theme-toggle";
 import { motion, AnimatePresence } from "motion/react";
 import { FiTerminal, FiGitBranch, FiExternalLink } from "react-icons/fi";
 import { VscTools } from "react-icons/vsc";
@@ -35,16 +33,8 @@ interface NavItem {
 }
 
 export function NewNavbar() {
-  const { theme, setTheme } = useTheme();
   const terminalRef = useRef<InteractiveTerminalHandle>(null);
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const isDark = theme === "dark";
-
-  const toggleTheme = (checked: boolean) => {
-    setTheme(checked ? "dark" : "light");
-  };
 
   // State to track which mobile dropdown is open
   const [openMobileDropdown, setOpenMobileDropdown] = useState<number | null>(
@@ -53,8 +43,8 @@ export function NewNavbar() {
 
   const navItems: NavItem[] = [
     {
-      name: "About",
-      link: "/home#about",
+      name: "Experience",
+      link: "/home#experience",
     },
     {
       name: "Skills",
@@ -138,9 +128,7 @@ export function NewNavbar() {
             >
               <FiTerminal size={18} />
             </button>
-            <NavbarButton variant="secondary" className="space-x-2">
-              <Switch checked={isDark} onCheckedChange={toggleTheme} />
-            </NavbarButton>
+            <ThemeToggle />
           </div>
         </NavBody>
 
@@ -166,13 +154,13 @@ export function NewNavbar() {
                 {item.dropdown ? (
                   <div className="mb-2">
                     <div className="relative text-neutral-600 dark:text-neutral-300 font-medium mb-1 flex items-center justify-between py-2">
-                      <a
-                        href={item.link}
+                      <Link
+                        to={item.link}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="flex-1"
                       >
                         <span>{item.name}</span>
-                      </a>
+                      </Link>
                       <button
                         type="button"
                         onClick={() =>
@@ -210,43 +198,47 @@ export function NewNavbar() {
                           transition={{ duration: 0.3 }}
                           className="pl-4 border-l border-emerald-300 dark:border-emerald-700 space-y-2 mt-1 overflow-hidden"
                         >
-                          {item.dropdown.map((dropdownItem, dropIdx) => (
-                            <a
-                              key={`mobile-dropdown-${idx}-${dropIdx}`}
-                              href={dropdownItem.link}
-                              onClick={() => setIsMobileMenuOpen(false)}
-                              className="block text-neutral-600 dark:text-neutral-300 text-sm hover:text-emerald-500 dark:hover:text-emerald-400 py-1"
-                            >
-                              {dropdownItem.name}
-                            </a>
-                          ))}
+                          {item.dropdown.map((dropdownItem, dropIdx) =>
+                            /^https?:\/\//.test(dropdownItem.link) ? (
+                              <a
+                                key={`mobile-dropdown-${idx}-${dropIdx}`}
+                                href={dropdownItem.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="flex items-center gap-1 text-neutral-600 dark:text-neutral-300 text-sm hover:text-emerald-500 dark:hover:text-emerald-400 py-1"
+                              >
+                                {dropdownItem.name}
+                                <FiExternalLink className="h-3 w-3 opacity-50" />
+                              </a>
+                            ) : (
+                              <Link
+                                key={`mobile-dropdown-${idx}-${dropIdx}`}
+                                to={dropdownItem.link}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block text-neutral-600 dark:text-neutral-300 text-sm hover:text-emerald-500 dark:hover:text-emerald-400 py-1"
+                              >
+                                {dropdownItem.name}
+                              </Link>
+                            ),
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
                 ) : (
-                  <a
-                    href={item.link}
+                  <Link
+                    to={item.link}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="relative text-neutral-600 dark:text-neutral-300 block mb-2 py-2"
                   >
                     <span className="block">{item.name}</span>
-                  </a>
+                  </Link>
                 )}
               </div>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="secondary"
-                className="w-full"
-              >
-                <Switch
-                  checked={isDark}
-                  onCheckedChange={toggleTheme}
-                  className="float-left"
-                />
-              </NavbarButton>
+              <ThemeToggle />
             </div>
           </MobileNavMenu>
         </MobileNav>

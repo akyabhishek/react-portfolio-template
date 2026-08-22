@@ -275,7 +275,7 @@ export default function JSONFormatter() {
                       const beautified = JSON.stringify(
                         JSON.parse(rawJson),
                         null,
-                        4
+                        4,
                       );
                       setRawJson(beautified);
                       setError(null);
@@ -301,7 +301,6 @@ export default function JSONFormatter() {
                   }
                   padding={16}
                   className="min-h-[400px] font-mono text-base bg-muted dark:bg-[#23272f] rounded-lg border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 transition-colors"
-                  style={{ fontFamily: "JetBrains Mono" }}
                 />
               </div>
             </TabsContent>

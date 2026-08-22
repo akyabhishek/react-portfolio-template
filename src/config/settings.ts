@@ -2,7 +2,7 @@
 
 export const settings = {
   // Set this to false to hide the "Available for opportunities" badge
-  showAvailableForOpportunities: true,
+  showAvailableForOpportunities: false,
   quoteSection: false,
 
   // Experience section settings
@@ -11,7 +11,7 @@ export const settings = {
     showGlowingEffect: true,
     showCompanyLogos: true,
   },
-  
+
   // About section settings
   about: {
     showHighlights: false,

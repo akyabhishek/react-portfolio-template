@@ -29,7 +29,7 @@ export default function CVFooter() {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-5xl font-semibold tracking-tight mb-4"
           >
-            <span className="text-gray-900 dark:text-white">Let's Connect</span>
+            <h2 className="text-gray-900 dark:text-white">Let's Connect</h2>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 15 }}

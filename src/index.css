@@ -74,17 +74,20 @@ html {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3,h4 {
+    font-family: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  }
+  p,div {
+    @apply font-sans;
   }
 }
 
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/public/fonts/JetBrainsMono-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
 
+.greeetings-text * {
+  font-family: 'Syne', ui-sans-serif, system-ui, sans-serif;
+}
 @theme inline {
   @keyframes aurora {
   0% {

@@ -23,7 +23,7 @@ export default function Home(): JSX.Element {
 
         <CodeQuote />
 
-        <TextReveal>
+        <TextReveal className="font-display">
           I learn
           <SiFuturelearn /> fast—mostly because I break
           <GiGroundbreaker /> things faster.

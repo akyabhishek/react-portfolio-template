@@ -1,14 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
-interface Link {
+interface LinkCardProps {
   title: string;
   url: string;
   icon?: React.ReactNode;
+  colorClass?: string;
 }
 
-const LinkCard: React.FC<Link> = (ele) => {
+const LinkCard: React.FC<LinkCardProps> = (ele) => {
   return (
     <a
       href={ele.url}
@@ -17,9 +18,15 @@ const LinkCard: React.FC<Link> = (ele) => {
       aria-label={ele.title}
       title={ele.title}
     >
-      <Button variant="outline" className="rounded-2xl " asChild>
+      <Button
+        variant="outline"
+        className={cn(
+          "rounded-2xl transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
+          ele.colorClass,
+        )}
+        asChild
+      >
         <div>
-          {/* Icon and accessible text for SEO */}
           {ele.icon && <span aria-hidden="true">{ele.icon}</span>}
           <span className="sr-only">{ele.title}</span>
         </div>

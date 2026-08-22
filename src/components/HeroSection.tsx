@@ -78,7 +78,7 @@ export default function HeroSection(): JSX.Element {
     {
       value: animatedStats.experience,
       suffix: "+",
-      label: "Years Experience",
+      label: "Years of Corporate Experience",
       icon: <FiBriefcase size={18} />,
       href: "#experience",
     },
@@ -208,9 +208,9 @@ export default function HeroSection(): JSX.Element {
 
         {/* Greeting + Tagline */}
         <motion.div variants={fadeUp} className="mb-2">
-          <span className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-[#ebebeb]">
+          <h2 className="text-3xl md:text-4xl  tracking-tight text-gray-900 dark:text-[#ebebeb] greeetings-text">
             <FlipWords words={greetings} duration={3000} />
-          </span>
+          </h2>
           <div className="mt-3">
             <TextGenerateEffect
               words={"Welcome to my over-engineered portfolio site."}
@@ -223,7 +223,7 @@ export default function HeroSection(): JSX.Element {
         <motion.div variants={fadeUp} className="mt-5">
           <div className="inline-block px-3.5 py-2 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)]">
             <code className="text-[10px] font-mono">
-              <span className="text-lime-700 dark:text-[#ccff00]">
+              <span className="text-lime-700 dark:text-[#ccff00] ">
                 Developer
               </span>
               <span className="text-black/40 dark:text-white/40">.</span>
@@ -280,7 +280,7 @@ export default function HeroSection(): JSX.Element {
                 <div className="text-black/40 dark:text-[#ebebeb4d] mb-2 group-hover:text-lime-700 dark:group-hover:text-[#ccff00] transition-colors duration-300 flex justify-center">
                   {stat.icon}
                 </div>
-                <div className="text-xl font-semibold text-gray-900 dark:text-[#ebebeb] font-mono tracking-tight">
+                <div className="text-xl font-semibold text-gray-900 dark:text-[#ebebeb] tracking-tight">
                   {isStatsVisible ? stat.value.toLocaleString() : "—"}
                   {isStatsVisible && (
                     <span className="text-lime-700 dark:text-[#ccff00]">
@@ -288,7 +288,7 @@ export default function HeroSection(): JSX.Element {
                     </span>
                   )}
                 </div>
-                <div className="text-[10px] text-black/40 dark:text-[#ebebeb4d] font-mono tracking-wider uppercase mt-1 group-hover:text-black/60 dark:group-hover:text-[#ebebeb99] transition-colors duration-300">
+                <div className="text-[10px] text-black/40 dark:text-[#ebebeb4d]  tracking-wider uppercase mt-1 group-hover:text-black/60 dark:group-hover:text-[#ebebeb99] transition-colors duration-300">
                   {stat.label}
                 </div>
               </a>

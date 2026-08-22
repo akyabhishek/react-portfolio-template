@@ -339,11 +339,10 @@ export default function JSONDiff() {
               }
               padding={12}
               className={editorClassName}
-              style={{ fontFamily: "JetBrains Mono" }}
             />
           </div>
 
-          {/* Right */}
+          {/* Right panel */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold">Modified (Right)</span>
@@ -407,7 +406,6 @@ export default function JSONDiff() {
               }
               padding={12}
               className={editorClassName}
-              style={{ fontFamily: "JetBrains Mono" }}
             />
           </div>
         </div>
@@ -530,7 +528,6 @@ export default function JSONDiff() {
                   }
                   padding={12}
                   className="font-mono text-sm bg-muted dark:bg-[#23272f] text-gray-900 dark:text-gray-100 min-h-[200px]"
-                  style={{ fontFamily: "JetBrains Mono" }}
                   readOnly
                 />
               </div>

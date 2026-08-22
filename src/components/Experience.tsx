@@ -1,132 +1,199 @@
-// Timeline.tsx
-import React from "react";
-import { TextAnimate } from "./magicui/text-animate";
-import { GlowingEffect } from "./ui/glowing-effect";
+// Experience.tsx
+import React, { useState } from "react";
+import {
+  Briefcase,
+  CalendarDays,
+  ChevronDown,
+  ChevronUp,
+  MapPin,
+} from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { settings } from "@/config/settings";
-import { experienceData, calculateDuration } from "@/config/data";
+import { experienceData } from "@/config/data";
 
-// Define the type for each timeline entry
-interface TimelineItemProps {
+// Define the type for each experience card
+interface ExperienceCardProps {
   title: string;
   company: string;
   description?: string;
   from: string;
   to: string;
+  location?: string;
   logoPath?: string;
   technologies?: string[];
   achievements?: string[];
+  defaultExpanded?: boolean;
 }
 
-// Timeline item component
-const TimelineItem: React.FC<TimelineItemProps> = ({
+// Experience card component
+const ExperienceCard: React.FC<ExperienceCardProps> = ({
   title,
   company,
   description,
   from,
   to,
+  location,
   logoPath,
   technologies,
   achievements,
-}) => (
-  <div className="relative w-full group">
-    <div className="absolute -left-[1.95rem] top-10 transition-none">
-      <span className="relative flex h-3 w-3">
-        <span className="absolute inline-flex h-3 w-3 animate-ping rounded-2xl bg-gray-400 opacity-75 group-hover:bg-emerald-400"></span>
-        <span className="relative inline-flex h-3 w-3 rounded-2xl bg-emerald-500 group-hover:bg-emerald-400 transition-colors duration-300"></span>
-      </span>
-    </div>
-    <div className="relative h-full rounded-2xl border p-2 md:rounded-2xl md:p-3 group-hover:border-emerald-200 dark:group-hover:border-emerald-700 transition-colors duration-300">
-      {settings.experience.showGlowingEffect && (
-        <GlowingEffect
-          spread={20}
-          glow={true}
-          disabled={false}
-          proximity={50}
-          inactiveZone={0.01}
-        />
-      )}
-      <div className="border-0.75 relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl p-6 md:p-6  transition-shadow duration-300">
-        <div className="relative flex flex-1 flex-col justify-between gap-3">
-          <div>
-            <div className="flex items-center justify-between">
-              <p className="text-xl text-gray-700 dark:text-gray-400 mb-1">
-                {company}
-              </p>
-              {settings.experience.showCompanyLogos && logoPath && (
-                <img
-                  src={logoPath}
-                  alt={`${company} logo`}
-                  className="h-8 w-8 rounded object-contain"
-                />
-              )}
-            </div>
-            <h4 className="font-bold text-emerald-600">
-              {settings.experience.showAnimations ? (
-                <TextAnimate animation="blurInUp" by="character" once>
-                  {title}
-                </TextAnimate>
-              ) : (
-                title
-              )}
-            </h4>
-            {description && (
-              <p className="mt-1 max-w-screen-sm text-sm text-gray-500">
-                {description}
-              </p>
-            )}
-            <span className="mt-1 block text-sm text-gray-400">
-              {from} — {to} · {calculateDuration(from, to)}
-            </span>
+  defaultExpanded = false,
+}) => {
+  const [expanded, setExpanded] = useState(defaultExpanded);
+  const hasAchievements = !!achievements && achievements.length > 0;
+  const hasTechnologies = !!technologies && technologies.length > 0;
+  // Skills get the full card width when there's nothing to share columns with.
+  const skillsFullWidth = !description && !hasAchievements && hasTechnologies;
 
-            {/* Technologies used */}
-            {technologies && technologies.length > 0 && (
-              <div className="mt-3">
-                <p className="text-xs text-gray-500 mb-1">Technologies:</p>
-                <div className="flex flex-wrap gap-1">
-                  {technologies.map((tech, index) => (
+  return (
+    <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-4 md:p-6 transition-colors duration-300">
+      <button
+        type="button"
+        onClick={() => setExpanded((prev) => !prev)}
+        className="flex w-full items-start justify-between gap-4 text-left"
+        aria-expanded={expanded}
+      >
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 dark:bg-neutral-200">
+            {settings.experience.showCompanyLogos && logoPath ? (
+              <img
+                src={logoPath}
+                alt={`${company} logo`}
+                className="h-full w-full object-contain"
+              />
+            ) : (
+              <Briefcase className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
+            )}
+          </span>
+          <div>
+            <h4 className="font-bold text-neutral-900 dark:text-neutral-100">
+              {title}
+            </h4>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              {company}
+            </p>
+            <span className="mt-1 flex items-center gap-1 text-xs text-neutral-500">
+              <CalendarDays className="h-3 w-3" />
+              {from} - {to}
+            </span>
+          </div>
+        </div>
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          <span className="flex items-center gap-1 text-xs text-neutral-500">
+            <CalendarDays className="h-3 w-3" />
+            {from} - {to}
+          </span>
+          {location && (
+            <span className="flex items-center gap-1 text-xs text-neutral-500">
+              <MapPin className="h-3 w-3" />
+              {location}
+            </span>
+          )}
+          {expanded ? (
+            <ChevronUp className="mt-1 h-4 w-4 text-neutral-500" />
+          ) : (
+            <ChevronDown className="mt-1 h-4 w-4 text-neutral-500" />
+          )}
+        </div>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="overflow-hidden"
+          >
+            <hr className="my-4 border-neutral-200 dark:border-neutral-800" />
+            {skillsFullWidth ? (
+              <div>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                  Skills &amp; Technologies
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {technologies!.map((tech, index) => (
                     <span
                       key={index}
-                      className="px-2 py-1 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 text-xs rounded-2xl transition-colors duration-200 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+                      className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
               </div>
-            )}
+            ) : (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  {description && (
+                    <>
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                        Description
+                      </p>
+                      <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                        {description}
+                      </p>
+                    </>
+                  )}
 
-            {/* Key achievements */}
-            {achievements && achievements.length > 0 && (
-              <div className="mt-3">
-                <p className="text-xs text-gray-500 mb-1">Key Achievements:</p>
-                <ul className="text-xs text-gray-600 dark:text-gray-400">
-                  {achievements.map((achievement, index) => (
-                    <li key={index} className="flex items-center gap-1">
-                      <span className="text-emerald-500">•</span>
-                      <span>{achievement}</span>
-                    </li>
-                  ))}
-                </ul>
+                  {hasTechnologies && (
+                    <div className="mt-4">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                        Skills &amp; Technologies
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {technologies!.map((tech, index) => (
+                          <span
+                            key={index}
+                            className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {hasAchievements && (
+                  <div>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                      Key Achievements
+                    </p>
+                    <ul className="space-y-2">
+                      {achievements!.map((achievement, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-xs font-medium text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200">
+                            {index + 1}
+                          </span>
+                          <span className="text-sm text-neutral-700 dark:text-neutral-300">
+                            {achievement}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-  </div>
-);
+  );
+};
 
-// Main Timeline component
+// Main Experience section component
 const ExperienceSection: React.FC = () => (
   <div className="pt-5" id="experience">
     <h1 className="text-3xl font-bold mb-2">EXPERIENCE</h1>
-    <p className="text-gray-600 dark:text-gray-400 mb-6">
+    <p className="text-neutral-600 dark:text-neutral-400 mb-6">
       My professional journey and key accomplishments
     </p>
-    <section className="p-3 md:p-6 bg-gradient-to-b max-w-4xl mx-auto transition-colors duration-300">
-      <div className="space-y-6 border-l-2 border-dotted border-gray-300 dark:border-gray-600 pl-6 py-3 rounded-2xl">
+    <section className="p-3 md:p-6 max-w-4xl mx-auto transition-colors duration-300">
+      <div className="space-y-4">
         {experienceData.map((item, index) => (
-          <TimelineItem key={index} {...item} />
+          <ExperienceCard key={index} {...item} defaultExpanded={index === 0} />
         ))}
       </div>
     </section>

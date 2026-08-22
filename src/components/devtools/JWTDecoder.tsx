@@ -333,8 +333,8 @@ const JWTDecoder: React.FC = () => {
                 jwt && !decoded.error
                   ? ""
                   : jwt && decoded.error
-                  ? "text-red-600 dark:text-red-400"
-                  : ""
+                    ? "text-red-600 dark:text-red-400"
+                    : ""
               }`}
               rows={20}
             />
@@ -400,7 +400,6 @@ const JWTDecoder: React.FC = () => {
                     padding={2}
                     readOnly
                     className="text-base bg-transparent border-none text-gray-900 dark:text-gray-100"
-                    style={{ fontFamily: "JetBrains Mono" }}
                   />
                 </div>
               </TabsContent>
@@ -479,7 +478,7 @@ const JWTDecoder: React.FC = () => {
                                   </TableCell>
                                 </TableRow>
                               );
-                            }
+                            },
                           )}
                         </TableBody>
                       </Table>
@@ -531,7 +530,6 @@ const JWTDecoder: React.FC = () => {
                     placeholder="Decoded payload will appear here"
                     readOnly
                     className="text-base bg-transparent border-none text-gray-900 dark:text-gray-100"
-                    style={{ fontFamily: "JetBrains Mono" }}
                   />
                 </div>
               </TabsContent>
@@ -580,7 +578,7 @@ const JWTDecoder: React.FC = () => {
                                   </TableCell>
                                 </TableRow>
                               );
-                            }
+                            },
                           )}
                         </TableBody>
                       </Table>

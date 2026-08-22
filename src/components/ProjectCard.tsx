@@ -37,7 +37,7 @@ export default function ProjectCard(props: ProjectCardProps) {
     duration,
   } = props;
   const cardContent = (
-    <CardContainer className="inter-var h-full">
+    <CardContainer className="inter-var h-full" containerClassName="h-full">
       <Card className="max-w-sm w-full h-full shadow-md hover:shadow-lg transition-shadow duration-300 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:border-white/[0.2] border-black/[0.1] flex flex-col">
         <CardHeader className="flex-shrink-0">
           <img
@@ -47,7 +47,7 @@ export default function ProjectCard(props: ProjectCardProps) {
           />
           <br />
           <div className="text-xs text-muted-foreground">{duration}</div>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 font-display">
             {title}
             {live && (
               <span className="inline-block h-2 w-2 rounded-2xl bg-emerald-500 -translate-y-0.5"></span>
@@ -63,7 +63,7 @@ export default function ProjectCard(props: ProjectCardProps) {
               <Badge
                 key={index}
                 variant="outline"
-                className="font-normal rounded-2xl"
+                className="font-normal rounded-2xl border-0 bg-black/[0.04] text-black/70 hover:bg-black/[0.08] dark:bg-white/[0.08] dark:text-white/80 dark:hover:bg-white/[0.14]"
               >
                 {tech}
               </Badge>
@@ -105,7 +105,12 @@ export default function ProjectCard(props: ProjectCardProps) {
   );
 
   return liveUrl ? (
-    <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+    <a
+      href={liveUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block h-full"
+    >
       {cardContent}
     </a>
   ) : (

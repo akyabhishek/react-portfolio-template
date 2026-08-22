@@ -60,7 +60,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        mono: ["'JetBrains Mono'"],
+        sans: ["'DM Sans'", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "Roboto", "'Helvetica Neue'", "Arial", "sans-serif"],
+        display: ["'Syne'", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["'IBM Plex Mono'", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
       },
       keyframes: {
         "accordion-down": {
