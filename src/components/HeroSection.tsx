@@ -3,9 +3,10 @@ import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { FiBriefcase, FiUsers, FiCode, FiAward } from "react-icons/fi";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import FloatingImage from "@/components/MyImage";
-import mainImage from "../../public/assets/abhishekkumaryadav-ghibli.png";
-import altMainImage from "../../public/assets/abhishekkumaryadav-new.jpg";
+import mainImage from "../../public/assets/abhishekkumaryadav-new.jpg";
+import altMainImage from "../../public/assets/abhishekkumaryadav-ghibli.png";
 import { settings } from "@/config/settings";
 
 export default function HeroSection(): JSX.Element {
@@ -16,63 +17,65 @@ export default function HeroSection(): JSX.Element {
     leetcode: 0,
   });
   const [isStatsVisible, setIsStatsVisible] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const isStatsVisibleRef = useRef(false);
+  const prefersReducedMotion = useReducedMotion();
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
-  // Mouse tracking for interactive spotlight
+  // Mouse tracking — writes directly to DOM to avoid React re-renders
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const el = heroRef.current;
-    if (!el) return;
+    const spot = spotlightRef.current;
+    if (!el || !spot) return;
     const handleMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
-      setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      spot.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(204,255,0,0.04), transparent 60%)`;
     };
     el.addEventListener("mousemove", handleMouseMove);
     return () => el.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [prefersReducedMotion]);
 
-  // Trigger stats animation when scrolled into view
+  // Trigger stats animation when scrolled into view — single RAF loop
   useEffect(() => {
-    const animateValue = (
-      start: number,
-      end: number,
-      duration: number,
-      setter: (value: number) => void,
-    ) => {
-      const startTime = Date.now();
-      const animate = () => {
-        const now = Date.now();
-        const progress = Math.min((now - startTime) / duration, 1);
-        setter(Math.floor(start + (end - start) * progress));
-        if (progress < 1) requestAnimationFrame(animate);
-      };
-      animate();
-    };
+    const targets = [
+      { key: "experience" as const, end: 3, duration: 1500 },
+      { key: "followers" as const, end: 8000, duration: 2000 },
+      { key: "tools" as const, end: 40, duration: 1200 },
+      { key: "leetcode" as const, end: 300, duration: 1800 },
+    ];
 
+    let rafId: number;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !isStatsVisible) {
+        if (entry.isIntersecting && !isStatsVisibleRef.current) {
+          isStatsVisibleRef.current = true;
           setIsStatsVisible(true);
-          animateValue(0, 3, 1500, (val) =>
-            setAnimatedStats((prev) => ({ ...prev, experience: val })),
-          );
-          animateValue(0, 8000, 2000, (val) =>
-            setAnimatedStats((prev) => ({ ...prev, followers: val })),
-          );
-          animateValue(0, 40, 1200, (val) =>
-            setAnimatedStats((prev) => ({ ...prev, tools: val })),
-          );
-          animateValue(0, 300, 1800, (val) =>
-            setAnimatedStats((prev) => ({ ...prev, leetcode: val })),
-          );
+          const startTime = Date.now();
+          const tick = () => {
+            const elapsed = Date.now() - startTime;
+            let anyRunning = false;
+            const next = { experience: 0, followers: 0, tools: 0, leetcode: 0 };
+            for (const t of targets) {
+              const progress = Math.min(elapsed / t.duration, 1);
+              next[t.key] = Math.floor(t.end * progress);
+              if (progress < 1) anyRunning = true;
+            }
+            setAnimatedStats(next);
+            if (anyRunning) rafId = requestAnimationFrame(tick);
+          };
+          rafId = requestAnimationFrame(tick);
         }
       },
       { threshold: 0.3 },
     );
     if (statsRef.current) observer.observe(statsRef.current);
-    return () => observer.disconnect();
-  }, [isStatsVisible]);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   const stats = [
     {
@@ -134,15 +137,17 @@ export default function HeroSection(): JSX.Element {
     "Narmada Har,",
   ];
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 24, filter: "blur(10px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
-    },
-  };
+  const fadeUp = prefersReducedMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, y: 24, filter: "blur(10px)" },
+        visible: {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+        },
+      };
 
   return (
     <div
@@ -158,21 +163,19 @@ export default function HeroSection(): JSX.Element {
 
       {/* Mouse-follow spotlight */}
       <div
+        ref={spotlightRef}
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(204,255,0,0.04), transparent 60%)`,
-        }}
       />
 
       {/* Floating orbs */}
       <motion.div
-        className="absolute top-1/4 left-[10%] w-64 h-64 bg-lime-400/10 dark:bg-lime-400/5 rounded-full blur-3xl pointer-events-none"
-        animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
+        className="absolute top-1/4 left-[10%] w-64 h-64 bg-lime-400/10 dark:bg-lime-400/5 rounded-full blur-3xl pointer-events-none will-change-transform"
+        animate={prefersReducedMotion ? {} : { x: [0, 40, 0], y: [0, -30, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-[10%] w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"
-        animate={{ x: [0, -35, 0], y: [0, 40, 0] }}
+        className="absolute bottom-1/4 right-[10%] w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none will-change-transform"
+        animate={prefersReducedMotion ? {} : { x: [0, -35, 0], y: [0, 40, 0] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
 
@@ -275,7 +278,7 @@ export default function HeroSection(): JSX.Element {
                 href={stat.href}
                 target={stat.external ? "_blank" : "_self"}
                 rel={stat.external ? "noopener noreferrer" : undefined}
-                className="group relative p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] hover:border-black/15 dark:hover:border-white/15 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] block no-underline"
+                className="group relative p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] hover:border-black/15 dark:hover:border-white/15 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
               >
                 <div className="text-black/40 dark:text-[#ebebeb4d] mb-2 group-hover:text-lime-700 dark:group-hover:text-[#ccff00] transition-colors duration-300 flex justify-center">
                   {stat.icon}

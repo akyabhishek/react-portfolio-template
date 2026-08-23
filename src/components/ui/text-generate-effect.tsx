@@ -1,7 +1,8 @@
 "use client";
-import {useEffect} from "react";
-import {motion, stagger, useAnimate} from "framer-motion";
-import {cn} from "@/lib/utils";
+import { useEffect } from "react";
+import { motion, stagger, useAnimate } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { cn } from "@/lib/utils";
 
 export const TextGenerateEffect = ({
   words,
@@ -15,7 +16,8 @@ export const TextGenerateEffect = ({
   duration?: number;
 }) => {
   const [scope, animate] = useAnimate();
-  let wordsArray = words.split(" ");
+  const prefersReducedMotion = useReducedMotion();
+  const wordsArray = words.split(" ");
   useEffect(() => {
     animate(
       "span",
@@ -23,10 +25,9 @@ export const TextGenerateEffect = ({
         opacity: 1,
         filter: filter ? "blur(0px)" : "none",
       },
-      {
-        duration: duration ? duration : 1,
-        delay: stagger(0.2),
-      }
+      prefersReducedMotion
+        ? { duration: 0 }
+        : { duration: duration ? duration : 1, delay: stagger(0.2) },
     );
   }, [scope.current]);
 
