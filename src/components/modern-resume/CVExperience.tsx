@@ -84,6 +84,7 @@ export default function CVExperience() {
                           <img
                             src={exp.logoPath}
                             alt={exp.company}
+                            loading="lazy"
                             className="h-8 w-8 rounded-lg object-contain bg-gray-100 dark:bg-white/10 p-1"
                           />
                         )}

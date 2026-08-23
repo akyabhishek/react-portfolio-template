@@ -58,6 +58,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
               <img
                 src={logoPath}
                 alt={`${company} logo`}
+                loading="lazy"
                 className="h-full w-full object-contain"
               />
             ) : (

@@ -63,6 +63,7 @@ export default function CVProjects() {
                     <img
                       src={project.imageUrl}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     {project.live && (

@@ -1,35 +1,61 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import Home from "@/pages/Home";
-import Stats from "@/pages/MoreAboutMe";
 import { Navbar } from "@/components/Navbar";
-import JavaQA from "@/pages/JavaQA";
-import Base64Page from "@/pages/devtools/Base64page";
-import BitwiseVisualizerPage from "@/pages/devtools/BitwiseVisualizerPage";
-import HashGeneratorPage from "@/pages/devtools/HashGeneratorPage";
-import DevToolsPage from "@/pages/DevToolsPage";
-import JSONFormatterPage from "@/pages/devtools/JSONFormmaterPage";
-import JWTDecoderPage from "@/pages/devtools/JWTDecoderPage";
-import QRCodeGeneratorPage from "@/pages/devtools/QRCodeGeneratorPage";
-import QRScannerPage from "@/pages/devtools/QRScannerPage";
-import ASTComplexityAnalyzerPage from "@/pages/devtools/ASTComplexityAnalyzerPage";
-import JSONDiffPage from "@/pages/devtools/JSONDiffPage";
-import RegexTesterPage from "@/pages/devtools/RegexTesterPage";
-import Topup from "@/pages/Topup";
-import ModernResume from "@/pages/ModernResume";
-import LandingChooser from "@/pages/LandingChooser";
-import TerminalPage from "@/pages/TerminalPage";
-import RoadmapPage from "@/pages/RoadmapPage";
-import GitCheatsheet from "@/pages/GitCheatsheet";
 import NotFound from "@/pages/NotFound";
-import LinksPage from "@/pages/LinksPage";
-import ClockPage from "@/pages/ClockPage";
-import SystemDesign from "@/pages/SystemDesign";
-import ResourcesPage from "@/pages/ResourcesPage";
-import SkillsPage from "@/pages/SkillsPage";
-import BooksPage from "@/pages/BooksPage";
-import ProjectsPage from "@/pages/ProjectsPage";
-import HiddenPages from "@/pages/HiddenPages";
 import WellKnown from "@/pages/WellKnown";
+
+const Stats = lazy(() => import("@/pages/MoreAboutMe"));
+const JavaQA = lazy(() => import("@/pages/JavaQA"));
+const Base64Page = lazy(() => import("@/pages/devtools/Base64page"));
+const BitwiseVisualizerPage = lazy(
+  () => import("@/pages/devtools/BitwiseVisualizerPage"),
+);
+const HashGeneratorPage = lazy(
+  () => import("@/pages/devtools/HashGeneratorPage"),
+);
+const DevToolsPage = lazy(() => import("@/pages/DevToolsPage"));
+const JSONFormatterPage = lazy(
+  () => import("@/pages/devtools/JSONFormmaterPage"),
+);
+const JWTDecoderPage = lazy(() => import("@/pages/devtools/JWTDecoderPage"));
+const QRCodeGeneratorPage = lazy(
+  () => import("@/pages/devtools/QRCodeGeneratorPage"),
+);
+const QRScannerPage = lazy(() => import("@/pages/devtools/QRScannerPage"));
+const ASTComplexityAnalyzerPage = lazy(
+  () => import("@/pages/devtools/ASTComplexityAnalyzerPage"),
+);
+const JSONDiffPage = lazy(() => import("@/pages/devtools/JSONDiffPage"));
+const RegexTesterPage = lazy(() => import("@/pages/devtools/RegexTesterPage"));
+const Topup = lazy(() => import("@/pages/Topup"));
+const ModernResume = lazy(() => import("@/pages/ModernResume"));
+const LandingChooser = lazy(() => import("@/pages/LandingChooser"));
+const TerminalPage = lazy(() => import("@/pages/TerminalPage"));
+const RoadmapPage = lazy(() => import("@/pages/RoadmapPage"));
+const GitCheatsheet = lazy(() => import("@/pages/GitCheatsheet"));
+const LinksPage = lazy(() => import("@/pages/LinksPage"));
+const ClockPage = lazy(() => import("@/pages/ClockPage"));
+const SystemDesign = lazy(() => import("@/pages/SystemDesign"));
+const ResourcesPage = lazy(() => import("@/pages/ResourcesPage"));
+const SkillsPage = lazy(() => import("@/pages/SkillsPage"));
+const BooksPage = lazy(() => import("@/pages/BooksPage"));
+const ProjectsPage = lazy(() => import("@/pages/ProjectsPage"));
+const HiddenPages = lazy(() => import("@/pages/HiddenPages"));
+
+function SuspenseWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted-foreground border-t-transparent" />
+        </div>
+      }
+    >
+      {children}
+    </Suspense>
+  );
+}
 
 const router = createBrowserRouter([
   {
@@ -74,15 +100,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/landing",
-    element: <LandingChooser />,
+    element: (
+      <SuspenseWrapper>
+        <LandingChooser />
+      </SuspenseWrapper>
+    ),
   },
   {
     path: "/terminal",
-    element: <TerminalPage />,
+    element: (
+      <SuspenseWrapper>
+        <TerminalPage />
+      </SuspenseWrapper>
+    ),
   },
   {
     path: "/t",
-    element: <TerminalPage />,
+    element: (
+      <SuspenseWrapper>
+        <TerminalPage />
+      </SuspenseWrapper>
+    ),
   },
   {
     element: (
@@ -105,7 +143,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <Stats />,
+        element: (
+          <SuspenseWrapper>
+            <Stats />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/stats",
@@ -117,59 +159,115 @@ const router = createBrowserRouter([
       },
       {
         path: "/java-interview-question-answers",
-        element: <JavaQA />,
+        element: (
+          <SuspenseWrapper>
+            <JavaQA />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/base64-tool",
-        element: <Base64Page />,
+        element: (
+          <SuspenseWrapper>
+            <Base64Page />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/bitwise-visualizer",
-        element: <BitwiseVisualizerPage />,
+        element: (
+          <SuspenseWrapper>
+            <BitwiseVisualizerPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/hash-generator",
-        element: <HashGeneratorPage />,
+        element: (
+          <SuspenseWrapper>
+            <HashGeneratorPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/devtools",
-        element: <DevToolsPage />,
+        element: (
+          <SuspenseWrapper>
+            <DevToolsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/json-formatter",
-        element: <JSONFormatterPage />,
+        element: (
+          <SuspenseWrapper>
+            <JSONFormatterPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/jwt-decoder",
-        element: <JWTDecoderPage />,
+        element: (
+          <SuspenseWrapper>
+            <JWTDecoderPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/qr-generator",
-        element: <QRCodeGeneratorPage />,
+        element: (
+          <SuspenseWrapper>
+            <QRCodeGeneratorPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/qr-scanner",
-        element: <QRScannerPage />,
+        element: (
+          <SuspenseWrapper>
+            <QRScannerPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/code-complexity-analyzer",
-        element: <ASTComplexityAnalyzerPage />,
+        element: (
+          <SuspenseWrapper>
+            <ASTComplexityAnalyzerPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/json-diff",
-        element: <JSONDiffPage />,
+        element: (
+          <SuspenseWrapper>
+            <JSONDiffPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/regex-tester",
-        element: <RegexTesterPage />,
+        element: (
+          <SuspenseWrapper>
+            <RegexTesterPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/topup",
-        element: <Topup />,
+        element: (
+          <SuspenseWrapper>
+            <Topup />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/git-cheatsheet",
-        element: <GitCheatsheet />,
+        element: (
+          <SuspenseWrapper>
+            <GitCheatsheet />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/git",
@@ -177,15 +275,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/system-design",
-        element: <SystemDesign />,
+        element: (
+          <SuspenseWrapper>
+            <SystemDesign />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/resources",
-        element: <ResourcesPage />,
+        element: (
+          <SuspenseWrapper>
+            <ResourcesPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/skills",
-        element: <SkillsPage />,
+        element: (
+          <SuspenseWrapper>
+            <SkillsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/guides",
@@ -193,7 +303,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/books",
-        element: <BooksPage />,
+        element: (
+          <SuspenseWrapper>
+            <BooksPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/book",
@@ -201,11 +315,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/projects",
-        element: <ProjectsPage />,
+        element: (
+          <SuspenseWrapper>
+            <ProjectsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/x",
-        element: <HiddenPages />,
+        element: (
+          <SuspenseWrapper>
+            <HiddenPages />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: "/hidden",
@@ -215,19 +337,35 @@ const router = createBrowserRouter([
   },
   {
     path: "/cv",
-    element: <ModernResume />,
+    element: (
+      <SuspenseWrapper>
+        <ModernResume />
+      </SuspenseWrapper>
+    ),
   },
   {
     path: "/links",
-    element: <LinksPage />,
+    element: (
+      <SuspenseWrapper>
+        <LinksPage />
+      </SuspenseWrapper>
+    ),
   },
   {
     path: "/clock",
-    element: <ClockPage />,
+    element: (
+      <SuspenseWrapper>
+        <ClockPage />
+      </SuspenseWrapper>
+    ),
   },
   {
     path: "/roadmap-for-product-based-company",
-    element: <RoadmapPage />,
+    element: (
+      <SuspenseWrapper>
+        <RoadmapPage />
+      </SuspenseWrapper>
+    ),
   },
 ]);
 

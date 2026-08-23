@@ -1,7 +1,7 @@
 "use client";
-import {cn} from "@/lib/utils";
-import {AnimatePresence, motion} from "framer-motion";
-import React, {useEffect, useRef, useState} from "react";
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 
 export const BackgroundBeamsWithCollision = ({
   children,
@@ -72,7 +72,7 @@ export const BackgroundBeamsWithCollision = ({
       className={cn(
         "bg-gradient-to-b  relative flex items-center w-full justify-center overflow-hidden",
         // h-screen if you want bigger
-        className
+        className,
       )}
     >
       {beams.map((beam) => (
@@ -127,6 +127,7 @@ const CollisionMechanism = React.forwardRef<
   const [cycleCollisionDetected, setCycleCollisionDetected] = useState(false);
 
   useEffect(() => {
+    let rafId: number;
     const checkCollision = () => {
       if (
         beamRef.current &&
@@ -151,13 +152,15 @@ const CollisionMechanism = React.forwardRef<
             },
           });
           setCycleCollisionDetected(true);
+          return;
         }
       }
+      rafId = requestAnimationFrame(checkCollision);
     };
 
-    const animationInterval = setInterval(checkCollision, 50);
+    rafId = requestAnimationFrame(checkCollision);
 
-    return () => clearInterval(animationInterval);
+    return () => cancelAnimationFrame(rafId);
   }, [cycleCollisionDetected, containerRef]);
 
   useEffect(() => {
@@ -201,7 +204,7 @@ const CollisionMechanism = React.forwardRef<
         }}
         className={cn(
           "absolute left-0 top-20 m-auto h-14 w-px rounded-lg bg-gradient-to-t from-green-500 via-emerald-500 to-transparent",
-          beamOptions.className
+          beamOptions.className,
         )}
       />
       <AnimatePresence>

@@ -157,6 +157,7 @@ function FeaturedBookCard({
           <img
             src={book.coverUrl}
             alt={book.title}
+            loading="lazy"
             className="w-28 h-44 sm:w-32 sm:h-48 object-cover rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.45)] group-hover:shadow-[0_26px_70px_rgba(0,0,0,0.55)] transition-shadow duration-500"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = "none";

@@ -30,6 +30,7 @@ export default function ProjectsPage() {
                   <img
                     src={project.imageUrl}
                     alt={project.title}
+                    loading="lazy"
                     className="w-full h-auto object-contain rounded-lg max-h-64"
                   />
                 </div>

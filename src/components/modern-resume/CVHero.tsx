@@ -77,6 +77,7 @@ export default function CVHero() {
             <img
               src={profileImage}
               alt={personalInfo.name}
+              loading="lazy"
               className="relative w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-white dark:border-slate-950"
             />
           </div>

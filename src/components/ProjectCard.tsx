@@ -43,6 +43,7 @@ export default function ProjectCard(props: ProjectCardProps) {
           <img
             src={imageUrl}
             alt={title}
+            loading="lazy"
             className="w-full h-auto object-cover rounded-2xl mb-4"
           />
           <br />
