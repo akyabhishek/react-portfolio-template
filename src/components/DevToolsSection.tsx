@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "./ui/card";
-import { FiCode, FiSearch, FiStar } from "react-icons/fi";
+import { FiCode, FiSearch, FiStar, FiX } from "react-icons/fi";
 import { GiLogicGateXor } from "react-icons/gi";
 import { PiHashStraightFill } from "react-icons/pi";
 import { LuFileJson, LuFileDiff } from "react-icons/lu";
@@ -164,27 +164,41 @@ export default function ToolsForDev() {
 
           {/* Search Bar */}
           {settings.devTools.enableSearch && (
-            <div className="relative mb-6">
-              <FiSearch
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={20}
-              />
-              <Input
-                type="text"
-                placeholder="Search tools... (e.g., json, encode, qr)"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 w-full max-w-md"
-              />
+            <div className="mb-6">
+              <div className="relative">
+                <FiSearch
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  size={16}
+                />
+                <Input
+                  type="text"
+                  placeholder="Search tools... (e.g., json, encode, qr)"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 pr-9 w-full"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Clear search"
+                  >
+                    <FiX size={14} />
+                  </button>
+                )}
+              </div>
+              {searchQuery && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  {filteredTools.length === 0
+                    ? "No tools match your search"
+                    : `${filteredTools.length} tool${filteredTools.length === 1 ? "" : "s"} found`}
+                </p>
+              )}
             </div>
           )}
 
           {/* Category Filters */}
           <div className="flex flex-wrap gap-2 mb-6">
-            <Badge variant="outline" className="text-sm">
-              {filteredTools.length}{" "}
-              {filteredTools.length === 1 ? "tool" : "tools"} available
-            </Badge>
             {categories.map((category) => {
               const count =
                 category === "All"
@@ -193,16 +207,22 @@ export default function ToolsForDev() {
               const isSelected = selectedCategory === category;
 
               return (
-                <Badge
+                <button
                   key={category}
-                  variant={isSelected ? "default" : "secondary"}
-                  className={`text-xs cursor-pointer transition-colors hover:bg-emerald-100 hover:text-emerald-800 dark:hover:bg-emerald-900 dark:hover:text-emerald-100 ${
-                    isSelected ? "bg-emerald-600 text-white" : ""
-                  }`}
                   onClick={() => setSelectedCategory(category)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors select-none border ${
+                    isSelected
+                      ? "bg-emerald-600 text-white border-emerald-600"
+                      : "bg-transparent text-muted-foreground border-neutral-200 dark:border-neutral-700 hover:border-neutral-400 dark:hover:border-neutral-500 hover:text-foreground"
+                  }`}
                 >
-                  {category}: {count}
-                </Badge>
+                  {category}
+                  <span
+                    className={`text-[10px] ${isSelected ? "opacity-70" : "opacity-50"}`}
+                  >
+                    {count}
+                  </span>
+                </button>
               );
             })}
           </div>
@@ -224,40 +244,17 @@ export default function ToolsForDev() {
                 <Link
                   key={tool.name}
                   to={tool.link}
-                  className="block text-center mt-1"
+                  className="group block mt-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl"
                   title={`${tool.name} - ${tool.description}`}
-                  rel="noopener noreferrer"
                 >
                   <CometCard className="h-full">
-                    <Card className="shadow-sm hover:text-emerald-600 transition-all duration-300 border-neutral-200 dark:border-neutral-800 h-full group relative flex flex-col min-h-[200px]">
-                      {/* Popular Badge */}
-                      {tool.popular && (
-                        <Badge
-                          title="Popular"
-                          className="absolute top-2 right-2 bg-emerald-100 text-emerald-800 dark:bg-emerald-900 hover:bg-emerald-200 dark:text-emerald-100 text-xs"
-                        >
-                          <FiStar size={12} />
-                        </Badge>
-                      )}
-
-                      {/* Beta Badge */}
-                      {tool.inDevelopment && (
-                        <Badge
-                          title="Beta"
-                          className={`absolute top-2 ${
-                            tool.popular ? "right-16" : "right-2"
-                          } bg-orange-100 text-orange-800 dark:bg-orange-900 hover:bg-orange-200 dark:text-orange-100 text-xs`}
-                        >
-                          Beta
-                        </Badge>
-                      )}
-
-                      <CardHeader className="font-semibold text-md flex flex-col items-center justify-center gap-2 p-6 flex-shrink-0">
-                        <div className="flex flex-col items-center justify-center gap-2">
-                          <div className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <Card className="shadow-sm transition-all duration-300 border-neutral-200 dark:border-neutral-800 h-full flex flex-col">
+                      <CardHeader className="px-5 pt-5 pb-3 flex-shrink-0">
+                        <div className="flex items-center gap-3">
+                          <div className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shrink-0">
                             {tool.icon}
                           </div>
-                          <span className="text-center text-md font-semibold leading-tight">
+                          <span className="text-sm font-semibold leading-tight font-display text-left">
                             {tool.name}
                           </span>
                         </div>
@@ -265,17 +262,21 @@ export default function ToolsForDev() {
 
                       {/* Description and Category */}
                       {settings.devTools.showDescriptions && (
-                        <CardContent className="px-6 pb-4 flex-grow flex flex-col justify-between">
-                          <p className="text-xs text-gray-500 dark:text-gray-400 text-center mb-2 flex-grow">
+                        <CardContent className="px-5 pb-5 flex-grow flex flex-col justify-between gap-3">
+                          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                             {tool.description}
                           </p>
-                          <div className="flex justify-center mt-auto">
+                          <div className="flex items-center justify-between">
                             <Badge
                               variant="secondary"
-                              className="text-xs muted"
+                              className="text-xs text-muted-foreground"
                             >
                               {tool.category}
                             </Badge>
+                            <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/40 font-medium">
+                              {tool.inDevelopment && <span>Beta</span>}
+                              {tool.popular && <FiStar size={9} />}
+                            </div>
                           </div>
                         </CardContent>
                       )}

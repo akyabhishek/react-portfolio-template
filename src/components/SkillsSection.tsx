@@ -1,7 +1,7 @@
 import { CardSpotlight } from "./ui/card-spotlight";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { skillsData, type Skill } from "../config/skillsData";
-import SkillDetails from "./SkillDetails";
+import { slugify } from "@/utils/utils";
 
 // Proficiency utility functions
 const getProficiencyLevel = (level: Skill["level"]): number => {
@@ -73,20 +73,10 @@ export const CircularIndicator = ({ level }: { level: Skill["level"] }) => {
 };
 
 export default function SkillsSection() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
-  const [selectedIcon, setSelectedIcon] = useState<JSX.Element | null>(null);
+  const navigate = useNavigate();
 
-  const handleCategoryClick = (
-    category: string,
-    skills: Skill[],
-    icon: JSX.Element,
-  ) => {
-    setSelectedCategory(category);
-    setSelectedSkills(skills);
-    setSelectedIcon(icon);
-    setIsDialogOpen(true);
+  const handleCategoryClick = (category: string) => {
+    navigate(`/skills#${slugify(category)}`);
   };
 
   return (
@@ -101,13 +91,7 @@ export default function SkillsSection() {
             <CardSpotlight
               key={skill.category}
               className="p-4 cursor-pointer"
-              onClick={() =>
-                handleCategoryClick(
-                  skill.category,
-                  skill.items,
-                  (skill.categoryIcon as JSX.Element) || <></>,
-                )
-              }
+              onClick={() => handleCategoryClick(skill.category)}
             >
               <h3 className="text-sm mb-3 font-bold dark:text-gray-100 relative z-20 flex items-center gap-2">
                 {skill.categoryIcon && (
@@ -137,15 +121,6 @@ export default function SkillsSection() {
           ))}
         </div>
       </section>
-
-      {/* Skill Details Dialog */}
-      <SkillDetails
-        isOpen={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        category={selectedCategory}
-        skills={selectedSkills}
-        icon={selectedIcon || <></>}
-      />
     </div>
   );
 }

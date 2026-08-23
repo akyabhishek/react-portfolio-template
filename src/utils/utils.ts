@@ -1,10 +1,16 @@
+export const slugify = (text: string): string =>
+  text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
 export const calculateAge = (dob: Date) => {
   const now = new Date();
   const diff = now.getTime() - dob.getTime();
 
   const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
   const days = Math.floor(
-    (diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24)
+    (diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24),
   );
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     .toString()
@@ -34,7 +40,7 @@ export const formatDate = (
     year: "numeric",
     month: "long",
     day: "2-digit",
-  }
+  },
 ): string => {
   try {
     const date = new Date(dateStr);

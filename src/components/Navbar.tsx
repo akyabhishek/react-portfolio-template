@@ -53,7 +53,7 @@ export function Navbar() {
     },
     {
       name: "Skills",
-      link: "/#skills",
+      link: "/skills",
     },
     {
       name: "Projects",

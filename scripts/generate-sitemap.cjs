@@ -25,6 +25,7 @@ const staticRoutes = [
   '/git-cheatsheet',
   '/system-design',
   '/resources',
+  '/skills',
   '/books',
   '/links',
   '/roadmap-for-product-based-company',

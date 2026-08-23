@@ -25,6 +25,7 @@ import LinksPage from "@/pages/LinksPage";
 import ClockPage from "@/pages/ClockPage";
 import SystemDesign from "@/pages/SystemDesign";
 import ResourcesPage from "@/pages/ResourcesPage";
+import SkillsPage from "@/pages/SkillsPage";
 import BooksPage from "@/pages/BooksPage";
 import ProjectsPage from "@/pages/ProjectsPage";
 import HiddenPages from "@/pages/HiddenPages";
@@ -181,6 +182,10 @@ const router = createBrowserRouter([
       {
         path: "/resources",
         element: <ResourcesPage />,
+      },
+      {
+        path: "/skills",
+        element: <SkillsPage />,
       },
       {
         path: "/guides",

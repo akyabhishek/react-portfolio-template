@@ -7,6 +7,7 @@ import { GiRoad } from "react-icons/gi";
 import { BsQuestionCircle } from "react-icons/bs";
 import { CometCard } from "@/components/ui/comet-card";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 const resources = [
   {
@@ -100,38 +101,40 @@ export default function ResourcesPage() {
         </div>
 
         {/* Resource Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {resources.map((resource) => (
             <Link
               key={resource.link}
               to={resource.link}
               className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl"
             >
-              <CometCard className="h-full p-5 rounded-xl transition-all duration-200 group-hover:border-emerald-500/50">
-                <div className="flex flex-col gap-3 h-full">
-                  <div className="flex items-center justify-between">
-                    <span>{resource.icon}</span>
-                    <Badge
-                      variant="outline"
-                      className="text-xs text-emerald-500 border-emerald-500/40"
-                    >
-                      {resource.badge}
-                    </Badge>
+              <CometCard className="h-full">
+                <Card className="h-full p-5 rounded-xl transition-all duration-200 border-neutral-200 dark:border-neutral-800 shadow-sm group-hover:shadow-md group-hover:shadow-black/10 dark:group-hover:shadow-black/40">
+                  <div className="flex flex-col gap-3 h-full">
+                    <div className="flex items-center justify-between">
+                      <span>{resource.icon}</span>
+                      <Badge
+                        variant="outline"
+                        className="text-xs text-muted-foreground border-muted-foreground/30"
+                      >
+                        {resource.badge}
+                      </Badge>
+                    </div>
+                    <div>
+                      <h2 className="font-semibold text-base mb-1 group-hover:text-emerald-500 transition-colors">
+                        {resource.name}
+                      </h2>
+                      <p className="text-muted-foreground text-xs leading-relaxed">
+                        {resource.description}
+                      </p>
+                    </div>
+                    <div className="mt-auto pt-2">
+                      <span className="text-xs text-muted-foreground/60 font-medium uppercase tracking-wide">
+                        {resource.category}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <h2 className="font-semibold text-base mb-1 group-hover:text-emerald-400 transition-colors">
-                      {resource.name}
-                    </h2>
-                    <p className="text-muted-foreground text-xs leading-relaxed">
-                      {resource.description}
-                    </p>
-                  </div>
-                  <div className="mt-auto pt-2">
-                    <span className="text-xs text-muted-foreground/60 font-medium uppercase tracking-wide">
-                      {resource.category}
-                    </span>
-                  </div>
-                </div>
+                </Card>
               </CometCard>
             </Link>
           ))}
