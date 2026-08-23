@@ -5,8 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import FloatingImage from "@/components/MyImage";
-import mainImage from "../../public/assets/abhishekkumaryadav-new.jpg";
-import altMainImage from "../../public/assets/abhishekkumaryadav-ghibli.png";
+import mainImage from "../../public/assets/abhishek-cutout.png";
 import { settings } from "@/config/settings";
 
 export default function HeroSection(): JSX.Element {
@@ -152,7 +151,7 @@ export default function HeroSection(): JSX.Element {
   return (
     <div
       ref={heroRef}
-      className="relative min-h-screen flex flex-col lg:flex-row justify-center items-center px-6 md:px-20 lg:px-32 xl:px-40 pt-24 pb-16 overflow-hidden bg-gray-50 dark:bg-black"
+      className="relative min-h-screen lg:h-screen flex flex-col lg:flex-row items-stretch px-4 sm:px-6 md:px-20 lg:px-32 xl:px-40 pb-0 overflow-hidden bg-gray-50 dark:bg-black"
     >
       {/* Engineering grid background */}
       <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.02] bg-[linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:64px_64px]" />
@@ -179,20 +178,21 @@ export default function HeroSection(): JSX.Element {
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Image - Order first on mobile, second on lg */}
-      <div className="relative lg:w-1/2 p-6 flex justify-center order-first lg:order-last mb-6 lg:mb-0">
-        <FloatingImage mainImage={mainImage} altImage={altMainImage} />
+      {/* Image */}
+      <div className="relative lg:w-1/2 flex justify-center items-end order-last lg:order-last pt-0 lg:pt-0">
+        <FloatingImage mainImage={mainImage} />
       </div>
 
       {/* Content */}
       <motion.div
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
         variants={{
           hidden: {},
           visible: { transition: { staggerChildren: 0.15 } },
         }}
-        className="relative z-10 lg:w-1/2 lg:pl-3 order-last lg:order-first"
+        className="relative z-10 lg:w-1/2 lg:pl-3 order-first lg:order-first flex flex-col justify-center pt-20 lg:pt-0 pb-4 lg:pb-0"
       >
         {/* Status Badge */}
         <motion.div variants={fadeUp}>
@@ -211,20 +211,20 @@ export default function HeroSection(): JSX.Element {
 
         {/* Greeting + Tagline */}
         <motion.div variants={fadeUp} className="mb-2">
-          <h2 className="text-3xl md:text-4xl  tracking-tight text-gray-900 dark:text-[#ebebeb] greeetings-text">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-gray-900 dark:text-[#ebebeb] greeetings-text">
             <FlipWords words={greetings} duration={3000} />
           </h2>
           <div className="mt-3">
             <TextGenerateEffect
               words={"Welcome to my over-engineered portfolio site."}
-              className="text-base md:text-lg font-light text-black/60 dark:text-[#ebebeb99] tracking-wide"
+              className="text-sm md:text-base font-light text-black/60 dark:text-[#ebebeb99] tracking-wide"
             />
           </div>
         </motion.div>
 
         {/* Java Builder Pattern — glass terminal block */}
         <motion.div variants={fadeUp} className="mt-5">
-          <div className="inline-block px-3.5 py-2 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)]">
+          <div className="inline-block px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)] max-w-full overflow-x-auto">
             <code className="text-[10px] font-mono">
               <span className="text-lime-700 dark:text-[#ccff00] ">
                 Developer
@@ -270,7 +270,7 @@ export default function HeroSection(): JSX.Element {
         <motion.div variants={fadeUp}>
           <div
             ref={statsRef}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10 text-center"
+            className="grid grid-cols-2 gap-2 sm:gap-3 mt-6 sm:mt-10 md:grid-cols-4 text-center"
           >
             {stats.map((stat, index) => (
               <a
@@ -278,12 +278,12 @@ export default function HeroSection(): JSX.Element {
                 href={stat.href}
                 target={stat.external ? "_blank" : "_self"}
                 rel={stat.external ? "noopener noreferrer" : undefined}
-                className="group relative p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] hover:border-black/15 dark:hover:border-white/15 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
+                className="group relative p-3 sm:p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] hover:border-black/15 dark:hover:border-white/15 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
               >
                 <div className="text-black/40 dark:text-[#ebebeb4d] mb-2 group-hover:text-lime-700 dark:group-hover:text-[#ccff00] transition-colors duration-300 flex justify-center">
                   {stat.icon}
                 </div>
-                <div className="text-xl font-semibold text-gray-900 dark:text-[#ebebeb] tracking-tight">
+                <div className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-[#ebebeb] tracking-tight">
                   {isStatsVisible ? stat.value.toLocaleString() : "—"}
                   {isStatsVisible && (
                     <span className="text-lime-700 dark:text-[#ccff00]">
