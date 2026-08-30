@@ -10,7 +10,6 @@ import HeroSection from "@/components/HeroSection";
 import CodeQuote from "@/components/CodeQuote";
 import { SiFuturelearn } from "react-icons/si";
 import { GiBreakingChain, GiGroundbreaker } from "react-icons/gi";
-
 export default function Home(): JSX.Element {
   return (
     <div>

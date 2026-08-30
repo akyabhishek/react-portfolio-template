@@ -19,6 +19,12 @@ export const settings = {
     compactMode: false,
   },
 
+  // Hero section settings
+  hero: {
+    // "tubes" = Three.js tubes | "aether" = particle network | "none" = plain
+    backgroundType: "aether" as "tubes" | "aether" | "none",
+  },
+
   // Dev Tools section settings
   devTools: {
     showDescriptions: true,

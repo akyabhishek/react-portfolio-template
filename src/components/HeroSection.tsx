@@ -7,6 +7,8 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import FloatingImage from "@/components/MyImage";
 import mainImage from "../../public/assets/abhishek-cutout.png";
 import { settings } from "@/config/settings";
+import ThreeTubesBackground from "@/components/ThreeTubesBackground";
+import AetherFlowBackground from "@/components/AetherFlowBackground";
 
 export default function HeroSection(): JSX.Element {
   const [animatedStats, setAnimatedStats] = useState({
@@ -18,23 +20,9 @@ export default function HeroSection(): JSX.Element {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
   const isStatsVisibleRef = useRef(false);
   const prefersReducedMotion = useReducedMotion();
-  const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const spotlightRef = useRef<HTMLDivElement>(null);
-
-  // Mouse tracking — writes directly to DOM to avoid React re-renders
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    const el = heroRef.current;
-    const spot = spotlightRef.current;
-    if (!el || !spot) return;
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      spot.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(204,255,0,0.04), transparent 60%)`;
-    };
-    el.addEventListener("mousemove", handleMouseMove);
-    return () => el.removeEventListener("mousemove", handleMouseMove);
-  }, [prefersReducedMotion]);
+  const bgType = settings.hero.backgroundType;
+  const bgEnabled = bgType !== "none" && !prefersReducedMotion;
 
   // Trigger stats animation when scrolled into view — single RAF loop
   useEffect(() => {
@@ -148,38 +136,26 @@ export default function HeroSection(): JSX.Element {
         },
       };
 
+  // Opacity-only variant — no transform/filter so backdrop-filter on children can reach the canvas
+  const fadeIn = prefersReducedMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+        },
+      };
+
   return (
     <div
-      ref={heroRef}
-      className="relative min-h-screen lg:h-screen flex flex-col lg:flex-row items-stretch px-4 sm:px-6 md:px-20 lg:px-32 xl:px-40 pb-0 overflow-hidden bg-gray-50 dark:bg-black"
+      className="relative min-h-screen lg:h-screen flex flex-col lg:flex-row items-stretch px-4 sm:px-6 md:px-20 lg:px-32 xl:px-40 pb-0 overflow-hidden bg-background"
+      style={{ isolation: "isolate" }}
     >
-      {/* Engineering grid background */}
-      <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.02] bg-[linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:64px_64px]" />
-
-      {/* Radial glow gradients */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,_rgba(204,255,0,0.06),_transparent_50%)] dark:bg-[radial-gradient(ellipse_at_30%_20%,_rgba(204,255,0,0.08),_transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,_rgba(16,185,129,0.06),_transparent_50%)] dark:bg-[radial-gradient(ellipse_at_70%_80%,_rgba(16,185,129,0.08),_transparent_50%)]" />
-
-      {/* Mouse-follow spotlight */}
-      <div
-        ref={spotlightRef}
-        className="absolute inset-0 pointer-events-none"
-      />
-
-      {/* Floating orbs */}
-      <motion.div
-        className="absolute top-1/4 left-[10%] w-64 h-64 bg-lime-400/10 dark:bg-lime-400/5 rounded-full blur-3xl pointer-events-none will-change-transform"
-        animate={prefersReducedMotion ? {} : { x: [0, 40, 0], y: [0, -30, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-[10%] w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none will-change-transform"
-        animate={prefersReducedMotion ? {} : { x: [0, -35, 0], y: [0, 40, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-
+      {bgType === "tubes" && <ThreeTubesBackground enabled={bgEnabled} />}
+      {bgType === "aether" && <AetherFlowBackground enabled={bgEnabled} />}
       {/* Image */}
-      <div className="relative lg:w-1/2 flex justify-center items-end order-last lg:order-last pt-0 lg:pt-0">
+      <div className="relative z-10 lg:w-1/2 flex justify-center items-end order-last lg:order-last pt-0 lg:pt-0">
         <FloatingImage mainImage={mainImage} />
       </div>
 
@@ -222,79 +198,39 @@ export default function HeroSection(): JSX.Element {
           </div>
         </motion.div>
 
-        {/* Java Builder Pattern — glass terminal block */}
-        <motion.div variants={fadeUp} className="mt-5">
-          <div className="inline-block px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.05)] max-w-full overflow-x-auto">
-            <code className="text-[10px] font-mono">
-              <span className="text-lime-700 dark:text-[#ccff00] ">
-                Developer
-              </span>
-              <span className="text-black/40 dark:text-white/40">.</span>
-              <span className="text-emerald-700 dark:text-emerald-400">
-                builder
-              </span>
-              <span className="text-black/40 dark:text-white/40">().</span>
-              <span className="text-emerald-700 dark:text-emerald-400">
-                name
-              </span>
-              <span className="text-black/40 dark:text-white/40">(</span>
-              <span className="text-orange-700 dark:text-orange-300">
-                "Abhishek"
-              </span>
-              <span className="text-black/40 dark:text-white/40">).</span>
-              <span className="text-emerald-700 dark:text-emerald-400">
-                stack
-              </span>
-              <span className="text-black/40 dark:text-white/40">(</span>
-              <span className="text-lime-700 dark:text-[#ccff00]">List</span>
-              <span className="text-black/40 dark:text-white/40">.</span>
-              <span className="text-emerald-700 dark:text-emerald-400">of</span>
-              <span className="text-black/40 dark:text-white/40">(</span>
-              <span className="text-orange-700 dark:text-orange-300">
-                "Java"
-              </span>
-              <span className="text-black/40 dark:text-white/40">, </span>
-              <span className="text-orange-700 dark:text-orange-300">
-                "Spring Boot"
-              </span>
-              <span className="text-black/40 dark:text-white/40">)).</span>
-              <span className="text-emerald-700 dark:text-emerald-400">
-                build
-              </span>
-              <span className="text-black/40 dark:text-white/40">();</span>
-            </code>
-          </div>
-        </motion.div>
-
         {/* Stats — glass cards */}
-        <motion.div variants={fadeUp}>
+        <motion.div variants={fadeIn}>
           <div
             ref={statsRef}
             className="grid grid-cols-2 gap-2 sm:gap-3 mt-6 sm:mt-10 md:grid-cols-4 text-center"
           >
             {stats.map((stat, index) => (
-              <a
+              <div
                 key={index}
-                href={stat.href}
-                target={stat.external ? "_blank" : "_self"}
-                rel={stat.external ? "noopener noreferrer" : undefined}
-                className="group relative p-3 sm:p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] hover:border-black/15 dark:hover:border-white/15 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
+                className="group relative rounded-2xl backdrop-blur-lg bg-white/30 dark:bg-neutral-950/30 border border-white/20 dark:border-neutral-800/50 hover:border-white/40 dark:hover:border-white/20 transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
               >
-                <div className="text-black/40 dark:text-[#ebebeb4d] mb-2 group-hover:text-lime-700 dark:group-hover:text-[#ccff00] transition-colors duration-300 flex justify-center">
-                  {stat.icon}
-                </div>
-                <div className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-[#ebebeb] tracking-tight">
-                  {isStatsVisible ? stat.value.toLocaleString() : "—"}
-                  {isStatsVisible && (
-                    <span className="text-lime-700 dark:text-[#ccff00]">
-                      {stat.suffix}
-                    </span>
-                  )}
-                </div>
-                <div className="text-[10px] text-black/40 dark:text-[#ebebeb4d]  tracking-wider uppercase mt-1 group-hover:text-black/60 dark:group-hover:text-[#ebebeb99] transition-colors duration-300">
-                  {stat.label}
-                </div>
-              </a>
+                <a
+                  href={stat.href}
+                  target={stat.external ? "_blank" : "_self"}
+                  rel={stat.external ? "noopener noreferrer" : undefined}
+                  className="relative z-10 block p-3 sm:p-4 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
+                >
+                  <div className="text-black/40 dark:text-[#ebebeb4d] mb-2 group-hover:text-lime-700 dark:group-hover:text-[#ccff00] transition-colors duration-300 flex justify-center">
+                    {stat.icon}
+                  </div>
+                  <div className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-[#ebebeb] tracking-tight">
+                    {isStatsVisible ? stat.value.toLocaleString() : "—"}
+                    {isStatsVisible && (
+                      <span className="text-lime-700 dark:text-[#ccff00]">
+                        {stat.suffix}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-[10px] text-black/40 dark:text-[#ebebeb4d]  tracking-wider uppercase mt-1 group-hover:text-black/60 dark:group-hover:text-[#ebebeb99] transition-colors duration-300">
+                    {stat.label}
+                  </div>
+                </a>
+              </div>
             ))}
           </div>
         </motion.div>
