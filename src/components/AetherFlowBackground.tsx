@@ -3,7 +3,9 @@ import { useTheme } from "@/components/theme-provider";
 
 const DARK_BG = "#0a0a0a";
 const LIGHT_BG = "#e8e8e8";
-const MAX_PARTICLES = 150;
+const MAX_PARTICLES = 100;
+const CONNECTION_RADIUS = 120;
+const CONNECTION_RADIUS_SQ = CONNECTION_RADIUS * CONNECTION_RADIUS;
 
 const THEME = {
   dark: {
@@ -102,13 +104,13 @@ export default function AetherFlowBackground({
     const mouse = {
       x: null as number | null,
       y: null as number | null,
-      radius: 200,
+      radius: 140,
     };
 
     function init() {
       particles = [];
       const count = Math.min(
-        (canvas!.height * canvas!.width) / 9000,
+        (canvas!.height * canvas!.width) / 12000,
         MAX_PARTICLES,
       );
       const colors = themeRef.current ? THEME.dark : THEME.light;
@@ -116,8 +118,9 @@ export default function AetherFlowBackground({
         const size = Math.random() * 2 + 1;
         const x = Math.random() * (canvas!.width - size * 4) + size * 2;
         const y = Math.random() * (canvas!.height - size * 4) + size * 2;
-        const directionX = Math.random() * 0.4 - 0.2;
-        const directionY = Math.random() * 0.4 - 0.2;
+        const speed = 0.1 + (size / 3) * 0.15;
+        const directionX = (Math.random() - 0.5) * speed * 2;
+        const directionY = (Math.random() - 0.5) * speed * 2;
         particles.push(
           new Particle(x, y, directionX, directionY, size, colors.particle),
         );
@@ -139,10 +142,9 @@ export default function AetherFlowBackground({
           const dx = particles[a].x - particles[b].x;
           const dy = particles[a].y - particles[b].y;
           const distSq = dx * dx + dy * dy;
-          const maxDist = (canvas!.width / 7) * (canvas!.height / 7);
 
-          if (distSq < maxDist) {
-            const opacity = 1 - distSq / 20000;
+          if (distSq < CONNECTION_RADIUS_SQ) {
+            const opacity = 1 - distSq / CONNECTION_RADIUS_SQ;
             const dxM = particles[a].x - (mouse.x ?? 0);
             const dyM = particles[a].y - (mouse.y ?? 0);
             const distMouse = Math.sqrt(dxM * dxM + dyM * dyM);
@@ -151,7 +153,7 @@ export default function AetherFlowBackground({
               mouse.x !== null && distMouse < mouse.radius
                 ? colors.lineHover(opacity)
                 : colors.line(opacity);
-            ctx!.lineWidth = 1;
+            ctx!.lineWidth = 0.5 + opacity * 0.5;
             ctx!.beginPath();
             ctx!.moveTo(particles[a].x, particles[a].y);
             ctx!.lineTo(particles[b].x, particles[b].y);

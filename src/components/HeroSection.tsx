@@ -2,37 +2,64 @@ import { FlipWords } from "@/components/ui/flip-words";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { FiBriefcase, FiUsers, FiCode, FiAward } from "react-icons/fi";
 import { useState, useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useTheme } from "@/components/theme-provider";
 import FloatingImage from "@/components/MyImage";
 import mainImage from "../../public/assets/abhishek-cutout.png";
 import { settings } from "@/config/settings";
+import {
+  heroStatsData,
+  type HeroStatIcon,
+  type HeroStatKey,
+} from "@/config/data";
 import ThreeTubesBackground from "@/components/ThreeTubesBackground";
 import AetherFlowBackground from "@/components/AetherFlowBackground";
 
+const initialAnimatedStats: Record<HeroStatKey, number> = {
+  experience: 0,
+  followers: 0,
+  tools: 0,
+  leetcode: 0,
+};
+
+const statIcons: Record<HeroStatIcon, JSX.Element> = {
+  briefcase: <FiBriefcase size={18} />,
+  users: <FiUsers size={18} />,
+  code: <FiCode size={18} />,
+  award: <FiAward size={18} />,
+};
+
 export default function HeroSection(): JSX.Element {
-  const [animatedStats, setAnimatedStats] = useState({
-    experience: 0,
-    followers: 0,
-    tools: 0,
-    leetcode: 0,
-  });
+  const [animatedStats, setAnimatedStats] = useState(initialAnimatedStats);
   const [isStatsVisible, setIsStatsVisible] = useState(false);
   const isStatsVisibleRef = useRef(false);
   const prefersReducedMotion = useReducedMotion();
   const statsRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
   const bgType = settings.hero.backgroundType;
-  const bgEnabled = bgType !== "none" && !prefersReducedMotion;
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" && document.documentElement.classList.contains("dark"));
+  const resolvedBgType = isDark ? "tubes" : bgType;
+  const bgEnabled = resolvedBgType !== "none" && !prefersReducedMotion;
+
+  const [scrollY, setScrollY] = useState(0);
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    let rafId: number;
+    const onScroll = () => {
+      rafId = requestAnimationFrame(() => setScrollY(window.scrollY));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, [prefersReducedMotion]);
 
   // Trigger stats animation when scrolled into view — single RAF loop
   useEffect(() => {
-    const targets = [
-      { key: "experience" as const, end: 3, duration: 1500 },
-      { key: "followers" as const, end: 8000, duration: 2000 },
-      { key: "tools" as const, end: 40, duration: 1200 },
-      { key: "leetcode" as const, end: 300, duration: 1800 },
-    ];
-
     let rafId: number;
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -43,10 +70,10 @@ export default function HeroSection(): JSX.Element {
           const tick = () => {
             const elapsed = Date.now() - startTime;
             let anyRunning = false;
-            const next = { experience: 0, followers: 0, tools: 0, leetcode: 0 };
-            for (const t of targets) {
-              const progress = Math.min(elapsed / t.duration, 1);
-              next[t.key] = Math.floor(t.end * progress);
+            const next = { ...initialAnimatedStats };
+            for (const stat of heroStatsData) {
+              const progress = Math.min(elapsed / stat.duration, 1);
+              next[stat.key] = Math.floor(stat.end * progress);
               if (progress < 1) anyRunning = true;
             }
             setAnimatedStats(next);
@@ -63,67 +90,51 @@ export default function HeroSection(): JSX.Element {
       cancelAnimationFrame(rafId);
     };
   }, []);
-
-  const stats = [
-    {
-      value: animatedStats.experience,
-      suffix: "+",
-      label: "Years of Corporate Experience",
-      icon: <FiBriefcase size={18} />,
-      href: "#experience",
-    },
-    {
-      value: animatedStats.tools,
-      suffix: "+",
-      label: "Certifications",
-      icon: <FiAward size={18} />,
-      href: "https://linkedin.com/in/abhishekkumaryadav/details/certifications",
-      external: true,
-    },
-    {
-      value: animatedStats.leetcode,
-      suffix: "+",
-      label: "DSA Problems Solved",
-      icon: <FiCode size={18} />,
-      href: "https://leetcode.com/mrabk121",
-      external: true,
-    },
-    {
-      value: animatedStats.followers,
-      suffix: "+",
-      label: "LinkedIn Connections",
-      icon: <FiUsers size={18} />,
-      href: "https://linkedin.com/in/abhishekkumaryadav",
-      external: true,
-    },
-  ];
-
   const greetings: string[] = [
-    "Hi,",
-    "Hello,",
-    "Namaste,",
-    "Sat Sri Akal,",
-    "Namaskar,",
-    "Ram Ram,",
-    "Kem Cho,",
-    "Vaṇakkam,",
-    "Namaskara,",
-    "Vandanam,",
-    "Pranam,",
-    "Khurumjari,",
-    "Salaam,",
-    "Jai Shri Krishna,",
-    "Khamma Ghani,",
-    "Radhe Radhe,",
-    "Ram Ram,",
-    "Nômoshkar,",
-    "Salaam Alaikum,",
-    "Julley,",
-    "Dhaal Karu,",
-    "Namaskāra,",
-    "Narmada Har,",
-  ];
+    // Universal
+    "Hey,", // English
+    "Hello,", // English
+    "Hi,", // English
 
+    // India
+    "नमस्ते,", // Hindi
+    "नमस्कार,", // Marathi
+    "ਸਤ ਸ੍ਰੀ ਅਕਾਲ,", // Punjabi
+    "নমস্কার,", // Bengali
+    "નમસ્તે,", // Gujarati
+    "வணக்கம்,", // Tamil
+    "ನಮಸ್ಕಾರ,", // Kannada
+    "നമസ്കാരം,", // Malayalam
+    "నమస్కారం,", // Telugu
+    "ନମସ୍କାର,", // Odia
+    "السلام علیکم،", // Urdu
+    "राम राम,", // Hindi
+    "जय श्री कृष्ण,", // Hindi
+    "राधे राधे,", // Hindi
+    "खम्मा घणी,", // Rajasthani
+    "केम छो,", // Gujarati
+    "जुले,", // Ladakhi
+    "प्रणाम,", // Hindi / Sanskrit
+
+    // International
+    "Bonjour,", // French
+    "Hola,", // Spanish
+    "Ciao,", // Italian
+    "Olá,", // Portuguese
+    "Guten Tag,", // German
+    "こんにちは,", // Japanese
+    "안녕하세요,", // Korean
+    "你好,", // Chinese
+    "สวัสดี,", // Thai
+    "Xin chào,", // Vietnamese
+    "Merhaba,", // Turkish
+    "שלום,", // Hebrew
+    "Привет,", // Russian
+    "Γεια σου,", // Greek
+    "Jambo,", // Swahili
+    "Aloha,", // Hawaiian
+    "Kia ora,", // Māori
+  ];
   const fadeUp = prefersReducedMotion
     ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
     : {
@@ -152,8 +163,34 @@ export default function HeroSection(): JSX.Element {
       className="relative min-h-screen lg:h-screen flex flex-col lg:flex-row items-stretch px-4 sm:px-6 md:px-20 lg:px-32 xl:px-40 pb-0 overflow-hidden bg-background"
       style={{ isolation: "isolate" }}
     >
-      {bgType === "tubes" && <ThreeTubesBackground enabled={bgEnabled} />}
-      {bgType === "aether" && <AetherFlowBackground enabled={bgEnabled} />}
+      <AnimatePresence mode="sync">
+        {resolvedBgType === "tubes" && (
+          <motion.div
+            key="tubes"
+            className="absolute inset-0"
+            style={{ zIndex: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          >
+            <ThreeTubesBackground enabled={bgEnabled} />
+          </motion.div>
+        )}
+        {resolvedBgType === "aether" && (
+          <motion.div
+            key="aether"
+            className="absolute inset-0"
+            style={{ zIndex: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          >
+            <AetherFlowBackground enabled={bgEnabled} />
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Image */}
       <div className="relative z-10 lg:w-1/2 flex justify-center items-end order-last lg:order-last pt-0 lg:pt-0">
         <FloatingImage mainImage={mainImage} />
@@ -169,6 +206,10 @@ export default function HeroSection(): JSX.Element {
           visible: { transition: { staggerChildren: 0.15 } },
         }}
         className="relative z-10 lg:w-1/2 lg:pl-3 order-first lg:order-first flex flex-col justify-center pt-20 lg:pt-0 pb-4 lg:pb-0"
+        style={{
+          transform: `translateY(${scrollY * -0.06}px)`,
+          willChange: "transform",
+        }}
       >
         {/* Status Badge */}
         <motion.div variants={fadeUp}>
@@ -204,9 +245,9 @@ export default function HeroSection(): JSX.Element {
             ref={statsRef}
             className="grid grid-cols-2 gap-2 sm:gap-3 mt-6 sm:mt-10 md:grid-cols-4 text-center"
           >
-            {stats.map((stat, index) => (
+            {heroStatsData.map((stat) => (
               <div
-                key={index}
+                key={stat.key}
                 className="group relative rounded-2xl backdrop-blur-lg bg-white/30 dark:bg-neutral-950/30 border border-white/20 dark:border-neutral-800/50 hover:border-white/40 dark:hover:border-white/20 transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
               >
                 <a
@@ -216,10 +257,12 @@ export default function HeroSection(): JSX.Element {
                   className="relative z-10 block p-3 sm:p-4 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
                 >
                   <div className="text-black/40 dark:text-[#ebebeb4d] mb-2 group-hover:text-lime-700 dark:group-hover:text-[#ccff00] transition-colors duration-300 flex justify-center">
-                    {stat.icon}
+                    {statIcons[stat.icon]}
                   </div>
                   <div className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-[#ebebeb] tracking-tight">
-                    {isStatsVisible ? stat.value.toLocaleString() : "—"}
+                    {isStatsVisible
+                      ? animatedStats[stat.key].toLocaleString()
+                      : "—"}
                     {isStatsVisible && (
                       <span className="text-lime-700 dark:text-[#ccff00]">
                         {stat.suffix}

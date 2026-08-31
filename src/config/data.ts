@@ -77,6 +77,21 @@ export interface SocialLink {
   url: string;
 }
 
+export type HeroStatKey = "experience" | "followers" | "tools" | "leetcode";
+
+export type HeroStatIcon = "briefcase" | "users" | "code" | "award";
+
+export interface HeroStatItem {
+  key: HeroStatKey;
+  end: number;
+  duration: number;
+  suffix: string;
+  label: string;
+  icon: HeroStatIcon;
+  href: string;
+  external?: boolean;
+}
+
 // ─── Personal Info ──────────────────────────────────────────────────────────
 
 export const personalInfo: PersonalInfo = {
@@ -94,6 +109,50 @@ export const personalInfo: PersonalInfo = {
     "Software Developer at Cognizant with experience contributing to American Airlines projects using Java, Spring Boot, TypeScript, Playwright, Selenium, and more. Passionate about building scalable applications and solving real-world problems.",
   careerStartDate: "2023-09-14",
 };
+
+// ─── Hero Stats ─────────────────────────────────────────────────────────────
+
+export const heroStatsData: HeroStatItem[] = [
+  {
+    key: "experience",
+    end: 3,
+    duration: 1500,
+    suffix: "+",
+    label: "Years of Corporate Experience",
+    icon: "briefcase",
+    href: "#experience",
+  },
+  {
+    key: "tools",
+    end: 40,
+    duration: 1200,
+    suffix: "+",
+    label: "Certifications",
+    icon: "award",
+    href: "https://linkedin.com/in/abhishekkumaryadav/details/certifications",
+    external: true,
+  },
+  {
+    key: "leetcode",
+    end: 300,
+    duration: 1800,
+    suffix: "+",
+    label: "DSA Problems Solved",
+    icon: "code",
+    href: "https://leetcode.com/mrabk121",
+    external: true,
+  },
+  {
+    key: "followers",
+    end: 8000,
+    duration: 2000,
+    suffix: "+",
+    label: "LinkedIn Connections",
+    icon: "users",
+    href: "https://linkedin.com/in/abhishekkumaryadav",
+    external: true,
+  },
+];
 
 // ─── Experience ─────────────────────────────────────────────────────────────
 

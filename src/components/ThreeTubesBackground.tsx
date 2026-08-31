@@ -32,13 +32,13 @@ const LIGHT_TUBE_COLORS = [
 ];
 const DARK_POINT_COLORS = ["#83f36e", "#60aed5", "#f967fb", "#ffcc00"];
 const LIGHT_POINT_COLORS = ["#0066ff", "#9900ff", "#ff3300", "#3300cc"];
-const DARK_INTENSITY = 60;
-const LIGHT_INTENSITY_VAL = 55;
+const DARK_INTENSITY = 30;
+const LIGHT_INTENSITY_VAL = 25;
 const DARK_BG = "#0a0a0a";
 const LIGHT_BG = "#e8e8e8";
-const DARK_BLOOM = { strength: 1.4, radius: 0.5, threshold: 0.15 };
-const LIGHT_BLOOM_CFG = { strength: 0.5, radius: 0.3, threshold: 0.2 };
-const LERP_SPEED = 0.4;
+const DARK_BLOOM = { strength: 0.7, radius: 0.35, threshold: 0.25 };
+const LIGHT_BLOOM_CFG = { strength: 0.35, radius: 0.2, threshold: 0.3 };
+const LERP_SPEED = 0.5;
 const NOISE_SCALE = 0.25;
 const MIN_RADIUS = 0.005;
 const MAX_RADIUS = 0.04;
@@ -114,7 +114,7 @@ class TubeGeo extends THREE.TubeGeometry {
     const radial = this.parameters.radialSegments;
 
     curve.updateArcLengths();
-    const frames = curve.computeFrenetFrames(curve.points.length, false);
+    const frames = curve.computeFrenetFrames(segments, false);
     const pos = this.getAttribute("position") as THREE.BufferAttribute;
     const norm = this.getAttribute("normal") as THREE.BufferAttribute;
     const n = this._n;
