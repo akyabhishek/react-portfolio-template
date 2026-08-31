@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "./ui/card";
-import { FiCode, FiSearch, FiStar, FiX } from "react-icons/fi";
+import { FiCode, FiSearch, FiStar, FiX, FiGithub } from "react-icons/fi";
 import { GiLogicGateXor } from "react-icons/gi";
 import { PiHashStraightFill } from "react-icons/pi";
 import { LuFileJson, LuFileDiff } from "react-icons/lu";
@@ -127,6 +127,16 @@ const tools = [
     category: "Utilities",
     tags: ["qr", "scanner", "camera"],
     popular: false,
+    inDevelopment: false,
+  },
+  {
+    name: "GitHub Stats",
+    description: "Visualize any GitHub user's stats, repos & contributions",
+    link: "/github-stats",
+    icon: <FiGithub className="inline-block text-3xl text-emerald-600" />,
+    category: "Utilities",
+    tags: ["github", "stats", "profile", "repos", "contributions", "stars"],
+    popular: true,
     inDevelopment: false,
   },
 ];
