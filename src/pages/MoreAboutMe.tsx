@@ -29,7 +29,7 @@ export default function About(): JSX.Element {
             <PersonalStatsSection />
             <PrinciplesValuesSection />
             <LeetCodeStatsSection />
-            <BooksSection />
+            <BooksSection showWantToRead={false} showViewMoreLink />
             <PlacesSection />
             <GitHubCalendarSection />
             <SiteStatsSection />
