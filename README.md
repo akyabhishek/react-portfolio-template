@@ -29,6 +29,15 @@ This portfolio is built using modern web technologies and libraries to provide a
 
 ## Getting Started
 
+Use Node.js 24.x for local development and deployment, as declared in
+`package.json`.
+
+### Vercel deployment
+
+In your Vercel project, open **Settings > Build and Deployment > Node.js
+Version**, select **24.x**, and save. Then trigger a new deployment. Node.js
+20 is no longer supported by Vercel.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
