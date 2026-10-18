@@ -53,10 +53,12 @@ The experience list uses a page-scroll wrapper inspired by
 Cards stick and subtly scale as the following card approaches. Experience cards
 are always open, with equal-height grid rows sized to the tallest card; their
 content and visual styling are retained.
-The wrapper observes height changes so tall cards can be read before they
-stick, adds an opaque backing for overlapping cards, and uses a regular list
-layout when reduced motion is enabled. It does not intercept scrolling or
-require a separate scroll container.
+The wrapper observes content height changes and keeps cards at their full,
+equal height without internal scrollbars. Trailing space based on the card
+height keeps the shared sticky boundary beyond the completed stack.
+It adds an opaque backing and uses a regular list
+layout when reduced motion is enabled. Stacking follows native page scrolling
+without scroll interception or smoothing.
 
 ### Vercel deployment
 

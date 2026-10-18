@@ -23,6 +23,12 @@ export function ScrollStack({ children }: ScrollStackProps) {
 
     const update = () => {
       frame = 0;
+      const stackTop = 96;
+      const stackOffset = 24;
+      const cardHeight = Math.max(0, ...items.map((item) => item.offsetHeight));
+      // Keep the shared sticky boundary beyond the completed stack.
+      container.style.paddingBottom = `${cardHeight + items.length * stackOffset}px`;
+
       const containerTop = container.getBoundingClientRect().top;
       let naturalTop = containerTop;
       const tops = items.map((item) => {
@@ -35,9 +41,7 @@ export function ScrollStack({ children }: ScrollStackProps) {
         const surface = surfaces[index];
         if (!surface) return;
 
-        // Tall expanded cards must scroll fully into view before they stick.
-        const pinTop =
-          Math.min(96, window.innerHeight - item.offsetHeight - 24) + index * 24;
+        const pinTop = stackTop + index * stackOffset;
         item.style.top = `${pinTop}px`;
 
         const nextTop = tops[index + 1];
@@ -61,7 +65,11 @@ export function ScrollStack({ children }: ScrollStackProps) {
     };
     const observer = new ResizeObserver(schedule);
     observer.observe(container);
-    items.forEach((item) => observer.observe(item));
+    items.forEach((item, index) => {
+      observer.observe(item);
+      const card = surfaces[index]?.firstElementChild;
+      if (card) observer.observe(card);
+    });
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     update();
@@ -71,6 +79,7 @@ export function ScrollStack({ children }: ScrollStackProps) {
       observer.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      container.style.removeProperty("padding-bottom");
       items.forEach((item, index) => {
         item.style.removeProperty("top");
         surfaces[index]?.style.removeProperty("transform");
@@ -84,7 +93,7 @@ export function ScrollStack({ children }: ScrollStackProps) {
       className={
         prefersReducedMotion
           ? "grid auto-rows-fr gap-4"
-          : "relative isolate grid auto-rows-fr gap-[100px] pb-[200px] [&>[data-stack-item]]:sticky"
+          : "relative isolate grid auto-rows-fr gap-[100px] [&>[data-stack-item]]:sticky"
       }
     >
       {children}
