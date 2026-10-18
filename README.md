@@ -23,11 +23,25 @@ This portfolio is built using modern web technologies and libraries to provide a
 - **Three Globe**: A library for creating interactive globes with Three.js.
 - **Axios**: A promise-based HTTP client for making API requests.
 - **Framer Motion**: A library for animations in React.
+- **GSAP**: Powers the React Bits-inspired, scroll-linked word reveals in the About
+  section using ScrollTrigger.
 - **Lucide React**: A library of icons for React.
 - **ESLint**: A tool for identifying and fixing problems in JavaScript code.
 - **Prettier**: A code formatter for maintaining consistent code style.
 
 ## Getting Started
+
+### About section animation
+
+The story in `src/components/AboutMe.tsx` uses the reusable
+`ScrollReveal` component in `src/components/ui/scroll-reveal.tsx`. Inspired by
+[React Bits Scroll Reveal](https://reactbits.dev/text-animations/scroll-reveal),
+it uses React-rendered word spans with the React Bits default reveal settings: words fade
+from 10% opacity and 4px blur, staggered by 0.05 seconds, while the text's
+3-degree rotation settles to zero. Progress follows scrolling without pinning
+the section. Word spans wrap naturally at different widths.
+Reduced-motion users see static, fully visible text. Each instance accepts plain
+text, not nested interactive elements; the original paragraph semantics are retained.
 
 Use Node.js 24.x for local development and deployment, as declared in
 `package.json`.
