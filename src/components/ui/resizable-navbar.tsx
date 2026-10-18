@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { IconExternalLink, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconExternalLink } from "@tabler/icons-react";
+import { HiOutlineBars2, HiOutlineXMark } from "react-icons/hi2";
 import {
   AnimatePresence,
   motion,
@@ -309,10 +310,20 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
-  return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
-  ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+      aria-expanded={isOpen}
+      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-black transition-colors hover:text-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-white dark:hover:text-emerald-400"
+    >
+      {isOpen ? (
+        <HiOutlineXMark size={24} aria-hidden="true" />
+      ) : (
+        <HiOutlineBars2 size={24} aria-hidden="true" />
+      )}
+    </button>
   );
 };
 

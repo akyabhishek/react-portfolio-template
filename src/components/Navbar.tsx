@@ -4,7 +4,6 @@ import {
   MobileNavToggle,
   Navbar as NavbarWrapper,
   NavbarButton,
-  NavbarLogo,
   NavBody,
   NavItems,
 } from "@/components/ui/resizable-navbar";
@@ -18,6 +17,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ThemeToggle } from "./ui/theme-toggle";
 import { motion, AnimatePresence } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { FiTerminal, FiGitBranch, FiExternalLink } from "react-icons/fi";
 import { VscTools } from "react-icons/vsc";
 import { MdOutlineQuiz } from "react-icons/md";
@@ -35,6 +35,61 @@ interface NavItem {
     link: string;
     icon?: React.ReactNode;
   }[];
+}
+
+function AnimatedNavbarLogo() {
+  const [showFullName, setShowFullName] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const interval = window.setInterval(
+      () => setShowFullName((showFullName) => !showFullName),
+      12000,
+    );
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <Link
+      to="/"
+      aria-label="Abhishek Kr. Yadav"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+    >
+      <span className="flex min-w-[190px] items-center gap-2 whitespace-nowrap">
+        <h2 className="text-xl text-gray-900 dark:text-white tracking-tight">
+          Abhishek
+        </h2>
+        <span className="flex items-center">
+          <motion.span
+            initial={false}
+            animate={{
+              width: showFullName ? "auto" : 0,
+              marginRight: showFullName ? 8 : 0,
+              opacity: prefersReducedMotion
+                ? Number(showFullName)
+                : showFullName
+                  ? [0, 1, 0.35, 1]
+                  : [1, 0.35, 1, 0],
+            }}
+            transition={{
+              duration: prefersReducedMotion ? 0 : 0.55,
+              ease: "easeInOut",
+            }}
+            aria-hidden={!showFullName}
+            className="overflow-hidden"
+          >
+            <h2 className="text-xl text-gray-900 dark:text-white tracking-tight">
+              Kr. Yadav
+            </h2>
+          </motion.span>
+          <span
+            aria-hidden="true"
+            className="h-1.5 w-1.5 shrink-0 rounded-[1px] bg-emerald-500 dark:bg-emerald-400"
+          />
+        </span>
+      </span>
+    </Link>
+  );
 }
 
 export function Navbar() {
@@ -127,7 +182,7 @@ export function Navbar() {
       <NavbarWrapper>
         {/* Desktop Navigation */}
         <NavBody>
-          <NavbarLogo />
+          <AnimatedNavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4 relative z-30">
             <button
@@ -144,7 +199,7 @@ export function Navbar() {
         {/* Mobile Navigation */}
         <MobileNav>
           <MobileNavHeader>
-            <NavbarLogo />
+            <AnimatedNavbarLogo />
             <MobileNavToggle
               isOpen={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

@@ -134,7 +134,7 @@ export const heroStatsData: HeroStatItem[] = [
   },
   {
     key: "leetcode",
-    end: 300,
+    end: 350,
     duration: 1800,
     suffix: "+",
     label: "DSA Problems Solved",

@@ -58,7 +58,7 @@ export default function CVNav() {
           transition={{ duration: 0.3 }}
           className="fixed top-0 left-0 right-0 z-50 px-4 py-3"
         >
-          <div className="max-w-4xl mx-auto flex items-center justify-between px-5 py-2.5 rounded-2xl bg-white/80 dark:bg-slate-950/80 border border-gray-200/60 dark:border-white/[0.06] backdrop-blur-xl shadow-sm dark:shadow-none">
+          <div className="max-w-4xl mx-auto flex items-center justify-between px-5 py-2.5 rounded-2xl bg-white/30 dark:bg-neutral-950/30 border border-white/20 dark:border-neutral-800/50 backdrop-blur-lg shadow-sm">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate(-1)}

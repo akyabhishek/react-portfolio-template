@@ -80,11 +80,8 @@ export default function CVHero() {
               className="relative w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-white dark:border-slate-950"
             />
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[11px] font-medium tracking-wide uppercase backdrop-blur-sm">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-            </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-gray-200/80 bg-white/60 px-3.5 py-1.5 text-[11px] font-medium tracking-wide text-gray-600 shadow-sm shadow-black/[0.03] backdrop-blur-md dark:border-white/10 dark:bg-white/[0.04] dark:text-gray-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.12)] dark:bg-emerald-400" />
             Available for opportunities
           </span>
         </motion.div>
