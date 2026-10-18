@@ -1,5 +1,5 @@
 import React from "react";
-import { FlipWords } from "@/components/ui/flip-words";
+import { TypewriterWords } from "@/components/ui/typewriter-words";
 import LinkCard from "@/components/LinkCard";
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
 import { Card } from "@/components/ui/card";
@@ -78,7 +78,7 @@ export default function Contact(): JSX.Element {
                 aky.abhishekkumaryadav@gmail.com
               </Link>
               <br />
-              <FlipWords
+              <TypewriterWords
                 words={[
                   "Still thinking? Take your time!",
                   "I'll wait... but not forever!",

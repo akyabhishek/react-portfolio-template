@@ -464,7 +464,7 @@ export const educationData: EducationItem[] = [
 
 export const achievementsData: AchievementItem[] = [
   {
-    title: "300+ Problems Solved",
+    title: "350+ Problems Solved",
     platform: "Leetcode",
     url: "https://leetcode.com/mrabk121/",
     year: "",

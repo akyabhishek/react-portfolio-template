@@ -90,6 +90,17 @@ export const books: {
       finishDate: "Sept 05, 2026",
       coverUrl: "https://m.media-amazon.com/images/I/61Gq8EZk2uL._SL1360_.jpg",
     },
+    {
+      title: "Kasap",
+      author: "Manohar Shyam Joshi",
+      genres: ["Hindi Literature", "Literary Fiction", "Romance"],
+      note: "A deeply layered story exploring love, human relationships, and the complexities of desire and morality.",
+      startDate: "Sept 11, 2026",
+      finishDate: "Oct 11, 2026",
+      status: "Read",
+      recommendation: "Must Read",
+      coverUrl: "https://m.media-amazon.com/images/I/41k6D+zAYtL._SL1500_.jpg",
+    },
   ],
   wantToReadBooks: [
     {
@@ -125,14 +136,7 @@ export const books: {
       status: "Want to read",
       coverUrl: "https://m.media-amazon.com/images/I/41+kf9g5k5L._SL1500_.jpg",
     },
-    {
-      title: "Kasap",
-      author: "Manohar Shyam Joshi",
-      genres: ["Hindi Literature", "Literary Fiction", "Romance"],
-      note: "",
-      status: "Want to read",
-      coverUrl: "https://m.media-amazon.com/images/I/41k6D+zAYtL._SL1500_.jpg",
-    },
+
     {
       title: "Aapka Bunti",
       author: "Mannu Bhandari",

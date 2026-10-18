@@ -9,7 +9,7 @@ import {
 } from "react-icons/fi";
 import { personalInfo, getExperienceString } from "@/config/data";
 import { FlipWords } from "@/components/ui/flip-words";
-import profileImage from "/assets/abhishekkumaryadav-new.jpg";
+import profileImage from "/assets/abhishekkumaryadav.png";
 
 const roles = [
   "Software Developer",
@@ -40,18 +40,18 @@ export default function CVHero() {
       {/* Animated gradient background */}
       <motion.div
         style={{ y: bgY }}
-        className="absolute inset-0 bg-gradient-to-br from-gray-50 via-purple-50 to-gray-50 dark:from-slate-950 dark:via-purple-950 dark:to-slate-950"
+        className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-purple-200/40 dark:from-purple-800/20 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-emerald-200/40 dark:from-emerald-800/20 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-gray-200/20 dark:from-white/[0.03] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-gray-300/15 dark:from-white/[0.02] via-transparent to-transparent" />
         {/* Floating orbs */}
         <motion.div
-          className="absolute top-20 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute top-20 left-20 w-72 h-72 bg-gray-500/[0.04] rounded-full blur-3xl"
           animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-20 w-96 h-96 bg-gray-500/[0.03] rounded-full blur-3xl"
           animate={{ x: [0, -40, 0], y: [0, -50, 0] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -72,8 +72,7 @@ export default function CVHero() {
           className="mb-5 flex flex-col items-center gap-3"
         >
           <div className="relative">
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-500 via-emerald-500 to-purple-500 animate-spin-slow opacity-75 blur-sm" />
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-500 via-emerald-500 to-purple-500 animate-spin-slow" />
+            <div className="absolute -inset-1 rounded-full border border-gray-300/70 bg-white/40 shadow-sm shadow-black/5 dark:border-white/15 dark:bg-slate-950/30 dark:shadow-black/20" />
             <img
               src={profileImage}
               alt={personalInfo.name}
@@ -95,7 +94,7 @@ export default function CVHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight mb-3"
+          className="whitespace-nowrap text-[clamp(1.2rem,8vw,4.25rem)] font-semibold tracking-tight mb-3"
         >
           <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 dark:from-white dark:via-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
             {personalInfo.name}
