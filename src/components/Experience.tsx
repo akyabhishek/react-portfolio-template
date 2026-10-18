@@ -1,15 +1,13 @@
 // Experience.tsx
-import React, { useState } from "react";
+import React from "react";
 import {
   Briefcase,
   CalendarDays,
-  ChevronDown,
-  ChevronUp,
   MapPin,
 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
 import { settings } from "@/config/settings";
 import { experienceData } from "@/config/data";
+import { ScrollStack, ScrollStackItem } from "@/components/ui/scroll-stack";
 
 // Define the type for each experience card
 interface ExperienceCardProps {
@@ -22,7 +20,6 @@ interface ExperienceCardProps {
   logoPath?: string;
   technologies?: string[];
   achievements?: string[];
-  defaultExpanded?: boolean;
 }
 
 // Experience card component
@@ -36,9 +33,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   logoPath,
   technologies,
   achievements,
-  defaultExpanded = false,
 }) => {
-  const [expanded, setExpanded] = useState(defaultExpanded);
   const hasAchievements = !!achievements && achievements.length > 0;
   const hasTechnologies = !!technologies && technologies.length > 0;
   // Skills get the full card width when there's nothing to share columns with.
@@ -46,11 +41,8 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
 
   return (
     <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-4 md:p-6 transition-colors duration-300">
-      <button
-        type="button"
-        onClick={() => setExpanded((prev) => !prev)}
+      <div
         className="flex w-full items-start justify-between gap-4 text-left"
-        aria-expanded={expanded}
       >
         <div className="flex items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 dark:bg-neutral-200">
@@ -89,23 +81,10 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
               {location}
             </span>
           )}
-          {expanded ? (
-            <ChevronUp className="mt-1 h-4 w-4 text-neutral-500" />
-          ) : (
-            <ChevronDown className="mt-1 h-4 w-4 text-neutral-500" />
-          )}
         </div>
-      </button>
+      </div>
 
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="overflow-hidden"
-          >
+          <div>
             <hr className="my-4 border-neutral-200 dark:border-neutral-800" />
             {skillsFullWidth ? (
               <div>
@@ -177,9 +156,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
                 )}
               </div>
             )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
     </div>
   );
 };
@@ -192,11 +169,13 @@ const ExperienceSection: React.FC = () => (
       <p className="text-neutral-600 dark:text-neutral-400 mb-6">
         My professional journey and key accomplishments
       </p>
-      <div className="space-y-4">
+      <ScrollStack>
         {experienceData.map((item, index) => (
-          <ExperienceCard key={index} {...item} defaultExpanded={index === 0} />
+          <ScrollStackItem key={index}>
+            <ExperienceCard {...item} />
+          </ScrollStackItem>
         ))}
-      </div>
+      </ScrollStack>
     </section>
   </div>
 );

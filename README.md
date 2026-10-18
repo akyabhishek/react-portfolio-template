@@ -46,6 +46,18 @@ text, not nested interactive elements; the original paragraph semantics are reta
 Use Node.js 24.x for local development and deployment, as declared in
 `package.json`.
 
+### Experience scroll stack
+
+The experience list uses a page-scroll wrapper inspired by
+[React Bits Scroll Stack](https://reactbits.dev/components/scroll-stack).
+Cards stick and subtly scale as the following card approaches. Experience cards
+are always open, with equal-height grid rows sized to the tallest card; their
+content and visual styling are retained.
+The wrapper observes height changes so tall cards can be read before they
+stick, adds an opaque backing for overlapping cards, and uses a regular list
+layout when reduced motion is enabled. It does not intercept scrolling or
+require a separate scroll container.
+
 ### Vercel deployment
 
 In your Vercel project, open **Settings > Build and Deployment > Node.js
