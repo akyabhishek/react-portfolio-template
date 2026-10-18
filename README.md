@@ -60,6 +60,19 @@ It adds an opaque backing and uses a regular list
 layout when reduced motion is enabled. Stacking follows native page scrolling
 without scroll interception or smoothing.
 
+### Skills animation
+
+Homepage skill category cards fade and slide in on viewport entry and out on
+exit, replaying when scrolled back into view. Reduced-motion users see static
+cards. Card contents and category navigation are unchanged.
+
+### Projects animation
+
+Homepage project cards fade and slide in from alternating left and right sides
+on viewport entry and reverse on exit, replaying on subsequent entries.
+Reduced-motion users see static
+cards. Existing card content, links, and hover effects are unchanged.
+
 ### Vercel deployment
 
 In your Vercel project, open **Settings > Build and Deployment > Node.js

@@ -2,6 +2,8 @@ import { CardSpotlight } from "./ui/card-spotlight";
 import { useNavigate } from "react-router-dom";
 import { skillsData, type Skill } from "../config/skillsData";
 import { slugify } from "@/utils/utils";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 // Proficiency utility functions
 const getProficiencyLevel = (level: Skill["level"]): number => {
@@ -74,6 +76,7 @@ export const CircularIndicator = ({ level }: { level: Skill["level"] }) => {
 
 export default function SkillsSection() {
   const navigate = useNavigate();
+  const prefersReducedMotion = useReducedMotion();
 
   const handleCategoryClick = (category: string) => {
     navigate(`/skills#${slugify(category)}`);
@@ -88,9 +91,24 @@ export default function SkillsSection() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {skillsData.map((skill) => (
-            <CardSpotlight
+            <motion.div
               key={skill.category}
-              className="p-4 cursor-pointer"
+              initial={prefersReducedMotion ? false : "hidden"}
+              animate={prefersReducedMotion ? "visible" : "hidden"}
+              variants={{
+                hidden: { opacity: 0, y: 24 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              whileInView={prefersReducedMotion ? undefined : "visible"}
+              viewport={{ once: false, amount: 0.1 }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.35,
+                ease: "easeOut",
+              }}
+              className="h-full"
+            >
+            <CardSpotlight
+              className="h-full p-4 cursor-pointer"
               onClick={() => handleCategoryClick(skill.category)}
             >
               <h3 className="text-sm mb-3 font-bold dark:text-gray-100 relative z-20 flex items-center gap-2">
@@ -118,6 +136,7 @@ export default function SkillsSection() {
                 ))}
               </div>
             </CardSpotlight>
+            </motion.div>
           ))}
         </div>
       </section>
