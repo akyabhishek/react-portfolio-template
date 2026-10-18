@@ -82,7 +82,7 @@ export function ScrollReveal({ children, className }: ScrollRevealProps) {
     <span
       ref={textRef}
       className={cn(
-        "block min-w-0 flex-1 font-sans text-[clamp(1.4rem,3.5vw,2.5rem)] font-normal leading-[1.5]",
+        "block min-w-0 flex-1 font-sans text-[clamp(1.125rem,2.5vw,1.75rem)] font-normal leading-[1.5]",
         className,
       )}
     >
