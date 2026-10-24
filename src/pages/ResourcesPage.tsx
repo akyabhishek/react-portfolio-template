@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { FiBookOpen, FiCode, FiTool } from "react-icons/fi";
-import { VscGitMerge } from "react-icons/vsc";
+import { FaDocker } from "react-icons/fa";
+import { IoGitMergeSharp } from "react-icons/io5";
 import { MdDesignServices } from "react-icons/md";
 import { GiRoad } from "react-icons/gi";
 import { BsQuestionCircle } from "react-icons/bs";
@@ -15,20 +16,40 @@ const resources = [
     description:
       "A comprehensive reference for Git commands — staging, branching, merging, rebasing, and more.",
     link: "/git-cheatsheet",
-    icon: <VscGitMerge className="inline-block text-3xl text-emerald-500" />,
+    icon: <IoGitMergeSharp className="inline-block text-3xl text-emerald-500" />,
     category: "Version Control",
     badge: "Reference",
   },
   {
-    name: "System Design",
+    name: "Docker Cheatsheet",
     description:
-      "Concepts, patterns and real-world examples for designing scalable distributed systems.",
+      "A quick reference for Docker CLI commands to build images and manage containers.",
+    link: "/docker-cheatsheet",
+    icon: <FaDocker className="inline-block text-3xl text-emerald-500" />,
+    category: "Containers",
+    badge: "Reference",
+  },
+  {
+    name: "System Design Questions",
+    description:
+      "Browse system design interview questions, search the list, and open linked answers or videos.",
     link: "/system-design",
     icon: (
       <MdDesignServices className="inline-block text-3xl text-emerald-500" />
     ),
     category: "Architecture",
     badge: "Learning",
+  },
+  {
+    name: "System Design Notes",
+    description:
+      "A collection of notes on scalability, reliability, databases, caching, messaging, and system design trade-offs.",
+    link: "https://github.com/akyabhishek/system-design-notes",
+    icon: (
+      <MdDesignServices className="inline-block text-3xl text-emerald-500" />
+    ),
+    category: "Architecture",
+    badge: "GitHub",
   },
   {
     name: "Java Interview Q&A",
@@ -102,12 +123,8 @@ export default function ResourcesPage() {
 
         {/* Resource Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {resources.map((resource) => (
-            <Link
-              key={resource.link}
-              to={resource.link}
-              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl"
-            >
+          {resources.map((resource) => {
+            const card = (
               <CometCard className="h-full">
                 <Card className="h-full p-5 rounded-xl transition-all duration-200 border-neutral-200 dark:border-neutral-800 shadow-sm group-hover:shadow-md group-hover:shadow-black/10 dark:group-hover:shadow-black/40">
                   <div className="flex flex-col gap-3 h-full">
@@ -136,8 +153,30 @@ export default function ResourcesPage() {
                   </div>
                 </Card>
               </CometCard>
-            </Link>
-          ))}
+            );
+            const className =
+              "group block focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl";
+
+            return resource.link.startsWith("https://") ? (
+              <a
+                key={resource.link}
+                href={resource.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
+              >
+                {card}
+              </a>
+            ) : (
+              <Link
+                key={resource.link}
+                to={resource.link}
+                className={className}
+              >
+                {card}
+              </Link>
+            );
+          })}
         </div>
       </main>
     </>

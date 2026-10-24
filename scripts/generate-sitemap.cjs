@@ -23,6 +23,7 @@ const staticRoutes = [
   '/json-diff',
   '/regex-tester',
   '/git-cheatsheet',
+  '/docker-cheatsheet',
   '/system-design',
   '/resources',
   '/skills',

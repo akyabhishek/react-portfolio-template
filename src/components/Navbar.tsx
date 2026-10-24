@@ -18,7 +18,12 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { ThemeToggle } from "./ui/theme-toggle";
 import { motion, AnimatePresence } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { FiTerminal, FiGitBranch, FiExternalLink } from "react-icons/fi";
+import {
+  FiTerminal,
+  FiExternalLink,
+} from "react-icons/fi";
+import { FaDocker } from "react-icons/fa";
+import { IoGitMergeSharp } from "react-icons/io5";
 import { VscTools } from "react-icons/vsc";
 import { MdOutlineQuiz } from "react-icons/md";
 import { TbMap2 } from "react-icons/tb";
@@ -154,12 +159,22 @@ export function Navbar() {
         {
           name: "Git Cheatsheet",
           link: "/git-cheatsheet",
-          icon: <FiGitBranch size={14} />,
+          icon: <IoGitMergeSharp size={14} />,
         },
         {
-          name: "System Design",
+          name: "Docker Cheatsheet",
+          link: "/docker-cheatsheet",
+          icon: <FaDocker size={14} />,
+        },
+        {
+          name: "System Design Questions",
           link: "/system-design",
           icon: <MdOutlineQuiz size={14} />,
+        },
+        {
+          name: "System Design Notes (GitHub)",
+          link: "https://github.com/akyabhishek/system-design-notes",
+          icon: <FiExternalLink size={14} />,
         },
       ],
     },

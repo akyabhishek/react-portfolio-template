@@ -23,8 +23,11 @@ const hiddenLinks: HiddenLink[] = [
     description: "All my social & profile links",
   },
   { name: "Clock", link: "/clock", description: "Fullscreen digital clock" },
-  { name: "Books", link: "/books", description: "Books I have read" },
-  { name: "Topup", link: "/topup", description: "Buy me a coffee" },
+  {
+    name: "Topup Calculator",
+    link: "/topup",
+    description: "Work hours topup calculator",
+  },
 ];
 
 export default function HiddenPages(): JSX.Element {

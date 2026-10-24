@@ -35,6 +35,7 @@ const LandingChooser = lazy(() => import("@/pages/LandingChooser"));
 const TerminalPage = lazy(() => import("@/pages/TerminalPage"));
 const RoadmapPage = lazy(() => import("@/pages/RoadmapPage"));
 const GitCheatsheet = lazy(() => import("@/pages/GitCheatsheet"));
+const DockerCheatsheet = lazy(() => import("@/pages/DockerCheatsheet"));
 const LinksPage = lazy(() => import("@/pages/LinksPage"));
 const ClockPage = lazy(() => import("@/pages/ClockPage"));
 const SystemDesign = lazy(() => import("@/pages/SystemDesign"));
@@ -275,6 +276,14 @@ const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <GitCheatsheet />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/docker-cheatsheet",
+        element: (
+          <SuspenseWrapper>
+            <DockerCheatsheet />
           </SuspenseWrapper>
         ),
       },
