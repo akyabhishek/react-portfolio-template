@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { FiBookOpen, FiCode, FiTool } from "react-icons/fi";
+import { FiBookOpen, FiCode } from "react-icons/fi";
 import { FaDocker } from "react-icons/fa";
 import { IoGitMergeSharp } from "react-icons/io5";
-import { MdDesignServices } from "react-icons/md";
-import { GiRoad } from "react-icons/gi";
-import { BsQuestionCircle } from "react-icons/bs";
+import { MdDesignServices, MdOutlineQuiz } from "react-icons/md";
+import { TbBinaryTree, TbMap2 } from "react-icons/tb";
+import { VscTools } from "react-icons/vsc";
 import { CometCard } from "@/components/ui/comet-card";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -35,7 +35,7 @@ const resources = [
       "Browse system design interview questions, search the list, and open linked answers or videos.",
     link: "/system-design",
     icon: (
-      <MdDesignServices className="inline-block text-3xl text-emerald-500" />
+      <MdOutlineQuiz className="inline-block text-3xl text-emerald-500" />
     ),
     category: "Architecture",
     badge: "Learning",
@@ -57,7 +57,7 @@ const resources = [
       "Curated Java interview questions and detailed answers covering core concepts.",
     link: "/java-interview-question-answers",
     icon: (
-      <BsQuestionCircle className="inline-block text-3xl text-emerald-500" />
+      <MdOutlineQuiz className="inline-block text-3xl text-emerald-500" />
     ),
     category: "Interview Prep",
     badge: "Q&A",
@@ -67,7 +67,7 @@ const resources = [
     description:
       "A structured roadmap to prepare for roles at top product-based companies.",
     link: "/roadmap-for-product-based-company",
-    icon: <GiRoad className="inline-block text-3xl text-emerald-500" />,
+    icon: <TbMap2 className="inline-block text-3xl text-emerald-500" />,
     category: "Career",
     badge: "Roadmap",
   },
@@ -76,9 +76,18 @@ const resources = [
     description:
       "A collection of free online utilities — JSON formatter, JWT decoder, Base64, regex tester, and more.",
     link: "/devtools",
-    icon: <FiTool className="inline-block text-3xl text-emerald-500" />,
+    icon: <VscTools className="inline-block text-3xl text-emerald-500" />,
     category: "Tools",
     badge: "Utilities",
+  },
+  {
+    name: "Binary Search Visualizer",
+    description:
+      "An interactive visualizer for learning binary search through real-time visuals.",
+    link: "https://binary-search-visualizer-mauve.vercel.app/",
+    icon: <TbBinaryTree className="inline-block text-3xl text-emerald-500" />,
+    category: "Algorithms",
+    badge: "Interactive",
   },
   {
     name: "Interactive Terminal",

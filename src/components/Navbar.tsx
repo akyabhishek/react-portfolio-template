@@ -25,8 +25,8 @@ import {
 import { FaDocker } from "react-icons/fa";
 import { IoGitMergeSharp } from "react-icons/io5";
 import { VscTools } from "react-icons/vsc";
-import { MdOutlineQuiz } from "react-icons/md";
-import { TbMap2 } from "react-icons/tb";
+import { MdDesignServices, MdOutlineQuiz } from "react-icons/md";
+import { TbBinaryTree, TbMap2 } from "react-icons/tb";
 import InteractiveTerminal, {
   type InteractiveTerminalHandle,
 } from "./InteractiveTerminal";
@@ -144,7 +144,7 @@ export function Navbar() {
         {
           name: "BS Visualizer",
           link: "https://binary-search-visualizer-mauve.vercel.app/",
-          icon: <FiExternalLink size={14} />,
+          icon: <TbBinaryTree size={14} />,
         },
         {
           name: "Java Interview Questions and Answers",
@@ -174,7 +174,7 @@ export function Navbar() {
         {
           name: "System Design Notes (GitHub)",
           link: "https://github.com/akyabhishek/system-design-notes",
-          icon: <FiExternalLink size={14} />,
+          icon: <MdDesignServices size={14} />,
         },
       ],
     },
