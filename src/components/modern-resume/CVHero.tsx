@@ -9,6 +9,7 @@ import {
 } from "react-icons/fi";
 import { personalInfo, getExperienceString } from "@/config/data";
 import { FlipWords } from "@/components/ui/flip-words";
+import WarpText from "@/components/WarpText";
 import profileImage from "/assets/abhishekkumaryadav.png";
 
 const roles = [
@@ -62,7 +63,7 @@ export default function CVHero() {
 
       <motion.div
         style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
-        className="relative z-10 text-center px-6 max-w-3xl mx-auto"
+        className="relative z-10 w-full text-center px-6 max-w-5xl mx-auto"
       >
         {/* Profile photo + Status badge inline */}
         <motion.div
@@ -91,11 +92,17 @@ export default function CVHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="whitespace-nowrap text-[clamp(1.2rem,8vw,4.25rem)] font-semibold tracking-tight mb-3"
+          className="whitespace-nowrap text-[clamp(1.5rem,9vw,5rem)] font-semibold tracking-tight mb-3"
         >
-          <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 dark:from-white dark:via-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
-            {personalInfo.name}
-          </span>
+          <WarpText
+            text={personalInfo.name}
+            fontSize="clamp(1.5rem, 9vw, 5rem)"
+            fontWeight={600}
+            letterSpacing="-0.025em"
+            chromatic={0.35}
+            className="font-display text-gray-900 dark:text-gray-100"
+            style={{ height: "2.4em", minHeight: 0 }}
+          />
         </motion.h1>
 
         {/* FlipWords Title + Experience — single line */}

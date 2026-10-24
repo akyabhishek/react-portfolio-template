@@ -18,10 +18,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { ThemeToggle } from "./ui/theme-toggle";
 import { motion, AnimatePresence } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import {
-  FiTerminal,
-  FiExternalLink,
-} from "react-icons/fi";
+import { FiTerminal, FiExternalLink } from "react-icons/fi";
 import { FaDocker } from "react-icons/fa";
 import { IoGitMergeSharp } from "react-icons/io5";
 import { VscTools } from "react-icons/vsc";
@@ -230,7 +227,7 @@ export function Navbar() {
           if (!open) setOpenMobileDropdown(null);
         }}
       >
-        <SheetContent side="right" className="overflow-y-auto">
+        <SheetContent side="right" className="overflow-y-auto bg-white/95">
           <SheetHeader>
             <SheetTitle>Navigation</SheetTitle>
           </SheetHeader>
