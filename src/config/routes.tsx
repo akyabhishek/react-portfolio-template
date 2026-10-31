@@ -29,6 +29,7 @@ const ASTComplexityAnalyzerPage = lazy(
 const JSONDiffPage = lazy(() => import("@/pages/devtools/JSONDiffPage"));
 const RegexTesterPage = lazy(() => import("@/pages/devtools/RegexTesterPage"));
 const GitHubStatsPage = lazy(() => import("@/pages/devtools/GitHubStatsPage"));
+const TextCleanerPage = lazy(() => import("@/pages/devtools/TextCleanerPage"));
 const Topup = lazy(() => import("@/pages/Topup"));
 const ModernResume = lazy(() => import("@/pages/ModernResume"));
 const LandingChooser = lazy(() => import("@/pages/LandingChooser"));
@@ -172,6 +173,18 @@ const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <Base64Page />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/text-cleaner",
+        element: <Navigate to="/ai-text-cleaner" replace />,
+      },
+      {
+        path: "/ai-text-cleaner",
+        element: (
+          <SuspenseWrapper>
+            <TextCleanerPage />
           </SuspenseWrapper>
         ),
       },

@@ -12,6 +12,7 @@ const staticRoutes = [
   '/terminal',
   '/java-interview-question-answers',
   '/devtools',
+  '/ai-text-cleaner',
   '/base64-tool',
   '/bitwise-visualizer',
   '/hash-generator',

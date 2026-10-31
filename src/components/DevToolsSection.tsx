@@ -13,7 +13,28 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { settings } from "@/config/settings";
+import { Sparkles } from "lucide-react";
 const tools = [
+  {
+    name: "AI Text Cleaner",
+    description:
+      "Clean invisible characters, spacing, punctuation and Markdown",
+    link: "/ai-text-cleaner",
+    icon: <Sparkles className="inline-block h-8 w-8 text-emerald-600" />,
+    category: "Utilities",
+    tags: [
+      "text",
+      "clean",
+      "ai",
+      "unicode",
+      "invisible",
+      "whitespace",
+      "markdown",
+      "punctuation",
+    ],
+    popular: true,
+    inDevelopment: false,
+  },
   {
     name: "Code Complexity Analyzer",
     description: "AST-based Big O analysis with tree visualization",
