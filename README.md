@@ -95,9 +95,16 @@ one line, enclose it in single quotes, and preserve its JSON `\n` escapes.
 Run `npm run dev`; Vite serves the same API handler locally. Restart after
 changing environment variables. `npm run preview` serves only the static build,
 not this API. For deployment, set the variables in Vercel's Production environment
-and redeploy; paste the JSON without the enclosing dotenv single quotes.
+(and Preview for temporary deployments) and redeploy; paste the JSON without the
+enclosing dotenv single quotes. A 503 from this endpoint indicates missing or
+invalid server configuration, not a browser CORS failure.
 Never prefix credentials with `VITE_`, commit them, or share them. Rotate any
 exposed service-account key before use.
+
+The web manifest includes credentials so authenticated requests to protected
+Vercel previews can use the deployment's authentication cookie. Open and
+authenticate the preview first; unauthenticated visitors still require access
+through Vercel's Deployment Protection settings.
 
 Successful responses are cached on Vercel's CDN for one hour and in browsers for
 one minute. Errors are not cached and are logged; the counter stays hidden while
@@ -106,6 +113,7 @@ The counter is appended inline to the built-with credits in the same font size,
 showing only the total and "views" after a valid total loads. It starts at
 zero and counts up once when the footer enters the
 viewport; reduced-motion preferences show the final total without animation.
+On small screens it moves onto its own line without the separator.
 GA4 processing adds further delay, so the displayed total does not increment
 immediately on refresh. No database is needed.
 

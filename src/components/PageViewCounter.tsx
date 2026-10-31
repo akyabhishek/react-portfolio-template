@@ -72,11 +72,16 @@ export default function PageViewCounter() {
   }, []);
 
   return (
-    <span ref={counterRef} className="text-xs text-muted-foreground">
+    <span
+      ref={counterRef}
+      className={state.status === "ready"
+        ? "mt-2 block whitespace-nowrap text-xs text-muted-foreground sm:mt-0 sm:inline-block"
+        : "text-xs text-muted-foreground"}
+    >
       {state.status === "ready" && (
         <>
           {" "}
-          <span aria-hidden="true" className="mx-2 opacity-50">
+          <span aria-hidden="true" className="mx-2 hidden opacity-50 sm:inline">
             |
           </span>{" "}
           <span role="status" aria-live="polite" aria-atomic="true">
