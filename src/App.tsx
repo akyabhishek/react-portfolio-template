@@ -7,7 +7,7 @@ import ReactGA from "react-ga4";
 
 const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 if (measurementId) {
-  ReactGA.initialize(measurementId);
+  ReactGA.initialize(measurementId, { gtagOptions: { send_page_view: false } });
 
   // Track initial page load
   ReactGA.send({ hitType: "pageview", page: window.location.pathname + window.location.search });

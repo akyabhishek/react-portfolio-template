@@ -18,6 +18,7 @@ import {
   SiYoutube,
 } from "react-icons/si";
 import { socialLinksData } from "@/config/data";
+import PageViewCounter from "@/components/PageViewCounter";
 
 const iconMap: Record<string, React.ReactNode> = {
   LinkedIn: <SiLinkedin />,
@@ -148,6 +149,7 @@ export default function Contact(): JSX.Element {
                 acernity.dev
               </a>
               .
+              <PageViewCounter />
             </div>
           </CardBody>
         </Card>

@@ -73,6 +73,62 @@ on viewport entry and reverse on exit, replaying on subsequent entries.
 Reduced-motion users see static
 cards. Existing card content, links, and hover effects are unchanged.
 
+### Homepage page-view total
+
+The homepage footer reads `/api/page-views`, a Vercel Function that reports GA4
+`screenPageViews` for `abhishekkumaryadav.in`, from November 11, 2024 through
+today (in the property's timezone). It counts all site routes, including repeat
+views, not unique visitors. It does not include other hostnames or `www`.
+If historical traffic used other production hostnames, update the server filter
+before interpreting the number as the full site total. Use a web-only GA4
+property, or additionally restrict the server query to your website's stream.
+
+Enable Google Analytics Data API in Google Cloud, create a dedicated service
+account, and grant its email **Viewer** access through GA4 **Admin > Property
+Access Management**. Configure:
+
+- `GA4_PROPERTY_ID`: the numeric property ID, not the `G-...` measurement ID.
+- `GA4_CREDENTIALS_JSON`: the complete service-account JSON.
+
+For local development, put these in ignored `.env.local`. Compress the JSON to
+one line, enclose it in single quotes, and preserve its JSON `\n` escapes.
+Run `npm run dev`; Vite serves the same API handler locally. Restart after
+changing environment variables. `npm run preview` serves only the static build,
+not this API. For deployment, set the variables in Vercel's Production environment
+(and Preview for temporary deployments) and redeploy; paste the JSON without the
+enclosing dotenv single quotes. A 503 from this endpoint indicates missing or
+invalid server configuration, not a browser CORS failure.
+Never prefix credentials with `VITE_`, commit them, or share them. Rotate any
+exposed service-account key before use.
+
+The web manifest includes credentials so authenticated requests to protected
+Vercel previews can use the deployment's authentication cookie. Open and
+authenticate the preview first; unauthenticated visitors still require access
+through Vercel's Deployment Protection settings.
+
+Successful responses are cached on Vercel's CDN for one hour and in browsers for
+one minute. Errors are not cached and are logged; the counter stays hidden while
+loading or if the request fails.
+The counter is appended inline to the built-with credits in the same font size,
+showing only the total and "views" after a valid total loads. It starts at
+zero and counts up once when the footer enters the
+viewport; reduced-motion preferences show the final total without animation.
+On small screens it moves onto its own line without the separator.
+GA4 processing adds further delay, so the displayed total does not increment
+immediately on refresh. No database is needed.
+
+Tracking uses explicit initial and router-navigation page views in `App.tsx`,
+with the automatic initial page view disabled. In GA4 **Admin > Data Streams >
+Web > Enhanced measurement > Page views > Show advanced settings**, disable
+**Page changes based on browser history events** to avoid duplicate route views.
+Verify one `page_view` for each page load, refresh, and back/forward or route
+navigation in DebugView; scrolling and counter requests must not add views.
+Historical duplicate events cannot be reliably corrected by this implementation.
+
+Run `npm run test:page-views` for API contract and failure-path tests. Before
+release, compare the endpoint against GA4 with the same date range and hostname
+filter, and check that `/api/page-views` returns JSON while SPA routes still load.
+
 ### Vercel deployment
 
 In your Vercel project, open **Settings > Build and Deployment > Node.js
