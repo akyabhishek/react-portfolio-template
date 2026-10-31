@@ -100,7 +100,12 @@ Never prefix credentials with `VITE_`, commit them, or share them. Rotate any
 exposed service-account key before use.
 
 Successful responses are cached on Vercel's CDN for one hour and in browsers for
-one minute. Errors are not cached and the footer shows "Page views unavailable".
+one minute. Errors are not cached and are logged; the counter stays hidden while
+loading or if the request fails.
+The counter is appended inline to the built-with credits in the same font size,
+showing only the total and "views" after a valid total loads. It starts at
+zero and counts up once when the footer enters the
+viewport; reduced-motion preferences show the final total without animation.
 GA4 processing adds further delay, so the displayed total does not increment
 immediately on refresh. No database is needed.
 

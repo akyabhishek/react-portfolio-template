@@ -149,8 +149,8 @@ export default function Contact(): JSX.Element {
                 acernity.dev
               </a>
               .
+              <PageViewCounter />
             </div>
-            <PageViewCounter />
           </CardBody>
         </Card>
       </BackgroundBeamsWithCollision>

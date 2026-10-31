@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { animate, useInView } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 type CounterState =
   | { status: "loading" }
@@ -7,6 +9,24 @@ type CounterState =
 
 export default function PageViewCounter() {
   const [state, setState] = useState<CounterState>({ status: "loading" });
+  const [displayedTotal, setDisplayedTotal] = useState(0);
+  const counterRef = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(counterRef, { once: true, amount: 0.5 });
+  const prefersReducedMotion = useReducedMotion();
+  const total = state.status === "ready" ? state.total : null;
+
+  useEffect(() => {
+    if (total === null || !isInView || prefersReducedMotion) return;
+
+    const animation = animate(0, total, {
+      duration: 1.8,
+      ease: "easeOut",
+      onUpdate: (value) => setDisplayedTotal(Math.round(value)),
+      onComplete: () => setDisplayedTotal(total),
+    });
+
+    return () => animation.stop();
+  }, [total, isInView, prefersReducedMotion]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -15,7 +35,9 @@ export default function PageViewCounter() {
 
     async function load() {
       try {
-        const response = await fetch("/api/page-views", { signal: controller.signal });
+        const response = await fetch("/api/page-views", {
+          signal: controller.signal,
+        });
         if (!response.ok) {
           throw new Error(`Page-view request failed (${response.status})`);
         }
@@ -50,20 +72,29 @@ export default function PageViewCounter() {
   }, []);
 
   return (
-    <div className="min-h-12 pt-4 text-center text-xs text-muted-foreground">
-      <p role="status" aria-live="polite" aria-atomic="true">
-        {state.status === "loading" && "Loading page views..."}
-        {state.status === "error" && "Page views unavailable"}
-        {state.status === "ready" && (
-          <>
-            <span className="font-medium tabular-nums text-foreground">
-              {state.total.toLocaleString()}
-            </span>{" "}
-            total page views
-          </>
-        )}
-      </p>
-      <p className="mt-1">Since Nov 11, 2024 · Based on Google Analytics · Updates periodically</p>
-    </div>
+    <span ref={counterRef} className="text-xs text-muted-foreground">
+      {state.status === "ready" && (
+        <>
+          {" "}
+          <span aria-hidden="true" className="mx-2 opacity-50">
+            |
+          </span>{" "}
+          <span role="status" aria-live="polite" aria-atomic="true">
+            <span className="sr-only">
+              {state.total.toLocaleString()} views
+            </span>
+            <span aria-hidden="true">
+              <span className="tabular-nums">
+                {(prefersReducedMotion
+                  ? state.total
+                  : displayedTotal
+                ).toLocaleString()}
+              </span>{" "}
+              views
+            </span>
+          </span>
+        </>
+      )}
+    </span>
   );
 }
