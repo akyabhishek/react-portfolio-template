@@ -1,3 +1,4 @@
+import { ScrambleText } from "@/components/ScrambleText";
 import { cn } from "@/lib/utils";
 import { IconExternalLink } from "@tabler/icons-react";
 import { HiOutlineBars2, HiOutlineXMark } from "react-icons/hi2";
@@ -107,13 +108,11 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 };
 
 export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
-  const [hovered, setHovered] = useState<number | null>(null);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
   return (
     <motion.div
       onMouseLeave={() => {
-        setHovered(null);
         setOpenDropdown(null);
       }}
       className={cn(
@@ -126,7 +125,6 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           key={`link-${idx}`}
           className="relative"
           onMouseEnter={() => {
-            setHovered(idx);
             if (item.dropdown) {
               setOpenDropdown(idx);
             } else {
@@ -137,18 +135,15 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           {isExternal(item.link) ? (
             <a
               onClick={() => onItemClick?.()}
-              className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-emerald-500 dark:hover:text-emerald-500 transition-all duration-500 ease-in-out flex items-center"
+              className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-emerald-500 dark:hover:text-emerald-500 transition-colors duration-300 ease-out flex items-center"
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {hovered === idx && (
-                <motion.div
-                  layoutId="hovered"
-                  className="absolute inset-0 h-full w-full rounded-full bg-neutral-500/10 dark:bg-neutral-400/10"
-                />
-              )}
-              <span className="relative z-20">{item.name}</span>
+              <ScrambleText
+                text={item.name}
+                className="relative z-20 whitespace-nowrap"
+              />
               <IconExternalLink className="relative z-20 ml-1 h-3.5 w-3.5" />
             </a>
           ) : (
@@ -161,16 +156,13 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                   onItemClick();
                 }
               }}
-              className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-emerald-500 dark:hover:text-emerald-500 transition-all duration-500 ease-in-out flex items-center"
+              className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-emerald-500 dark:hover:text-emerald-500 transition-colors duration-300 ease-out flex items-center"
               to={item.link}
             >
-              {hovered === idx && (
-                <motion.div
-                  layoutId="hovered"
-                  className="absolute inset-0 h-full w-full rounded-full bg-neutral-500/10 dark:bg-neutral-400/10"
-                />
-              )}
-              <span className="relative z-20">{item.name}</span>
+              <ScrambleText
+                text={item.name}
+                className="relative z-20 whitespace-nowrap"
+              />
               {item.dropdown && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -219,8 +211,11 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                             {dropdownItem.icon}
                           </span>
                         )}
-                        {dropdownItem.name}
-                        <IconExternalLink className="ml-auto h-3.5 w-3.5 opacity-50" />
+                        <ScrambleText
+                          text={dropdownItem.name}
+                          className="min-w-0 flex-1"
+                        />
+                        <IconExternalLink className="ml-auto h-3.5 w-3.5 shrink-0 opacity-50" />
                       </a>
                     ) : (
                       <Link
@@ -234,7 +229,10 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                             {dropdownItem.icon}
                           </span>
                         )}
-                        {dropdownItem.name}
+                        <ScrambleText
+                          text={dropdownItem.name}
+                          className="min-w-0 flex-1"
+                        />
                       </Link>
                     ),
                   )}

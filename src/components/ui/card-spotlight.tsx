@@ -1,9 +1,19 @@
 "use client";
 
 import {motion, useMotionTemplate, useMotionValue} from "framer-motion";
-import React, {MouseEvent as ReactMouseEvent, useState} from "react";
-import {CanvasRevealEffect} from "@/components/ui/canvas-reveal-effect";
+import React, {
+  lazy,
+  MouseEvent as ReactMouseEvent,
+  Suspense,
+  useState,
+} from "react";
 import {cn} from "@/lib/utils";
+
+const CanvasRevealEffect = lazy(() =>
+  import("@/components/ui/canvas-reveal-effect").then((module) => ({
+    default: module.CanvasRevealEffect,
+  })),
+);
 
 export const CardSpotlight = ({
   children,
@@ -54,15 +64,17 @@ export const CardSpotlight = ({
         }}
       >
         {isHovering && (
-          <CanvasRevealEffect
-            animationSpeed={5}
-            containerClassName="bg-transparent absolute inset-0 pointer-events-none"
-            colors={[
-              [34, 197, 94],
-              [5, 150, 105],
-            ]}
-            dotSize={3}
-          />
+          <Suspense fallback={null}>
+            <CanvasRevealEffect
+              animationSpeed={5}
+              containerClassName="bg-transparent absolute inset-0 pointer-events-none"
+              colors={[
+                [34, 197, 94],
+                [5, 150, 105],
+              ]}
+              dotSize={3}
+            />
+          </Suspense>
         )}
       </motion.div>
       {children}

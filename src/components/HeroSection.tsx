@@ -1,7 +1,7 @@
 import { FlipWords } from "@/components/ui/flip-words";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { FiBriefcase, FiUsers, FiCode, FiAward } from "react-icons/fi";
-import { useState, useEffect, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useTheme } from "@/components/theme-provider";
@@ -13,8 +13,13 @@ import {
   type HeroStatIcon,
   type HeroStatKey,
 } from "@/config/data";
-import ThreeTubesBackground from "@/components/ThreeTubesBackground";
-import AetherFlowBackground from "@/components/AetherFlowBackground";
+
+const ThreeTubesBackground = lazy(
+  () => import("@/components/ThreeTubesBackground"),
+);
+const AetherFlowBackground = lazy(
+  () => import("@/components/AetherFlowBackground"),
+);
 
 const initialAnimatedStats: Record<HeroStatKey, number> = {
   experience: 0,
@@ -174,7 +179,9 @@ export default function HeroSection(): JSX.Element {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
           >
-            <ThreeTubesBackground enabled={bgEnabled} />
+            <Suspense fallback={null}>
+              <ThreeTubesBackground enabled={bgEnabled} />
+            </Suspense>
           </motion.div>
         )}
         {resolvedBgType === "aether" && (
@@ -187,7 +194,9 @@ export default function HeroSection(): JSX.Element {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
           >
-            <AetherFlowBackground enabled={bgEnabled} />
+            <Suspense fallback={null}>
+              <AetherFlowBackground enabled={bgEnabled} />
+            </Suspense>
           </motion.div>
         )}
       </AnimatePresence>
